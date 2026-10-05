@@ -27,6 +27,21 @@
       if (type === 'error') status.classList.add('gw-error');
     }
   }
+  function isDarkTheme() {
+    var html=document.documentElement, body=document.body;
+    if (!html || !body) return false;
+    var attrs=[html.getAttribute('data-theme'),html.getAttribute('data-mode'),body.getAttribute('data-theme'),body.getAttribute('data-mode')];
+    var attrDark=attrs.some(function(v){return v && /^(dark|dark-mode|darkmode)$/i.test(v);});
+    var classDark=[html,body].some(function(el){return el.classList && (el.classList.contains('darkMode')||el.classList.contains('dark-mode')||el.classList.contains('dark'));});
+    return attrDark || classDark;
+  }
+  function syncTheme() { root.classList.toggle('gw-dark',isDarkTheme()); }
+  syncTheme();
+  if (typeof MutationObserver !== 'undefined') {
+    var themeObserver=new MutationObserver(syncTheme);
+    themeObserver.observe(document.documentElement,{attributes:true,attributeFilter:['class','data-theme','data-mode']});
+    if (document.body) themeObserver.observe(document.body,{attributes:true,attributeFilter:['class','data-theme','data-mode']});
+  }
   function count(value) { return value.length.toLocaleString('id-ID') + ' karakter'; }
   function updateCounts() {
     if (inputCount) inputCount.textContent=count(input.value);
@@ -40,8 +55,8 @@
       tab.setAttribute('aria-selected', active ? 'true' : 'false');
       tab.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
-    if (inputTitle) inputTitle.textContent = mode === 'encode' ? 'Text' : 'Base64';
-    if (outputTitle) outputTitle.textContent = mode === 'encode' ? 'Base64' : 'Text';
+    if (inputTitle) inputTitle.textContent = mode === 'encode' ? 'Text input' : 'Base64 input';
+    if (outputTitle) outputTitle.textContent = mode === 'encode' ? 'Base64 Output' : 'Decoded Text';
     input.placeholder = mode === 'encode' ? 'Masukkan teks yang ingin diubah menjadi Base64...' : 'Masukkan kode Base64 yang ingin di-decode...';
     output.placeholder = mode === 'encode' ? 'Hasil Base64 akan muncul di sini...' : 'Hasil teks akan muncul di sini...';
     var label=q('#gw-base64-process-label');
