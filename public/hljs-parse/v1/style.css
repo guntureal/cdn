@@ -39,7 +39,7 @@ transition:background .18s,border-color .18s,color .18s
 #gw-hljs-tool .gw-mode:hover{border-color:var(--gw-primary);color:var(--gw-primary)}
 #gw-hljs-tool .gw-mode.gw-active{background:var(--gw-primary);border-color:var(--gw-primary);color:#fff}
 #gw-hljs-tool .gw-swap{
-width:40px;height:40px;min-width:40px;display:flex;align-items:center;justify-content:center;
+width:40px;height:40px;min-width:40px;max-width:40px;display:flex;align-items:center;justify-content:center;
 padding:0;border:1px solid var(--gw-border);border-radius:50%;background:var(--gw-soft);color:var(--gw-muted);
 cursor:pointer;transition:border-color .18s,color .18s,background .18s,transform .18s
 }
@@ -95,10 +95,9 @@ width:16px;height:16px;min-width:16px;margin:0 6px 0 0;padding:0;display:inline-
 #gw-hljs-tool .gw-status.gw-ok .gw-status-dot{background:var(--gw-success)}
 #gw-hljs-tool .gw-status.gw-error{color:var(--gw-danger)}
 #gw-hljs-tool .gw-status.gw-error .gw-status-dot{background:var(--gw-danger)}
-#gw-hljs-tool .gw-info{display:flex;align-items:flex-start;gap:8px;margin-top:11px;color:var(--gw-muted);font-size:10.5px;line-height:1.55}
-#gw-hljs-tool .gw-info-icon{display:grid;place-items:center;align-self:flex-start;margin-top:2px;flex:0 0 15px}
-#gw-hljs-tool .gw-info-icon{width:15px;height:15px;min-width:15px;color:var(--gw-primary)}
-#gw-hljs-tool .gw-info-icon svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#gw-hljs-tool .gw-info{display:grid;grid-template-columns:16px minmax(0,1fr);align-items:start;column-gap:8px;margin-top:11px;color:var(--gw-muted);font-size:10.5px;line-height:1.55}
+#gw-hljs-tool .gw-info-icon{width:16px;height:16px;min-width:16px;margin:1px 0 0;display:grid;place-items:center;color:var(--gw-primary);line-height:0}
+#gw-hljs-tool .gw-info-icon svg{display:block;width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 @media(max-width:700px){
 #gw-hljs-tool{margin:16px auto}
 #gw-hljs-tool .gw-header{padding:16px}
@@ -106,7 +105,7 @@ width:16px;height:16px;min-width:16px;margin:0 6px 0 0;padding:0;display:inline-
 #gw-hljs-tool .gw-main{padding:16px}
 #gw-hljs-tool .gw-modebar{grid-template-columns:minmax(0,1fr) 38px minmax(0,1fr);gap:6px}
 #gw-hljs-tool .gw-mode{min-height:39px;padding:0 7px;font-size:11px}
-#gw-hljs-tool .gw-swap{width:38px;min-width:38px;height:38px}
+#gw-hljs-tool .gw-swap{width:38px;min-width:38px;max-width:38px;height:38px}
 #gw-hljs-tool .gw-controls{grid-template-columns:1fr}
 #gw-hljs-tool textarea{height:180px}
 }
@@ -117,7 +116,7 @@ width:16px;height:16px;min-width:16px;margin:0 6px 0 0;padding:0;display:inline-
 #gw-hljs-tool .gw-description{font-size:10.5px}
 #gw-hljs-tool .gw-modebar{grid-template-columns:minmax(0,1fr) 34px minmax(0,1fr);gap:5px}
 #gw-hljs-tool .gw-mode{min-height:38px;padding:0 4px;font-size:10.5px}
-#gw-hljs-tool .gw-swap{width:34px;min-width:34px;height:34px}
+#gw-hljs-tool .gw-swap{width:34px;min-width:34px;max-width:34px;height:34px}
 #gw-hljs-tool textarea{min-height:165px;font-size:11.5px}
 }
 @media(prefers-reduced-motion:reduce){#gw-hljs-tool .gw-action-button,#gw-hljs-tool .gw-output-action,#gw-hljs-tool .gw-mode,#gw-hljs-tool .gw-swap{transition:none}#gw-hljs-tool .gw-action-icon.gw-processing{animation:none}}
