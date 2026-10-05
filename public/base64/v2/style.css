@@ -1,5 +1,5 @@
 #gw-base64-tool{
-  --gw-text:#222;--gw-muted:#777;--gw-border:#d9d9d9;--gw-bg:#fff;--gw-surface:#fafafa;--gw-primary:#1677ff;--gw-primary-hover:#0f67df;--gw-danger:#d64545;--gw-ok:#198754;
+  --gw-text:#222;--gw-muted:#777;--gw-border:#d9d9d9;--gw-bg:#fff;--gw-surface:#fafafa;--gw-primary:#0066cc;--gw-primary-hover:#0f67df;--gw-danger:#d64545;--gw-ok:#198754;
   width:100%;max-width:820px;margin:24px auto;padding:0;color:var(--gw-text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px;line-height:1.5;box-sizing:border-box;
 }
 #gw-base64-tool,#gw-base64-tool *{box-sizing:border-box}
