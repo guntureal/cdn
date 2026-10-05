@@ -1,6 +1,6 @@
-# Password Generator v28 — Cloudflare Workers Static Assets
+# Password Generator v1 — Cloudflare Workers Static Assets
 
-Paket ini berisi CSS dan JavaScript Password Generator v28 yang sudah dipisahkan untuk Cloudflare Workers Static Assets.
+Paket ini berisi CSS dan JavaScript Password Generator v1 yang sudah dipisahkan untuk Cloudflare Workers Static Assets.
 
 ## Struktur
 
