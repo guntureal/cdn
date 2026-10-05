@@ -3,20 +3,22 @@
 
       var root = document.getElementById("gw-hljs-tool");
       if (!root || root.getAttribute("data-gw-initialized") === "true") return;
-      root.setAttribute("data-gw-initialized", "true");
 
-      var input = document.getElementById("gw-hljs-input");
-      var output = document.getElementById("gw-hljs-output");
-      var language = document.getElementById("gw-hljs-language");
-      var indent = document.getElementById("gw-hljs-indent");
-      var parseButton = document.getElementById("gw-hljs-parse");
-      var swapButton = document.getElementById("gw-hljs-swap");
-      var clearButton = document.getElementById("gw-hljs-clear");
-      var copyButton;
-      var inputCount = document.getElementById("gw-hljs-input-count");
-      var outputCount = document.getElementById("gw-hljs-output-count");
-      var status = document.getElementById("gw-hljs-status");
-      var statusText = document.getElementById("gw-hljs-status-text");
+      function startTool() {
+        if (!window.hljs) return;
+        root.setAttribute("data-gw-initialized", "true");
+
+      var input = root.querySelector("#gw-hljs-input");
+      var output = root.querySelector("#gw-hljs-output");
+      var language = root.querySelector("#gw-hljs-language");
+      var indent = root.querySelector("#gw-hljs-indent");
+      var parseButton = root.querySelector("#gw-hljs-parse");
+      var swapButton = root.querySelector("#gw-hljs-swap");
+      var clearButton = root.querySelector("#gw-hljs-clear");
+      var inputCount = root.querySelector("#gw-hljs-input-count");
+      var outputCount = root.querySelector("#gw-hljs-output-count");
+      var status = root.querySelector("#gw-hljs-status");
+      var statusText = root.querySelector("#gw-hljs-status-text");
 
       var tokenIndex = 0;
       var tokens = [];
@@ -80,644 +82,120 @@
         outputCount.textContent = output.value.length.toLocaleString("id-ID") + " karakter";
       }
 
-      function escapeCodeHtml(value) {
-        return String(value)
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;");
-      }
-
-      function resetTokens() {
-        tokens = [];
-        tokenIndex = 0;
-      }
-
-      function protect(value, className) {
-        var id = tokenIndex++;
-        var marker = "__GW_HLJS_TOKEN_" + id + "__";
-
-        tokens[id] = {
-          marker: marker,
-          value: '<span class="' + className + '">' +
-            escapeCodeHtml(value) +
-            "</span>"
-        };
-
-        return marker;
-      }
-
-      function restoreTokens(value) {
-        var result = value;
-
-        for (var i = 0; i < tokens.length; i++) {
-          if (tokens[i]) {
-            result = result.split(tokens[i].marker).join(tokens[i].value);
-          }
-        }
-
-        return result;
-      }
-
-      function protectPattern(value, regex, className) {
-        return value.replace(regex, function (match) {
-          return protect(match, className);
-        });
-      }
-
-      function highlightJavascript(source) {
-        resetTokens();
-
-        var code = source;
-
-        code = protectPattern(
-          code,
-          /(?:\/\/[^\n]*|\/\*[\s\S]*?\*\/)/g,
-          "hljs-comment"
-        );
-
-        code = protectPattern(
-          code,
-          /(["'`])(?:\\[\s\S]|(?!\1)[^\\])*\1/g,
-          "hljs-string"
-        );
-
-        code = escapeCodeHtml(code);
-
-        code = code.replace(
-          /\b(?:const|let|var|function|return|if|else|for|while|do|switch|case|break|continue|new|class|extends|import|from|export|default|async|await|try|catch|finally|throw|typeof|instanceof|in|of|this|delete|void|yield)\b/g,
-          '<span class="hljs-keyword">$&</span>'
-        );
-
-        code = code.replace(
-          /\b(?:true|false|null|undefined|NaN|Infinity)\b/g,
-          '<span class="hljs-literal">$&</span>'
-        );
-
-        code = code.replace(
-          /\b\d+(?:\.\d+)?(?:e[+-]?\d+)?\b/gi,
-          '<span class="hljs-number">$&</span>'
-        );
-
-        code = code.replace(
-          /\b[A-Za-z_$][\w$]*(?=\s*\()/g,
-          '<span class="hljs-title function_">$&</span>'
-        );
-
-        return restoreTokens(code);
-      }
-
-      function highlightHtml(source) {
-        resetTokens();
-
-        var code = source;
-
-        code = protectPattern(
-          code,
-          /<!--[\s\S]*?-->/g,
-          "hljs-comment"
-        );
-
-        code = escapeCodeHtml(code);
-
-        code = code.replace(
-          /(&lt;\/?)([A-Za-z][\w:-]*)([^&]*?)(\/?&gt;)/g,
-          function (match, open, tag, attrs, close) {
-            var result = open;
-            result += '<span class="hljs-name">' + tag + "</span>";
-
-            if (attrs) {
-              attrs = attrs.replace(
-                /([A-Za-z_:][\w:.-]*)(=)("[^"]*"|'[^']*'|[^\s>]+)/g,
-                '<span class="hljs-attr">$1</span>$2<span class="hljs-string">$3</span>'
-              );
-
-              result += attrs;
-            }
-
-            result += close;
-
-            return '<span class="hljs-tag">' + result + "</span>";
-          }
-        );
-
-        return restoreTokens(code);
-      }
-
-      function highlightCss(source) {
-        resetTokens();
-
-        var code = source;
-
-        code = protectPattern(
-          code,
-          /\/\*[\s\S]*?\*\//g,
-          "hljs-comment"
-        );
-
-        code = protectPattern(
-          code,
-          /(["'])(?:\\[\s\S]|(?!\1)[^\\])*\1/g,
-          "hljs-string"
-        );
-
-        code = escapeCodeHtml(code);
-
-        code = code.replace(
-          /([.#]?[A-Za-z_-][\w-]*)(?=\s*\{)/g,
-          '<span class="hljs-selector-class">$1</span>'
-        );
-
-        code = code.replace(
-          /(--?[A-Za-z_-][\w-]*|[A-Za-z-]+)(?=\s*:)/g,
-          '<span class="hljs-attribute">$1</span>'
-        );
-
-        code = code.replace(
-          /#[0-9a-fA-F]{3,8}\b/g,
-          '<span class="hljs-number">$&</span>'
-        );
-
-        code = code.replace(
-          /\b\d+(?:\.\d+)?(?:px|em|rem|%|vh|vw|s|ms|deg|fr)?\b/g,
-          '<span class="hljs-number">$&</span>'
-        );
-
-        return restoreTokens(code);
-      }
-
-      function highlightJson(source) {
-        resetTokens();
-
-        var code = source;
-
-        code = protectPattern(
-          code,
-          /"(?:\\.|[^"\\])*"/g,
-          "hljs-string"
-        );
-
-        code = escapeCodeHtml(code);
-
-        code = code.replace(
-          /"(?:\\.|[^"\\])*"(?=\s*:)/g,
-          '<span class="hljs-attr">$&</span>'
-        );
-
-        code = code.replace(
-          /\b(?:true|false|null)\b/g,
-          '<span class="hljs-literal">$&</span>'
-        );
-
-        code = code.replace(
-          /-?\b\d+(?:\.\d+)?(?:[eE][+-]?\d+)?\b/g,
-          '<span class="hljs-number">$&</span>'
-        );
-
-        return restoreTokens(code);
-      }
-
-      function highlightPython(source) {
-        resetTokens();
-
-        var code = source;
-
-        code = protectPattern(
-          code,
-          /(?:#[^\n]*|"""[\s\S]*?"""|'''[\s\S]*?''')/g,
-          "hljs-comment"
-        );
-
-        code = protectPattern(
-          code,
-          /(["'])(?:\\[\s\S]|(?!\1)[^\\])*\1/g,
-          "hljs-string"
-        );
-
-        code = escapeCodeHtml(code);
-
-        code = code.replace(
-          /\b(?:and|as|assert|async|await|break|case|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|match|nonlocal|not|or|pass|raise|return|try|while|with|yield)\b/g,
-          '<span class="hljs-keyword">$&</span>'
-        );
-
-        code = code.replace(
-          /\b(?:True|False|None)\b/g,
-          '<span class="hljs-literal">$&</span>'
-        );
-
-        code = code.replace(
-          /\b\d+(?:\.\d+)?\b/g,
-          '<span class="hljs-number">$&</span>'
-        );
-
-        code = code.replace(
-          /\b[A-Za-z_]\w*(?=\s*\()/g,
-          '<span class="hljs-title function_">$&</span>'
-        );
-
-        return restoreTokens(code);
-      }
-
-      function highlightPhp(source) {
-        resetTokens();
-
-        var code = source;
-
-        code = protectPattern(
-          code,
-          /(?:\/\/[^\n]*|#[^\n]*|\/\*[\s\S]*?\*\/)/g,
-          "hljs-comment"
-        );
-
-        code = protectPattern(
-          code,
-          /(["'])(?:\\[\s\S]|(?!\1)[^\\])*\1/g,
-          "hljs-string"
-        );
-
-        code = escapeCodeHtml(code);
-
-        code = code.replace(
-          /\b(?:function|return|if|else|elseif|foreach|for|while|do|class|interface|trait|extends|implements|public|private|protected|static|abstract|final|new|try|catch|finally|throw|use|namespace|echo|print|include|require)\b/g,
-          '<span class="hljs-keyword">$&</span>'
-        );
-
-        code = code.replace(
-          /\b(?:true|false|null)\b/gi,
-          '<span class="hljs-literal">$&</span>'
-        );
-
-        code = code.replace(
-          /\b\d+(?:\.\d+)?\b/g,
-          '<span class="hljs-number">$&</span>'
-        );
-
-        code = code.replace(
-          /\b[A-Za-z_]\w*(?=\s*\()/g,
-          '<span class="hljs-title function_">$&</span>'
-        );
-
-        return restoreTokens(code);
-      }
-
-      function highlightJava(source) {
-        resetTokens();
-
-        var code = source;
-
-        code = protectPattern(
-          code,
-          /(?:\/\/[^\n]*|\/\*[\s\S]*?\*\/)/g,
-          "hljs-comment"
-        );
-
-        code = protectPattern(
-          code,
-          /(["'])(?:\\[\s\S]|(?!\1)[^\\])*\1/g,
-          "hljs-string"
-        );
-
-        code = escapeCodeHtml(code);
-
-        code = code.replace(
-          /\b(?:class|interface|extends|implements|public|private|protected|static|final|abstract|void|int|long|double|float|boolean|char|byte|short|new|return|if|else|for|while|do|switch|case|break|continue|try|catch|finally|throw|throws|import|package|this|super)\b/g,
-          '<span class="hljs-keyword">$&</span>'
-        );
-
-        code = code.replace(
-          /\b(?:true|false|null)\b/g,
-          '<span class="hljs-literal">$&</span>'
-        );
-
-        code = code.replace(
-          /\b\d+(?:\.\d+)?[fFdDlL]?\b/g,
-          '<span class="hljs-number">$&</span>'
-        );
-
-        code = code.replace(
-          /\b[A-Za-z_]\w*(?=\s*\()/g,
-          '<span class="hljs-title function_">$&</span>'
-        );
-
-        return restoreTokens(code);
-      }
-
-      function highlightSql(source) {
-        resetTokens();
-
-        var code = source;
-
-        code = protectPattern(
-          code,
-          /(?:--[^\n]*|\/\*[\s\S]*?\*\/)/g,
-          "hljs-comment"
-        );
-
-        code = protectPattern(
-          code,
-          /'(?:''|[^'])*'/g,
-          "hljs-string"
-        );
-
-        code = escapeCodeHtml(code);
-
-        code = code.replace(
-          /\b(?:SELECT|FROM|WHERE|INSERT|INTO|VALUES|UPDATE|SET|DELETE|CREATE|ALTER|DROP|TABLE|DATABASE|JOIN|INNER|LEFT|RIGHT|FULL|OUTER|ON|AS|AND|OR|NOT|NULL|IS|IN|LIKE|BETWEEN|GROUP|BY|ORDER|HAVING|LIMIT|OFFSET|UNION|ALL|DISTINCT|PRIMARY|KEY|FOREIGN|REFERENCES)\b/gi,
-          '<span class="hljs-keyword">$&</span>'
-        );
-
-        code = code.replace(
-          /\b(?:TRUE|FALSE|NULL)\b/gi,
-          '<span class="hljs-literal">$&</span>'
-        );
-
-        code = code.replace(
-          /\b\d+(?:\.\d+)?\b/g,
-          '<span class="hljs-number">$&</span>'
-        );
-
-        return restoreTokens(code);
-      }
-
-      function highlightBash(source) {
-        resetTokens();
-
-        var code = source;
-
-        code = protectPattern(
-          code,
-          /#[^\n]*/g,
-          "hljs-comment"
-        );
-
-        code = protectPattern(
-          code,
-          /(["'])(?:\\[\s\S]|(?!\1)[^\\])*\1/g,
-          "hljs-string"
-        );
-
-        code = escapeCodeHtml(code);
-
-        code = code.replace(
-          /\b(?:if|then|else|elif|fi|for|while|do|done|case|esac|in|function|return|export|local|readonly)\b/g,
-          '<span class="hljs-keyword">$&</span>'
-        );
-
-        code = code.replace(
-          /\b(?:true|false)\b/g,
-          '<span class="hljs-literal">$&</span>'
-        );
-
-        code = code.replace(
-          /\b\d+(?:\.\d+)?\b/g,
-          '<span class="hljs-number">$&</span>'
-        );
-
-        return restoreTokens(code);
-      }
-
-      function highlightPlainText(source) {
-        resetTokens();
-        return escapeCodeHtml(source);
-      }
-
-      var modeButtons = Array.prototype.slice.call(root.querySelectorAll(".gw-mode"));
-      var currentMode = "parse";
-      var copyButton = document.getElementById("gw-hljs-copy");
-      var downloadButton = document.getElementById("gw-hljs-copy-download");
-      var processIcon = parseButton ? parseButton.querySelector(".gw-action-icon") : null;
-      var copyTimer = null;
-
-      var languageNames = {
-        javascript: "JavaScript",
-        html: "HTML / XML",
-        css: "CSS",
-        json: "JSON",
-        python: "Python",
-        php: "PHP",
-        java: "Java",
-        sql: "SQL",
-        bash: "Bash / Shell",
-        plaintext: "Plain Text"
-      };
-
-      function detectLanguage(source) {
-        var code = String(source || "").replace(/^\uFEFF/, "").trim();
-        if (!code) return { language: "plaintext", detail: "Plain Text" };
-
-        var scores = {
-          javascript: 0,
-          html: 0,
-          css: 0,
-          json: 0,
-          python: 0,
-          php: 0,
-          java: 0,
-          sql: 0,
-          bash: 0,
-          plaintext: 0
-        };
-
-        function add(name, points) { scores[name] += points; }
-
-        // Format yang benar-benar eksplisit diberi prioritas agar tidak kalah
-        // oleh pola bahasa lain yang kebetulan muncul di dalam source.
-        if (/^<\?php\b/i.test(code)) add("php", 40);
-        if (/^\s*<!doctype\s+html\b/i.test(code) || /^\s*<html(?:\s|>)/i.test(code)) add("html", 40);
-
-        try {
-          var parsed = JSON.parse(code);
-          if ((code[0] === "{" || code[0] === "[") && parsed !== null && typeof parsed === "object") {
-            add("json", 40);
-          }
-        } catch (ignoreJson) {}
-
-        if (/^\s*(?:SELECT|INSERT\s+INTO|UPDATE\s+\w+\s+SET|DELETE\s+FROM|CREATE\s+(?:TABLE|DATABASE|VIEW)|ALTER\s+TABLE|DROP\s+TABLE)\b/i.test(code)) {
-          add("sql", 30);
-        }
-
-        if (/^\s*#!\/.*\b(?:bash|sh|zsh)\b/i.test(code)) add("bash", 35);
-        if (/^\s*#\s*\!?\/?.*\b(?:bash|shell|sh|zsh)\b/i.test(code)) add("bash", 20);
-
-        if (/^\s*(?:from\s+\w+\s+import|import\s+\w+|def\s+\w+\s*\(|class\s+\w+\s*(?:\([^)]*\))?\s*:)/m.test(code)) add("python", 28);
-        if (/\b(?:elif|except|lambda|None|True|False|async\s+def)\b/.test(code)) add("python", 8);
-        if (/^\s*@\w+(?:\([^\n]*\))?\s*$/m.test(code)) add("python", 4);
-
-        if (/\b(?:public|private|protected)\s+(?:static\s+)?(?:final\s+)?(?:class|interface|enum|void|int|long|double|float|boolean|char|byte|short)\b/.test(code)) add("java", 24);
-        if (/\bSystem\.out\.(?:println|print)\s*\(/.test(code) || /\bpackage\s+[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*\s*;/.test(code)) add("java", 14);
-        if (/\b(?:new\s+[A-Z]\w*\s*\(|@Override|throws\s+\w+)\b/.test(code)) add("java", 7);
-
-        if (/^\s*(?:[.#]?[A-Za-z_-][\w-]*)(?:\s*,\s*[.#]?[A-Za-z_-][\w-]*)*\s*\{[\s\S]*:[\s\S]*\}/.test(code)) add("css", 24);
-        if (/[A-Za-z-]+\s*:\s*(?:#[0-9a-f]{3,8}|[\w.-]+|\d+(?:\.\d+)?(?:px|em|rem|%|vh|vw)?)\s*;?/.test(code) && /\{[\s\S]*\}/.test(code)) add("css", 9);
-        if (/@(?:media|keyframes|supports|font-face|import)\b/.test(code)) add("css", 12);
-
-        if (/(?:^|[\s;(])(?:const|let|var)\s+[A-Za-z_$][\w$]*\s*=/.test(code)) add("javascript", 18);
-        if (/(?:=>|\b(?:console\.|document\.|window\.|require\s*\(|module\.exports|export\s+default|import\s+.+\s+from)\b)/.test(code)) add("javascript", 16);
-        if (/\b(?:function|async|await|Promise|JSON\.parse|JSON\.stringify)\b/.test(code)) add("javascript", 8);
-        if (/<script\b/i.test(code) && /\b(?:const|let|var|function)\b/.test(code)) add("javascript", 6);
-
-        if (/<\/?(?:html|head|body|div|section|main|script|style|a|p|h[1-6]|ul|ol|li|table|form|input|button)(?:\s|>)/i.test(code) || /<\/?[A-Za-z][^>]*>/.test(code)) {
-          add("html", 24);
-        }
-        if (/<\?xml\b/i.test(code)) add("html", 30);
-
-        if (/\b(?:SELECT|FROM|WHERE|JOIN|GROUP\s+BY|ORDER\s+BY|HAVING|UNION|INSERT\s+INTO|VALUES)\b/i.test(code)) add("sql", 7);
-        if (/--[^\n]*|\/\*[\s\S]*?\*\//.test(code) && /\b(?:SELECT|FROM|WHERE|TABLE|VARCHAR|INT)\b/i.test(code)) add("sql", 4);
-
-        if (/\b(?:fi|done|esac)\b|\$\{?[A-Za-z_][A-Za-z0-9_]*\}?|\b(?:chmod|mkdir|grep|awk|sed|curl|wget|apt|npm|git)\s+[-\w]/.test(code)) add("bash", 7);
-        if (/^\s*(?:if|for|while)\s+.*;\s*then\b/m.test(code)) add("bash", 10);
-
-        // Ambang rendah hanya dipakai untuk memilih Plain Text ketika tidak
-        // ada pola sintaks yang cukup spesifik.
-        var best = "plaintext";
-        var bestScore = 0;
-        Object.keys(scores).forEach(function (name) {
-          if (name !== "plaintext" && scores[name] > bestScore) {
-            best = name;
-            bestScore = scores[name];
-          }
-        });
-
-        return {
-          language: bestScore > 0 ? best : "plaintext",
-          detail: languageNames[bestScore > 0 ? best : "plaintext"] || "Plain Text"
-        };
-      }
-
-      function detectionMessage(detected) {
-        return "Format terdeteksi: " + (detected.detail || languageNames[detected.language] || "Plain Text") + ".";
+      function normalizeLineEndings(value) {
+        return String(value).replace(/\r\n?/g, "\n");
       }
 
       function detectSourceIndentUnit(source) {
-        var lines = String(source).replace(/\r\n?/g, "\n").split("\n");
+        var lines = normalizeLineEndings(source).split("\n");
         var values = [];
         var hasTab = false;
-
         lines.forEach(function (line) {
           var match = line.match(/^[\t ]+/);
           if (!match) return;
           var leading = match[0];
           if (leading.indexOf("\t") !== -1) hasTab = true;
           var visual = 0;
-          for (var i = 0; i < leading.length; i++) {
-            visual += leading[i] === "\t" ? 4 : 1;
-          }
+          for (var i = 0; i < leading.length; i++) visual += leading[i] === "\t" ? 4 : 1;
           if (visual > 0) values.push(visual);
         });
-
         if (!values.length) return hasTab ? 4 : 2;
-        if (hasTab && values.some(function (v) { return v % 4 === 0; })) return 4;
-
-        var candidates = [2, 4];
-        for (var c = 0; c < candidates.length; c++) {
-          var candidate = candidates[c];
-          if (values.some(function (v) { return v === candidate; }) && values.every(function (v) { return v % candidate === 0; })) {
-            return candidate;
-          }
-        }
-
         var gcd = values[0];
-        function gcdOf(a, b) {
-          while (b) {
-            var t = a % b;
-            a = b;
-            b = t;
-          }
-          return a;
-        }
+        function gcdOf(a, b) { while (b) { var t = a % b; a = b; b = t; } return a; }
         for (var g = 1; g < values.length; g++) gcd = gcdOf(gcd, values[g]);
         return gcd >= 1 && gcd <= 8 ? gcd : 2;
       }
 
-      function normalizeIndent(source) {
+      function normalizeIndent(source, selectedLanguage) {
         var mode = indent.value;
         var targetSize = mode === "tab" ? 4 : parseInt(mode, 10);
         if (!targetSize || targetSize < 1) targetSize = 2;
-
-        var text = String(source).replace(/\r\n?/g, "\n");
+        var text = normalizeLineEndings(source);
         var sourceSize = detectSourceIndentUnit(text);
-        var targetUnit = mode === "tab" ? "\t" : " ".repeat(targetSize);
+        var targetUnit = mode === "tab" ? "\t" : new Array(targetSize + 1).join(" ");
+        var lines = text.split("\n");
+        var protectedString = false;
 
-        return text.split("\n").map(function (line) {
+        function updateProtectedState(line) {
+          if (selectedLanguage === "python") {
+            var triple = line.match(/("""|''')/g);
+            if (triple && triple.length) protectedString = !protectedString;
+          } else if (selectedLanguage === "javascript") {
+            var backticks = 0;
+            for (var i = 0; i < line.length; i++) if (line[i] === "`" && line[i - 1] !== "\\") backticks++;
+            if (backticks % 2 === 1) protectedString = !protectedString;
+          } else if (selectedLanguage === "java") {
+            var blocks = (line.match(/"""/g) || []).length;
+            if (blocks % 2 === 1) protectedString = !protectedString;
+          }
+        }
+
+        return lines.map(function (line) {
+          var wasProtected = protectedString;
+          updateProtectedState(line);
+          if (wasProtected) return line;
           var match = line.match(/^[\t ]+/);
           if (!match) return line;
-
-          var leading = match[0];
-          var visual = 0;
-          for (var i = 0; i < leading.length; i++) {
-            visual += leading[i] === "\t" ? sourceSize : 1;
-          }
-
+          var leading = match[0], visual = 0;
+          for (var i = 0; i < leading.length; i++) visual += leading[i] === "\t" ? sourceSize : 1;
           var level = Math.max(0, Math.round(visual / sourceSize));
           return targetUnit.repeat(level) + line.slice(leading.length);
         }).join("\n");
       }
 
-      function highlightWithLanguage(source, selectedLanguage) {
-        switch (selectedLanguage) {
-          case "javascript": return highlightJavascript(source);
-          case "html": return highlightHtml(source);
-          case "css": return highlightCss(source);
-          case "json": return highlightJson(source);
-          case "python": return highlightPython(source);
-          case "php": return highlightPhp(source);
-          case "java": return highlightJava(source);
-          case "sql": return highlightSql(source);
-          case "bash": return highlightBash(source);
-          default: return highlightPlainText(source);
-        }
+      var languageNames = {
+        javascript: "JavaScript", html: "HTML / XML", css: "CSS", json: "JSON",
+        python: "Python", php: "PHP", java: "Java", sql: "SQL", bash: "Bash / Shell", plaintext: "Plain Text"
+      };
+
+      var hljsLanguages = ["javascript", "xml", "css", "json", "python", "php", "java", "sql", "bash", "plaintext"];
+
+      function mapLanguage(value) { return value === "html" ? "xml" : value; }
+
+      function detectLanguage(source) {
+        var result = window.hljs.highlightAuto(String(source), hljsLanguages);
+        var languageId = result.language || "plaintext";
+        if (languageId === "xml") languageId = "html";
+        if (!languageNames[languageId]) languageId = "plaintext";
+        return { language: languageId, detail: languageNames[languageId] };
       }
 
-      function animateProcess() {
-        if (!processIcon) return;
-        processIcon.classList.remove("gw-processing");
-        void processIcon.offsetWidth;
-        processIcon.classList.add("gw-processing");
+      function detectionMessage(detected) {
+        return "Format terdeteksi: " + (detected.detail || "Plain Text") + ".";
+      }
+
+      function highlightWithLanguage(source, selectedLanguage) {
+        return window.hljs.highlight(String(source), {
+          language: mapLanguage(selectedLanguage),
+          ignoreIllegals: true
+        }).value;
       }
 
       function parseSource() {
         var source = input.value;
         if (!source.trim()) {
-          output.value = "";
-          updateCounts();
-          setStatus("Masukkan source code terlebih dahulu.", "error");
-          return;
+          output.value = ""; updateCounts(); setStatus("Masukkan source code terlebih dahulu.", "error"); return;
         }
-
         animateProcess();
-
         try {
           var detected = language.value === "auto"
             ? detectLanguage(source)
             : { language: language.value, detail: languageNames[language.value] || "Plain Text" };
-
-          source = normalizeIndent(source);
-          output.value = highlightWithLanguage(source, detected.language);
+          var normalized = normalizeIndent(source, mapLanguage(detected.language));
+          output.value = highlightWithLanguage(normalized, detected.language);
           updateCounts();
-
-          var name = languageNames[detected.language] || "Plain Text";
-          setStatus(
-            language.value === "auto"
-              ? "Berhasil membuat markup HTML Highlight.js. Format: " + name + "."
-              : "Berhasil membuat markup HTML Highlight.js. Bahasa: " + name + ".",
-            "gw-ok"
-          );
+          setStatus(language.value === "auto"
+            ? "Berhasil membuat markup HTML Highlight.js. Format: " + detected.detail + "."
+            : "Berhasil membuat markup HTML Highlight.js. Bahasa: " + detected.detail + ".", "gw-ok");
         } catch (error) {
-          output.value = "";
-          updateCounts();
-          setStatus(
-            error && error.message ? error.message : "Terjadi kesalahan saat memproses source code.",
-            "error"
-          );
+          output.value = ""; updateCounts();
+          setStatus(error && error.message ? error.message : "Terjadi kesalahan saat memproses source code.", "error");
         }
       }
 
       function stripHtmlHighlightMarkup(source) {
         var container = document.createElement("div");
         container.innerHTML = String(source);
-
-        // Hanya lepaskan wrapper Highlight.js. Tag lain tidak dihapus,
-        // sehingga Unparse tidak membuang bagian source yang valid.
         var elements = container.querySelectorAll("[class]");
         for (var i = 0; i < elements.length; i++) {
           var element = elements[i];
@@ -725,41 +203,36 @@
           var isHighlightWrapper = classes.some(function (className) {
             return /^hljs(?:-|$)/.test(className) || /^language-/.test(className);
           });
-
-          if (isHighlightWrapper) {
+          if (isHighlightWrapper && element.parentNode) {
             var parent = element.parentNode;
             while (element.firstChild) parent.insertBefore(element.firstChild, element);
             parent.removeChild(element);
           }
         }
-
         return container.textContent || container.innerText || "";
       }
 
       function unparseSource() {
         var source = input.value;
         if (!source.trim()) {
-          output.value = "";
-          updateCounts();
-          setStatus("Masukkan markup HTML Highlight.js terlebih dahulu.", "error");
-          return;
+          output.value = ""; updateCounts(); setStatus("Masukkan markup HTML Highlight.js terlebih dahulu.", "error"); return;
         }
-
         animateProcess();
         try {
           output.value = stripHtmlHighlightMarkup(source);
-          updateCounts();
-          setStatus("Berhasil menghapus markup Highlight.js dan mengembalikan source code.", "gw-ok");
+          updateCounts(); setStatus("Berhasil menghapus markup Highlight.js dan mengembalikan source code.", "gw-ok");
         } catch (error) {
-          output.value = "";
-          updateCounts();
-          setStatus("Terjadi kesalahan saat melakukan Unparse.", "error");
+          output.value = ""; updateCounts(); setStatus("Terjadi kesalahan saat melakukan Unparse.", "error");
         }
       }
 
-      function processSource() {
-        if (currentMode === "unparse") unparseSource();
-        else parseSource();
+      function processSource() { if (currentMode === "unparse") unparseSource(); else parseSource(); }
+
+      function animateProcess() {
+        if (!processIcon) return;
+        processIcon.classList.remove("gw-processing");
+        void processIcon.offsetWidth;
+        processIcon.classList.add("gw-processing");
       }
 
       function resetCopyState() {
@@ -858,11 +331,11 @@
         });
 
         var isParse = currentMode === "parse";
-        document.getElementById("gw-hljs-input-title").textContent = isParse ? "Source Code" : "HTML Highlight.js";
-        document.getElementById("gw-hljs-output-title").textContent = isParse ? "HTML Highlight.js" : "Source Code";
+        root.querySelector("#gw-hljs-input-title").textContent = isParse ? "Source Code" : "HTML Highlight.js";
+        root.querySelector("#gw-hljs-output-title").textContent = isParse ? "HTML Highlight.js" : "Source Code";
         input.placeholder = isParse ? "Masukkan source code di sini..." : "Masukkan markup HTML Highlight.js di sini...";
         output.placeholder = isParse ? "Hasil markup Highlight.js akan muncul di sini..." : "Hasil source code akan muncul di sini...";
-        document.getElementById("gw-hljs-process-label").textContent = isParse ? "Parse HTML" : "Unparse HTML";
+        root.querySelector("#gw-hljs-process-label").textContent = isParse ? "Parse HTML" : "Unparse HTML";
         parseButton.setAttribute("aria-label", isParse ? "Parse HTML Highlight.js" : "Unparse HTML Highlight.js");
         setStatus(isParse ? "Mode Parse aktif. Siap memproses source code." : "Mode Unparse aktif. Siap mengembalikan source code.");
         input.focus();
@@ -887,6 +360,9 @@
         if (copyTimer) { clearTimeout(copyTimer); copyTimer = null; }
         language.value = "auto";
         updateCounts();
+        clearButton.classList.remove("gw-reset-triggered");
+        void clearButton.offsetWidth;
+        clearButton.classList.add("gw-reset-triggered");
         setStatus("Semua data telah dibersihkan.");
         input.focus();
       }
@@ -937,5 +413,26 @@
       setMode("parse");
       updateCounts();
       resetCopyState();
+      }
 
+      function loadHighlightJs() {
+        if (window.hljs && /^11\./.test(String(window.hljs.versionString || ""))) { startTool(); return; }
+        var currentScript = document.currentScript;
+        var src = currentScript && currentScript.src ? currentScript.src : "";
+        var base = src.replace(/\/script(?:\.min)?\.js(?:[?#].*)?$/, "/");
+        if (!base) return;
+        var loader = document.createElement("script");
+        loader.src = base + "highlight.min.js";
+        loader.async = false;
+        loader.onload = startTool;
+        loader.onerror = function () {
+          root.removeAttribute("data-gw-initialized");
+          root.setAttribute("data-gw-load-error", "true");
+          var statusNode = root.querySelector("#gw-hljs-status-text");
+          if (statusNode) statusNode.textContent = "Highlight.js gagal dimuat dari CDN.";
+        };
+        document.head.appendChild(loader);
+      }
+
+      loadHighlightJs();
     })();
