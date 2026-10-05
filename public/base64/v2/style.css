@@ -4,7 +4,7 @@
 }
 #gw-base64-tool,#gw-base64-tool *{box-sizing:border-box}
 #gw-base64-tool.gw-dark,html.drK #gw-base64-tool,body.drK #gw-base64-tool,body.darkMode #gw-base64-tool,body.dark-mode #gw-base64-tool,body.dark #gw-base64-tool,html.darkMode #gw-base64-tool,html.dark-mode #gw-base64-tool,html.dark #gw-base64-tool,#gw-base64-tool[data-theme="dark"]{--gw-text:#eee;--gw-muted:#aaa;--gw-border:#3a3a3a;--gw-bg:#171717;--gw-surface:#202020;--gw-primary:#4b91ff;--gw-primary-hover:#67a3ff;--gw-danger:#ff7070;--gw-ok:#55c98a}
-#gw-base64-tool .gw-workbench{width:100%;border:1px solid var(--gw-border);border-radius:8px;background:var(--gw-bg);color:var(--gw-text);overflow:hidden}
+#gw-base64-tool .gw-workbench{width:100%;border:1px solid var(--gw-border);border-radius:0;background:transparent;color:var(--gw-text);overflow:hidden}
 #gw-base64-tool .gw-header{display:flex;align-items:center;gap:12px;padding:20px 24px 17px;border-bottom:1px solid var(--gw-border)}
 #gw-base64-tool .gw-header-icon{width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;border:1px solid var(--gw-border);border-radius:11px;background:var(--gw-surface);color:var(--gw-primary)}
 #gw-base64-tool .gw-header-icon svg{width:22px;height:22px;display:block;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
