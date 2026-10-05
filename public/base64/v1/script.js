@@ -203,69 +203,62 @@
         }
       }
 
-      function setMode(mode) {
-        currentMode = mode;
+      function updateModeUI(mode) {
+        currentMode = mode === "decode" ? "decode" : "encode";
 
         for (var i = 0; i < tabs.length; i++) {
-          tabs[i].classList.toggle(
-            "gw-active",
-            tabs[i].getAttribute("data-mode") === mode
-          );
+          var tabMode = tabs[i].getAttribute("data-mode");
+          var active = tabMode === currentMode;
+          tabs[i].classList.toggle("gw-active", active);
+          tabs[i].setAttribute("aria-selected", active ? "true" : "false");
         }
 
-        if (mode === "encode") {
-          inputTitle.textContent =
-            "Text Input";
-
-          outputTitle.textContent =
-            "Base64 Output";
-
+        if (currentMode === "encode") {
+          inputTitle.textContent = "Text Input";
+          outputTitle.textContent = "Base64 Output";
           processButtonLabel.textContent = "Encode Base64";
-
-          input.placeholder =
-            "Masukkan teks yang ingin di-encode...";
-
-          output.placeholder =
-            "Hasil Base64 akan muncul di sini...";
+          input.placeholder = "Masukkan teks yang ingin di-encode...";
+          output.placeholder = "Hasil Base64 akan muncul di sini...";
         } else {
-          inputTitle.textContent =
-            "Base64 Input";
-
-          outputTitle.textContent =
-            "Decoded Text";
-
+          inputTitle.textContent = "Base64 Input";
+          outputTitle.textContent = "Decoded Text";
           processButtonLabel.textContent = "Decode Base64";
-
-          input.placeholder =
-            "Masukkan Base64 yang ingin di-decode...";
-
-          output.placeholder =
-            "Hasil decoded text akan muncul di sini...";
+          input.placeholder = "Masukkan Base64 yang ingin di-decode...";
+          output.placeholder = "Hasil decoded text akan muncul di sini...";
         }
+      }
+
+      function setMode(mode, shouldProcess) {
+        if (typeof shouldProcess === "undefined") {
+          shouldProcess = true;
+        }
+
+        updateModeUI(mode);
 
         setStatus(
-          "Mode " +
-          (mode === "encode"
-            ? "Encode"
-            : "Decode") +
-          " aktif."
+          "Mode " + (currentMode === "encode" ? "Encode" : "Decode") + " aktif."
         );
 
-        if (input.value.trim()) {
+        if (shouldProcess && input.value.trim()) {
           processBase64();
         }
       }
 
       function swapContent() {
         var oldInput = input.value;
-
         input.value = output.value;
         output.value = oldInput;
 
+        var nextMode = currentMode === "encode" ? "decode" : "encode";
+
+        /* Swap selalu mengubah mode UI secara eksplisit. */
+        updateModeUI(nextMode);
         updateCounts();
 
         setStatus(
-          "Input dan output berhasil ditukar.",
+          "Data ditukar dan mode " +
+          (currentMode === "encode" ? "Encode" : "Decode") +
+          " aktif.",
           "gw-ok"
         );
       }
