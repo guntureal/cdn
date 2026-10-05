@@ -19,9 +19,12 @@
       var outputCount = root.querySelector("#gw-hljs-output-count");
       var status = root.querySelector("#gw-hljs-status");
       var statusText = root.querySelector("#gw-hljs-status-text");
-
-      var tokenIndex = 0;
-      var tokens = [];
+      var modeButtons = Array.prototype.slice.call(root.querySelectorAll(".gw-mode"));
+      var processIcon = root.querySelector("#gw-hljs-parse .gw-action-icon");
+      var copyButton = root.querySelector("#gw-hljs-copy");
+      var downloadButton = root.querySelector("#gw-hljs-copy-download");
+      var currentMode = "parse";
+      var copyTimer = null;
 
       function isDarkMode() {
         var html = document.documentElement;
@@ -355,7 +358,6 @@
       function clearAll() {
         input.value = "";
         output.value = "";
-        resetTokens();
         resetCopyState();
         if (copyTimer) { clearTimeout(copyTimer); copyTimer = null; }
         language.value = "auto";
@@ -415,24 +417,10 @@
       resetCopyState();
       }
 
-      function loadHighlightJs() {
-        if (window.hljs && /^11\./.test(String(window.hljs.versionString || ""))) { startTool(); return; }
-        var currentScript = document.currentScript;
-        var src = currentScript && currentScript.src ? currentScript.src : "";
-        var base = src.replace(/\/script(?:\.min)?\.js(?:[?#].*)?$/, "/");
-        if (!base) return;
-        var loader = document.createElement("script");
-        loader.src = base + "highlight.min.js";
-        loader.async = false;
-        loader.onload = startTool;
-        loader.onerror = function () {
-          root.removeAttribute("data-gw-initialized");
-          root.setAttribute("data-gw-load-error", "true");
-          var statusNode = root.querySelector("#gw-hljs-status-text");
-          if (statusNode) statusNode.textContent = "Highlight.js gagal dimuat dari CDN.";
-        };
-        document.head.appendChild(loader);
+      if (window.hljs && /^11\./.test(String(window.hljs.versionString || ""))) {
+        startTool();
+      } else {
+        var statusNode = root.querySelector("#gw-hljs-status-text");
+        if (statusNode) statusNode.textContent = "Highlight.js belum dimuat. Pastikan CDN Highlight.js tersedia sebelum script tool.";
       }
-
-      loadHighlightJs();
     })();
