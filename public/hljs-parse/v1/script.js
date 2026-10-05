@@ -25,6 +25,7 @@
       var downloadButton = root.querySelector("#gw-hljs-copy-download");
       var currentMode = "parse";
       var copyTimer = null;
+      var resetTimer = null;
 
       function isDarkMode() {
         var html = document.documentElement;
@@ -362,9 +363,17 @@
         if (copyTimer) { clearTimeout(copyTimer); copyTimer = null; }
         language.value = "auto";
         updateCounts();
+        if (resetTimer) {
+          clearTimeout(resetTimer);
+          resetTimer = null;
+        }
         clearButton.classList.remove("gw-reset-triggered");
         void clearButton.offsetWidth;
         clearButton.classList.add("gw-reset-triggered");
+        resetTimer = setTimeout(function () {
+          clearButton.classList.remove("gw-reset-triggered");
+          resetTimer = null;
+        }, 1500);
         setStatus("Semua data telah dibersihkan.");
         input.focus();
       }
