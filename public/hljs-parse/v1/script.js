@@ -328,7 +328,13 @@
 
       function setMode(mode) {
         currentMode = mode === "unparse" ? "unparse" : "parse";
-        modeButtons.forEach(function (button) {
+        clearButton.addEventListener("mouseleave", function () {
+        if (clearButton.classList.contains("gw-reset-feedback-done")) {
+          clearButton.classList.remove("gw-reset-feedback-done");
+        }
+      });
+
+      modeButtons.forEach(function (button) {
           var active = button.getAttribute("data-mode") === currentMode;
           button.classList.toggle("gw-active", active);
           button.setAttribute("aria-selected", active ? "true" : "false");
@@ -368,11 +374,12 @@
           clearTimeout(resetTimer);
           resetTimer = null;
         }
-        clearButton.classList.remove("gw-reset-triggered");
+        clearButton.classList.remove("gw-reset-feedback-done", "gw-reset-triggered");
         void clearButton.offsetWidth;
         clearButton.classList.add("gw-reset-triggered");
         resetTimer = setTimeout(function () {
           clearButton.classList.remove("gw-reset-triggered");
+          clearButton.classList.add("gw-reset-feedback-done");
           resetTimer = null;
         }, RESET_FEEDBACK_MS);
         setStatus("Semua data telah dibersihkan.");
