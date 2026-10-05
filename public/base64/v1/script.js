@@ -1,125 +1,384 @@
 (function () {
-  'use strict';
-  var root = document.getElementById('gw-base64-tool');
-  if (!root || root.getAttribute('data-gw-initialized') === 'true') return;
-  root.setAttribute('data-gw-initialized', 'true');
+      "use strict";
 
-  function q(sel) { return root.querySelector(sel); }
-  var input=q('#gw-base64-input'), output=q('#gw-base64-output');
-  var processBtn=q('#gw-base64-process'), resetBtn=q('#gw-base64-clear'), swapBtn=q('#gw-base64-swap');
-  var copyBtn=q('#gw-base64-copy'), downloadBtn=q('#gw-base64-download');
-  var status=q('#gw-base64-status'), statusText=q('#gw-base64-status-text');
-  var inputCount=q('#gw-base64-input-count'), outputCount=q('#gw-base64-output-count');
-  var inputTitle=q('#gw-base64-input-title'), outputTitle=q('#gw-base64-output-title');
-  var tabs=Array.prototype.slice.call(root.querySelectorAll('.gw-mode'));
-  if (!input || !output || !processBtn || !resetBtn || !swapBtn) return;
-  var mode='encode';
+      var root = document.getElementById("gw-base64-tool");
+      if (!root) return;
 
-  function setStatus(message, type) {
-    if (statusText) statusText.textContent=message;
-    if (status) {
-      status.classList.remove('gw-ok','gw-error');
-      if (type === 'success') status.classList.add('gw-ok');
-      if (type === 'error') status.classList.add('gw-error');
-    }
-  }
-  function count(value) { return value.length.toLocaleString('id-ID') + ' karakter'; }
-  function updateCounts() {
-    if (inputCount) inputCount.textContent=count(input.value);
-    if (outputCount) outputCount.textContent=count(output.value);
-  }
-  function setMode(next) {
-    mode = next === 'decode' ? 'decode' : 'encode';
-    tabs.forEach(function(tab){
-      var active=tab.getAttribute('data-mode') === mode;
-      tab.classList.toggle('gw-active', active);
-      tab.setAttribute('aria-selected', active ? 'true' : 'false');
-      tab.setAttribute('aria-pressed', active ? 'true' : 'false');
-    });
-    if (inputTitle) inputTitle.textContent = mode === 'encode' ? 'Text' : 'Base64';
-    if (outputTitle) outputTitle.textContent = mode === 'encode' ? 'Base64' : 'Text';
-    input.placeholder = mode === 'encode' ? 'Masukkan teks yang ingin diubah menjadi Base64...' : 'Masukkan kode Base64 yang ingin di-decode...';
-    output.placeholder = mode === 'encode' ? 'Hasil Base64 akan muncul di sini...' : 'Hasil teks akan muncul di sini...';
-    var label=q('#gw-base64-process-label');
-    if (label) label.textContent=mode === 'encode' ? 'Encode Base64' : 'Decode Base64';
-    processBtn.setAttribute('aria-label', mode === 'encode' ? 'Encode Base64' : 'Decode Base64');
-  }
-  function animateProcess() {
-    var icon=q('#gw-base64-process .gw-action-icon');
-    if (!icon) return;
-    icon.classList.remove('gw-processing');
-    void icon.offsetWidth;
-    icon.classList.add('gw-processing');
-  }
-  function utf8ToBase64(value) {
-    if (typeof TextEncoder !== 'undefined') {
-      var bytes=new TextEncoder().encode(value), binary='', chunk=0x8000;
-      for (var i=0;i<bytes.length;i+=chunk) binary += String.fromCharCode.apply(null, bytes.subarray(i,i+chunk));
-      return btoa(binary);
-    }
-    return btoa(unescape(encodeURIComponent(value)));
-  }
-  function base64ToUtf8(value) {
-    var clean=value.replace(/[\t\n\f\r ]+/g,'');
-    if (!clean) return '';
-    if (!/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(clean)) throw new Error('Format Base64 tidak valid.');
-    var binary=atob(clean);
-    if (typeof TextDecoder !== 'undefined') {
-      var bytes=new Uint8Array(binary.length);
-      for (var i=0;i<binary.length;i++) bytes[i]=binary.charCodeAt(i);
-      try { return new TextDecoder('utf-8',{fatal:true}).decode(bytes); }
-      catch(e) { throw new Error('Data Base64 bukan UTF-8 yang valid.'); }
-    }
-    try { return decodeURIComponent(escape(binary)); }
-    catch(e) { throw new Error('Data Base64 bukan UTF-8 yang valid.'); }
-  }
-  function process() {
-    animateProcess();
-    if (!input.value) { output.value=''; updateCounts(); setStatus('Masukkan data terlebih dahulu.','error'); return; }
-    try {
-      output.value = mode === 'encode' ? utf8ToBase64(input.value) : base64ToUtf8(input.value);
+      var input = document.getElementById("gw-base64-input");
+      var output = document.getElementById("gw-base64-output");
+
+      var processButton = document.getElementById("gw-base64-process");
+      var processButtonLabel = document.getElementById("gw-base64-process-label");
+      var swapButton = document.getElementById("gw-base64-swap");
+      var clearButton = document.getElementById("gw-base64-clear");
+
+      var inputTitle = document.getElementById("gw-base64-input-title");
+      var outputTitle = document.getElementById("gw-base64-output-title");
+
+      var inputCount = document.getElementById("gw-base64-input-count");
+      var outputCount = document.getElementById("gw-base64-output-count");
+
+      var status = document.getElementById("gw-base64-status");
+      var statusText = document.getElementById("gw-base64-status-text");
+
+      var tabs = root.querySelectorAll(".gw-tab");
+
+      var currentMode = "encode";
+
+      function isDarkMode() {
+        var body = document.body;
+        var html = document.documentElement;
+
+        if (body) {
+          if (
+            body.classList.contains("drK") ||
+            body.classList.contains("darkMode") ||
+            body.classList.contains("dark-mode") ||
+            body.classList.contains("dark") ||
+            body.getAttribute("data-theme") === "dark" ||
+            body.getAttribute("theme") === "dark"
+          ) {
+            return true;
+          }
+        }
+
+        if (html) {
+          return (
+            html.classList.contains("drK") ||
+            html.classList.contains("darkMode") ||
+            html.classList.contains("dark-mode") ||
+            html.classList.contains("dark") ||
+            html.getAttribute("data-theme") === "dark" ||
+            html.getAttribute("theme") === "dark"
+          );
+        }
+
+        return false;
+      }
+
+      function syncTheme() {
+        root.classList.toggle(
+          "gw-dark",
+          isDarkMode()
+        );
+      }
+
+      syncTheme();
+
+      if (window.MutationObserver) {
+        var observer = new MutationObserver(
+          syncTheme
+        );
+
+        observer.observe(document.body, {
+          attributes: true,
+          attributeFilter: [
+            "class",
+            "data-theme",
+            "theme"
+          ]
+        });
+
+        if (document.documentElement) {
+          observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: [
+              "class",
+              "data-theme",
+              "theme"
+            ]
+          });
+        }
+      }
+
+      function setStatus(message, type) {
+        status.classList.remove(
+          "gw-ok",
+          "gw-error"
+        );
+
+        if (type) {
+          status.classList.add(type);
+        }
+
+        statusText.textContent = message;
+      }
+
+      function updateCounts() {
+        inputCount.textContent =
+          input.value.length.toLocaleString("id-ID") +
+          " karakter";
+
+        outputCount.textContent =
+          output.value.length.toLocaleString("id-ID") +
+          " karakter";
+      }
+
+      function encodeBase64(value) {
+        var bytes = new TextEncoder().encode(value);
+        var binary = "";
+
+        for (var i = 0; i < bytes.length; i++) {
+          binary += String.fromCharCode(
+            bytes[i]
+          );
+        }
+
+        return btoa(binary);
+      }
+
+      function decodeBase64(value) {
+        var cleaned = value.replace(/\s+/g, "");
+
+        if (!cleaned) {
+          return "";
+        }
+
+        if (cleaned.length % 4 !== 0 || !/^[A-Za-z0-9+/]*={0,2}$/.test(cleaned)) {
+          throw new Error("Format Base64 tidak valid.");
+        }
+
+        var binary = atob(cleaned);
+        var bytes = new Uint8Array(binary.length);
+
+        for (var i = 0; i < binary.length; i++) {
+          bytes[i] = binary.charCodeAt(i);
+        }
+
+        var decoded = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+
+        /* Reject non-canonical Base64 (misalnya padding bit yang tidak valid). */
+        if (encodeBase64(decoded) !== cleaned) {
+          throw new Error("Format Base64 tidak valid.");
+        }
+
+        return decoded;
+      }
+
+      function processBase64() {
+        var value = input.value;
+
+        if (!value) {
+          output.value = "";
+          updateCounts();
+
+          setStatus(
+            "Masukkan data terlebih dahulu.",
+            "error"
+          );
+
+          return;
+        }
+
+        try {
+          if (currentMode === "encode") {
+            output.value =
+              encodeBase64(value);
+
+            setStatus(
+              "Teks berhasil di-encode ke Base64.",
+              "gw-ok"
+            );
+          } else {
+            output.value =
+              decodeBase64(value);
+
+            setStatus(
+              "Base64 berhasil di-decode.",
+              "gw-ok"
+            );
+          }
+
+          updateCounts();
+        } catch (error) {
+          output.value = "";
+          updateCounts();
+
+          setStatus(
+            currentMode === "decode"
+              ? "Base64 tidak valid atau bukan UTF-8."
+              : "Terjadi kesalahan saat melakukan encoding.",
+            "error"
+          );
+        }
+      }
+
+      function updateModeUI(mode) {
+        currentMode = mode === "decode" ? "decode" : "encode";
+
+        for (var i = 0; i < tabs.length; i++) {
+          var tabMode = tabs[i].getAttribute("data-mode");
+          var active = tabMode === currentMode;
+          tabs[i].classList.toggle("gw-active", active);
+          tabs[i].setAttribute("aria-selected", active ? "true" : "false");
+        }
+
+        if (currentMode === "encode") {
+          inputTitle.textContent = "Text Input";
+          outputTitle.textContent = "Base64 Output";
+          processButtonLabel.textContent = "Encode Base64";
+          input.placeholder = "Masukkan teks yang ingin di-encode...";
+          output.placeholder = "Hasil Base64 akan muncul di sini...";
+        } else {
+          inputTitle.textContent = "Base64 Input";
+          outputTitle.textContent = "Decoded Text";
+          processButtonLabel.textContent = "Decode Base64";
+          input.placeholder = "Masukkan Base64 yang ingin di-decode...";
+          output.placeholder = "Hasil decoded text akan muncul di sini...";
+        }
+      }
+
+      function setMode(mode, shouldProcess) {
+        if (typeof shouldProcess === "undefined") {
+          shouldProcess = true;
+        }
+
+        updateModeUI(mode);
+
+        setStatus(
+          "Mode " + (currentMode === "encode" ? "Encode" : "Decode") + " aktif."
+        );
+
+        if (shouldProcess && input.value.trim()) {
+          processBase64();
+        }
+      }
+
+      function swapContent() {
+        var oldInput = input.value;
+        input.value = output.value;
+        output.value = oldInput;
+
+        var nextMode = currentMode === "encode" ? "decode" : "encode";
+
+        /* Swap selalu mengubah mode UI secara eksplisit. */
+        updateModeUI(nextMode);
+        updateCounts();
+
+        setStatus(
+          "Data ditukar dan mode " +
+          (currentMode === "encode" ? "Encode" : "Decode") +
+          " aktif.",
+          "gw-ok"
+        );
+      }
+
+      function clearAll() {
+        input.value = "";
+        output.value = "";
+
+        updateCounts();
+
+        setStatus(
+          "Semua data telah dibersihkan."
+        );
+
+        input.focus();
+      }
+
+      async function copyOutput() {
+        if (!output.value) {
+          setStatus(
+            "Belum ada hasil untuk disalin.",
+            "error"
+          );
+
+          return;
+        }
+
+        try {
+          await navigator.clipboard.writeText(
+            output.value
+          );
+
+          setStatus(
+            "Hasil berhasil disalin ke clipboard.",
+            "gw-ok"
+          );
+        } catch (error) {
+          var copied = false;
+
+          try {
+            output.focus();
+            output.select();
+            copied = document.execCommand("copy");
+            output.setSelectionRange(output.value.length, output.value.length);
+          } catch (fallbackError) {
+            copied = false;
+          }
+
+          setStatus(
+            copied
+              ? "Hasil berhasil disalin ke clipboard."
+              : "Clipboard tidak tersedia di browser ini.",
+            copied ? "gw-ok" : "error"
+          );
+        }
+      }
+
+      for (var i = 0; i < tabs.length; i++) {
+        tabs[i].addEventListener(
+          "click",
+          function () {
+            setMode(
+              this.getAttribute("data-mode")
+            );
+          }
+        );
+      }
+
+      processButton.addEventListener(
+        "click",
+        function () {
+          processButton.classList.remove("gw-processing");
+          void processButton.offsetWidth;
+          processButton.classList.add("gw-processing");
+          processBase64();
+        }
+      );
+
+      processButton.addEventListener(
+        "animationend",
+        function () {
+          processButton.classList.remove("gw-processing");
+        }
+      );
+
+      swapButton.addEventListener(
+        "click",
+        swapContent
+      );
+
+      clearButton.addEventListener(
+        "click",
+        clearAll
+      );
+
+      input.addEventListener(
+        "input",
+        updateCounts
+      );
+
+      output.addEventListener(
+        "click",
+        copyOutput
+      );
+
+      input.addEventListener(
+        "keydown",
+        function (event) {
+          if (
+            (event.ctrlKey || event.metaKey) &&
+            event.key === "Enter"
+          ) {
+            event.preventDefault();
+            processButton.classList.remove("gw-processing");
+            void processButton.offsetWidth;
+            processButton.classList.add("gw-processing");
+            processBase64();
+          }
+        }
+      );
+
       updateCounts();
-      setStatus(mode === 'encode' ? 'Teks berhasil di-encode.' : 'Base64 berhasil di-decode.','success');
-    } catch(e) { output.value=''; updateCounts(); setStatus(e && e.message ? e.message : 'Data tidak dapat diproses.','error'); }
-  }
-  function swap() {
-    var a=input.value, b=output.value;
-    input.value=b; output.value=a;
-    setMode(mode === 'encode' ? 'decode' : 'encode');
-    updateCounts();
-    setStatus('Input dan output ditukar.','success');
-    input.focus();
-  }
-  function reset() {
-    input.value=''; output.value=''; setMode('encode'); updateCounts(); setStatus('Siap digunakan.'); input.focus();
-  }
-  function fallbackCopy(value) {
-    var area=document.createElement('textarea');
-    area.value=value; area.setAttribute('readonly','');
-    area.style.position='fixed'; area.style.left='-9999px'; area.style.top='0';
-    document.body.appendChild(area); area.select();
-    var ok=false; try { ok=document.execCommand('copy'); } catch(e) { ok=false; }
-    document.body.removeChild(area);
-    setStatus(ok ? 'Hasil berhasil disalin.' : 'Gagal menyalin hasil.',''+(ok?'success':'error'));
-  }
-  function copy() {
-    if (!output.value) { setStatus('Belum ada hasil untuk disalin.','error'); return; }
-    if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(output.value).then(function(){setStatus('Hasil berhasil disalin.','success');},function(){fallbackCopy(output.value);});
-    } else fallbackCopy(output.value);
-  }
-  function download() {
-    if (!output.value) { setStatus('Belum ada hasil untuk di-download.','error'); return; }
-    var blob=new Blob([output.value],{type:'text/plain;charset=utf-8'}), url=URL.createObjectURL(blob), link=document.createElement('a');
-    link.href=url; link.download=mode === 'encode' ? 'base64.txt' : 'decoded.txt';
-    document.body.appendChild(link); link.click(); document.body.removeChild(link);
-    setTimeout(function(){URL.revokeObjectURL(url);},1000);
-    setStatus('Hasil berhasil di-download.','success');
-  }
-  tabs.forEach(function(tab){ tab.addEventListener('click',function(){ setMode(tab.getAttribute('data-mode')); setStatus('Mode '+(mode==='encode'?'Encode':'Decode')+' dipilih.'); }); });
-  processBtn.addEventListener('click',process); resetBtn.addEventListener('click',reset); swapBtn.addEventListener('click',swap);
-  if (copyBtn) copyBtn.addEventListener('click',copy); if (downloadBtn) downloadBtn.addEventListener('click',download);
-  input.addEventListener('input',updateCounts);
-  input.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();process();}});
-  setMode('encode'); updateCounts();
-}());
+    })();
