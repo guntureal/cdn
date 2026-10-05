@@ -1,0 +1,120 @@
+<!-- Base64 Encode & Decode -->
+<link rel="stylesheet" href="https://cdn.gwntur.com/base64/v1/style.css">
+<div id="gw-base64-tool">
+  
+
+  <div class="gw-workbench">
+    <div class="gw-header">
+      <div class="gw-title-mark">
+        <svg viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M8 10 3 16l5 6"></path>
+          <path d="m24 10 5 6-5 6"></path>
+          <path d="m19 6-6 20"></path>
+        </svg>
+      </div>
+
+      <div class="gw-heading">
+        <h2 class="gw-title">Base64 Encode &amp; Decode</h2>
+        <p class="gw-description">Encode atau decode teks menggunakan format Base64.</p>
+      </div>
+    </div>
+
+    <div class="gw-main">
+      <div class="gw-tabs">
+        <button type="button" class="gw-tab gw-active" data-mode="encode" aria-selected="true">
+          Base64 Encode
+        </button>
+
+        <button type="button" class="gw-tab" data-mode="decode" aria-selected="false">
+          Base64 Decode
+        </button>
+      </div>
+
+      <div class="gw-editor-grid">
+        <div class="gw-editor">
+          <div class="gw-editor-head">
+            <div class="gw-editor-title" id="gw-base64-input-title">
+              Text Input
+            </div>
+
+            <div class="gw-count" id="gw-base64-input-count">
+              0 karakter
+            </div>
+          </div>
+
+          <textarea
+            id="gw-base64-input"
+            spellcheck="false"
+            autocomplete="off"
+            autocapitalize="off"
+            placeholder="Masukkan teks yang ingin di-encode..."></textarea>
+        </div>
+
+        <div class="gw-editor">
+          <div class="gw-editor-head">
+            <div class="gw-editor-title" id="gw-base64-output-title">
+              Base64 Output
+            </div>
+
+            <div class="gw-count" id="gw-base64-output-count">
+              0 karakter
+            </div>
+          </div>
+
+          <textarea
+            id="gw-base64-output"
+            spellcheck="false"
+            readonly
+            placeholder="Hasil Base64 akan muncul di sini..."></textarea>
+        </div>
+      </div>
+
+      <div class="gw-actions">
+        <button type="button" class="gw-primary" id="gw-base64-process">
+          <span class="gw-action-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M12 3.5 13.7 9l5.5 1.7-5.5 1.7L12 18l-1.7-5.6-5.5-1.7L10.3 9 12 3.5Z"></path>
+              <path d="m19 15 .6 1.9 1.9.6-1.9.6L19 20l-.6-1.9-1.9-.6 1.9-.6L19 15Z"></path>
+            </svg>
+          </span>
+          <span id="gw-base64-process-label">Encode Base64</span>
+        </button>
+
+        <button type="button" id="gw-base64-swap">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 7h11"></path>
+            <path d="m15 4 3 3-3 3"></path>
+            <path d="M17 17H6"></path>
+            <path d="m9 14-3 3 3 3"></path>
+          </svg>
+          Swap
+        </button>
+
+        <button type="button" class="gw-danger" id="gw-base64-clear">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 7h16"></path>
+            <path d="M10 11v6"></path>
+            <path d="M14 11v6"></path>
+            <path d="M6 7l1 13h10l1-13"></path>
+            <path d="M9 7V4h6v3"></path>
+          </svg>
+          Clear
+        </button>
+      </div>
+
+      <div class="gw-status" id="gw-base64-status">
+        <span class="gw-status-dot"></span>
+        <span id="gw-base64-status-text" aria-live="polite">Siap digunakan.</span>
+      </div>
+
+      <div class="gw-info">
+        Encode mengubah teks menjadi Base64, sedangkan Decode mengembalikannya
+        ke teks semula. Seluruh proses berjalan langsung di browser tanpa
+        mengirim data Anda ke server.
+      </div>
+    </div>
+  </div>
+
+  
+</div>
+<script src="https://cdn.gwntur.com/base64/v1/script.js" defer></script>
