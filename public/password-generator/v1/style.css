@@ -1,0 +1,118 @@
+#gw-password-tool,#gw-password-tool *{box-sizing:border-box}
+#gw-password-tool{
+--gw-text:#17202a;--gw-muted:#667085;--gw-border:#dfe4ea;--gw-soft:#f6f8fb;
+--gw-primary:#0066cc;--gw-primary-hover:#0057ad;--gw-primary-soft:#eaf4ff;
+--gw-danger:#d92d20;--gw-danger-soft:#fff1f0;--gw-success:#16803c;--gw-success-soft:#edf9f1;
+width:100%;max-width:760px;margin:24px auto;color:var(--gw-text);
+background:transparent;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.5
+}
+#gw-password-tool.gw-dark{--gw-text:#f1f5f9;--gw-muted:#a8b3c2;--gw-border:#344154;--gw-soft:#202b3a;--gw-primary:#3185d8;--gw-primary-hover:#3d91e2;--gw-primary-soft:rgba(49,133,216,.14);--gw-danger:#ff6b61;--gw-danger-soft:rgba(255,107,97,.12);--gw-success:#4ade80;--gw-success-soft:rgba(74,222,128,.12)}
+#gw-password-tool .gw-workbench{width:100%;border:1px solid var(--gw-border);background:transparent}
+#gw-password-tool .gw-header{display:flex;align-items:center;gap:11px;padding:16px 18px;border-bottom:1px solid var(--gw-border)}
+#gw-password-tool .gw-title-mark{width:30px;height:30px;min-width:30px;display:grid;place-items:center;color:var(--gw-primary)}
+#gw-password-tool .gw-title-mark svg{width:23px;height:23px;display:block;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#gw-password-tool .gw-heading{min-width:0;flex:1}
+#gw-password-tool .gw-title{margin:0;padding:0;color:var(--gw-text);font-size:19px;font-weight:700;line-height:1.25}
+#gw-password-tool .gw-description{margin:3px 0 0;color:var(--gw-muted);font-size:12px;line-height:1.45}
+#gw-password-tool .gw-main{padding:18px}
+#gw-password-tool .gw-output{position:relative}
+#gw-password-tool .gw-output textarea{display:block;width:100%;min-height:82px;resize:vertical;padding:15px 52px 15px 13px;border:1px solid var(--gw-border);border-radius:6px;outline:none;color:var(--gw-text);background:var(--gw-soft);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;font-size:16px;font-weight:600;line-height:1.5;letter-spacing:.2px;word-break:break-all}
+#gw-password-tool .gw-output textarea:focus{border-color:var(--gw-primary);box-shadow:0 0 0 3px var(--gw-primary-soft)}
+#gw-password-tool .gw-copy{position:absolute;top:9px;right:9px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;padding:0;border:1px solid var(--gw-border);border-radius:8px;color:var(--gw-muted);background:var(--gw-soft);cursor:pointer;transition:color .18s ease,border-color .18s ease,background-color .18s ease,transform .18s ease}
+#gw-password-tool .gw-copy svg{display:block;width:18px;height:18px;min-width:18px;max-width:18px;flex:0 0 18px;margin:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#gw-password-tool .gw-copy:hover{color:var(--gw-primary);border-color:var(--gw-primary);background:var(--gw-primary-soft)}
+#gw-password-tool .gw-copy:active{transform:scale(.95)}
+#gw-password-tool .gw-copy.gw-copied{color:var(--gw-success);border-color:var(--gw-success);background:var(--gw-success-soft)}
+#gw-password-tool .gw-copy.gw-copied svg{display:block;width:18px;height:18px;min-width:18px;max-width:18px;flex:0 0 18px;margin:0}
+#gw-password-tool .gw-strength{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px}
+#gw-password-tool .gw-strength-info{color:var(--gw-muted);font-size:11px}.gw-strength-label{color:var(--gw-text);font-weight:600}
+#gw-password-tool .gw-strength-bars{display:flex;gap:4px;width:120px}.gw-strength-bar{height:4px;flex:1;border-radius:99px;background:var(--gw-border)}.gw-strength-bar.gw-on{background:var(--gw-primary)}
+#gw-password-tool .gw-settings{display:grid;grid-template-columns:minmax(190px,.72fr) minmax(0,1.28fr);gap:20px;margin-top:20px}
+#gw-password-tool .gw-panel{min-width:0;padding-top:12px;border-top:1px solid var(--gw-border)}
+#gw-password-tool .gw-panel-full{grid-column:1/-1}
+#gw-password-tool .gw-panel-sub{margin-top:18px;padding-top:13px;border-top:1px solid var(--gw-border)}
+#gw-password-tool .gw-section-title{margin:0 0 11px;color:var(--gw-text);font-size:12px;font-weight:700}
+#gw-password-tool .gw-range-row{display:flex;align-items:center;gap:11px}
+#gw-password-tool input[type=range]{width:100%;height:5px;margin:0;accent-color:var(--gw-primary);cursor:pointer}
+#gw-password-tool .gw-length-value{width:42px;min-width:42px;padding:4px 6px;border:1px solid var(--gw-border);border-radius:5px;color:var(--gw-text);background:var(--gw-soft);text-align:center;font-size:11px;font-weight:700}
+#gw-password-tool .gw-options{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+#gw-password-tool .gw-option{display:flex;align-items:center;gap:8px;min-width:0;min-height:34px;padding:6px 8px;border:1px solid var(--gw-border);border-radius:5px;color:var(--gw-text);background:transparent;font-size:11px;cursor:pointer}
+#gw-password-tool .gw-option input{width:15px;height:15px;min-width:15px;margin:0;accent-color:var(--gw-primary);cursor:pointer}
+#gw-password-tool .gw-option span{min-width:0}
+#gw-password-tool .gw-custom{margin-top:9px}
+#gw-password-tool .gw-label{display:block;margin-bottom:5px;color:var(--gw-text);font-size:11px;font-weight:600}
+#gw-password-tool .gw-custom-input{display:block;width:100%;height:38px;padding:0 10px;border:1px solid var(--gw-border);border-radius:5px;outline:none;color:var(--gw-text);background:var(--gw-soft);font:inherit;font-size:11px}
+#gw-password-tool .gw-custom-input:focus{border-color:var(--gw-primary);box-shadow:0 0 0 3px var(--gw-primary-soft)}
+#gw-password-tool .gw-help{margin:5px 0 0;color:var(--gw-muted);font-size:10px}
+#gw-password-tool .gw-bottom{display:flex;justify-content:center;align-items:center;margin-top:18px;padding-top:13px;border-top:1px solid var(--gw-border)}
+#gw-password-tool .gw-actions{display:flex;align-items:center;justify-content:center;gap:7px;margin:0;padding:0;border:0}
+#gw-password-tool button:not(.gw-copy){display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:0 11px;border:1px solid var(--gw-border);border-radius:5px;color:var(--gw-text);background:transparent;font:inherit;font-size:11px;font-weight:600;line-height:1.2;cursor:pointer;white-space:nowrap}
+#gw-password-tool button:not(.gw-copy):hover{border-color:var(--gw-primary);color:var(--gw-primary)}
+#gw-password-tool #gw-password-clear:active,#gw-password-tool #gw-password-clear.gw-clearing{border-color:var(--gw-danger);color:var(--gw-danger);background:var(--gw-danger-soft);box-shadow:0 0 0 3px rgba(220,53,69,.10)}
+#gw-password-tool button.gw-primary{border-color:var(--gw-primary);color:#fff;background:var(--gw-primary);-webkit-text-fill-color:#fff}
+#gw-password-tool button.gw-primary:hover,#gw-password-tool button.gw-primary:focus,#gw-password-tool button.gw-primary:focus-visible,#gw-password-tool button.gw-primary:active{border-color:var(--gw-primary-hover);color:#fff;background:var(--gw-primary-hover);-webkit-text-fill-color:#fff}
+#gw-password-tool button.gw-primary:focus{outline:none}
+#gw-password-tool button.gw-primary:focus-visible{outline:2px solid var(--gw-primary);outline-offset:2px}
+#gw-password-tool button svg{width:16px;height:16px;flex:0 0 16px;margin-right:7px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#gw-password-tool .gw-info{display:flex;align-items:center;gap:8px;margin-top:14px;color:var(--gw-muted);font-size:10px;line-height:1.55}
+#gw-password-tool .gw-info-mark{position:relative;width:18px;height:18px;min-width:18px;display:grid;place-items:center;color:var(--gw-primary)}
+#gw-password-tool .gw-info-mark:before{content:"";position:absolute;width:18px;height:18px;border:1px solid var(--gw-primary);border-radius:50%;opacity:.25;animation:gw-security-pulse 2.2s ease-out infinite}
+#gw-password-tool .gw-info-mark svg{position:relative;width:15px;height:15px;display:block;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#gw-password-tool .gw-info-copy{min-width:0}
+#gw-password-tool .gw-info-label{display:block;margin-bottom:1px;color:var(--gw-text);font-size:10px;font-weight:700}
+#gw-password-tool .gw-info code{padding:0;color:var(--gw-primary);background:transparent;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px}
+@keyframes gw-security-pulse{0%{transform:scale(.72);opacity:.35}65%{transform:scale(1.35);opacity:0}100%{transform:scale(1.35);opacity:0}}
+@keyframes gw-generate-spark{0%{transform:scale(1);opacity:1}35%{transform:scale(1.18) translateY(-1px);opacity:.78}65%{transform:scale(.92) translateY(1px);opacity:1}100%{transform:scale(1);opacity:1}}
+#gw-password-tool .gw-generate-icon{display:inline-grid;place-items:center}
+#gw-password-tool .gw-primary.gw-generating .gw-generate-icon{animation:gw-generate-spark .48s ease-out}
+@media(prefers-reduced-motion:reduce){#gw-password-tool .gw-info-mark:before{animation:none}}
+@media(max-width:680px){
+#gw-password-tool{margin:14px auto;max-width:100%;font-size:13px}
+#gw-password-tool .gw-header{padding:16px 17px;gap:12px}
+#gw-password-tool .gw-title-mark{width:30px;height:30px;min-width:30px}
+#gw-password-tool .gw-title-mark svg{width:24px;height:24px}
+#gw-password-tool .gw-title{font-size:20px}
+#gw-password-tool .gw-description{margin-top:4px;font-size:12px;line-height:1.5}
+#gw-password-tool .gw-main{padding:18px}
+#gw-password-tool .gw-output textarea{min-height:88px;padding:16px 54px 16px 14px;font-size:16px;line-height:1.55}
+#gw-password-tool .gw-copy{top:10px;right:10px;width:38px;height:38px;border-radius:9px}
+#gw-password-tool .gw-copy svg{width:19px;height:19px;min-width:19px;max-width:19px;flex-basis:19px}
+#gw-password-tool .gw-strength{margin-top:10px;gap:14px}
+#gw-password-tool .gw-strength-info{font-size:12px}
+#gw-password-tool .gw-strength-bars{width:130px}
+#gw-password-tool .gw-settings{grid-template-columns:1fr;gap:22px;margin-top:22px}
+#gw-password-tool .gw-panel-full{grid-column:auto}
+#gw-password-tool .gw-section-title{margin-bottom:12px;font-size:13px}
+#gw-password-tool .gw-range-row{gap:12px}
+#gw-password-tool .gw-length-value{width:46px;min-width:46px;padding:6px 7px;font-size:12px}
+#gw-password-tool input[type=range]{height:6px}
+#gw-password-tool .gw-options{grid-template-columns:1fr 1fr;gap:8px}
+#gw-password-tool .gw-option{min-height:42px;padding:8px 10px;gap:9px;border-radius:7px;font-size:12px;line-height:1.4}
+#gw-password-tool .gw-option input{width:17px;height:17px;min-width:17px}
+#gw-password-tool .gw-custom{margin-top:11px}
+#gw-password-tool .gw-label{margin-bottom:6px;font-size:12px}
+#gw-password-tool .gw-custom-input{height:42px;padding:0 12px;font-size:12px;border-radius:7px}
+#gw-password-tool .gw-help{margin-top:6px;font-size:11px;line-height:1.5}
+#gw-password-tool .gw-bottom{margin-top:22px;padding-top:16px}
+#gw-password-tool .gw-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:9px;width:100%;max-width:430px}
+#gw-password-tool button:not(.gw-copy){min-height:42px;padding:0 13px;border-radius:7px;font-size:12px}
+#gw-password-tool button svg{width:17px;height:17px;flex-basis:17px;margin-right:7px}
+#gw-password-tool .gw-info{margin-top:17px;gap:9px;font-size:11px;line-height:1.55}
+#gw-password-tool .gw-info-mark{width:20px;height:20px;min-width:20px}
+#gw-password-tool .gw-info-mark:before{width:20px;height:20px}
+#gw-password-tool .gw-info-mark svg{width:16px;height:16px}
+#gw-password-tool .gw-info-label,#gw-password-tool .gw-info code{font-size:11px}
+}
+@media(max-width:430px){
+#gw-password-tool .gw-header{padding:15px 14px}
+#gw-password-tool .gw-main{padding:15px}
+#gw-password-tool .gw-title{font-size:19px}
+#gw-password-tool .gw-description{font-size:11.5px}
+#gw-password-tool .gw-output textarea{min-height:84px;font-size:15px;padding:15px 52px 15px 13px}
+#gw-password-tool .gw-copy{top:9px;right:9px;width:36px;height:36px}
+#gw-password-tool .gw-copy svg{width:18px;height:18px;min-width:18px;max-width:18px;flex-basis:18px}
+#gw-password-tool .gw-options{grid-template-columns:1fr}
+#gw-password-tool .gw-option{min-height:42px}
+#gw-password-tool .gw-actions{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+#gw-password-tool button:not(.gw-copy){min-height:42px;padding:0 10px}
+}
