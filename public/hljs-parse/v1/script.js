@@ -346,7 +346,7 @@
         root.querySelector("#gw-hljs-output-title").textContent = isParse ? "HTML Highlight.js" : "Source Code";
         input.placeholder = isParse ? "Masukkan source code di sini..." : "Masukkan markup HTML Highlight.js di sini...";
         output.placeholder = isParse ? "Hasil markup Highlight.js akan muncul di sini..." : "Hasil source code akan muncul di sini...";
-        root.querySelector("#gw-hljs-process-label").textContent = isParse ? "Parse HTML" : "Unparse HTML";
+        root.querySelector("#gw-hljs-process-label").textContent = isParse ? "Konversi" : "Konversi";
         parseButton.setAttribute("aria-label", isParse ? "Parse HTML Highlight.js" : "Unparse HTML Highlight.js");
         setStatus(isParse ? "Mode Parse aktif. Siap memproses source code." : "Mode Unparse aktif. Siap mengembalikan source code.");
         input.focus();
