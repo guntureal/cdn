@@ -29,10 +29,10 @@
   }
   function isDarkTheme() {
     var html=document.documentElement, body=document.body;
-    if (!html || !body) return false;
-    var attrs=[html.getAttribute('data-theme'),html.getAttribute('data-mode'),body.getAttribute('data-theme'),body.getAttribute('data-mode')];
+    if (!html) return false;
+    var attrs=[html.getAttribute('data-theme'),html.getAttribute('data-mode'),body && body.getAttribute('data-theme'),body && body.getAttribute('data-mode')];
     var attrDark=attrs.some(function(v){return v && /^(dark|dark-mode|darkmode)$/i.test(v);});
-    var classDark=[html,body].some(function(el){return el.classList && (el.classList.contains('darkMode')||el.classList.contains('dark-mode')||el.classList.contains('dark'));});
+    var classDark=[html,body].some(function(el){return el && el.classList && (el.classList.contains('drK')||el.classList.contains('darkMode')||el.classList.contains('dark-mode')||el.classList.contains('dark'));});
     return attrDark || classDark;
   }
   function syncTheme() { root.classList.toggle('gw-dark',isDarkTheme()); }
