@@ -26,6 +26,7 @@
       var currentMode = "parse";
       var copyTimer = null;
       var resetTimer = null;
+      var RESET_FEEDBACK_MS = 1500;
 
       function isDarkMode() {
         var html = document.documentElement;
@@ -265,7 +266,7 @@
         copyTimer = setTimeout(function () {
           resetCopyState();
           copyTimer = null;
-        }, 1500);
+        }, RESET_FEEDBACK_MS);
       }
 
       function fallbackCopy(value) {
@@ -373,7 +374,7 @@
         resetTimer = setTimeout(function () {
           clearButton.classList.remove("gw-reset-triggered");
           resetTimer = null;
-        }, 1500);
+        }, RESET_FEEDBACK_MS);
         setStatus("Semua data telah dibersihkan.");
         input.focus();
       }
