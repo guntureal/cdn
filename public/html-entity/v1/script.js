@@ -80,15 +80,14 @@
   }
 
   function decodeCandidate(token){
-    var decoded=decodeEntityToken(token);
-    return decoded!==token?decoded:null;
+    return decodeEntityToken(token);
   }
 
   function validateDecodeInput(text){
     if(!isWellFormedUnicode(text)){
       return "Input mengandung karakter Unicode yang tidak valid.";
     }
-    var candidates=text.match(/&(?:#x[0-9a-fA-F]+|#[0-9]+|[A-Za-z][A-Za-z0-9]+);?/g)||[];
+    var candidates=text.match(/&(?:#x[0-9a-fA-F]+|#[0-9]+|[A-Za-z][A-Za-z0-9]+);/g)||[];
     if(!candidates.length){
       return "Input Decode harus mengandung HTML entity yang valid, misalnya &amp;, &#38;, atau &#x26;.";
     }
@@ -123,14 +122,16 @@
     return String.fromCodePoint(cp);
   }
   function decodeEntityToken(full){
-    var body=full.slice(1,full.endsWith(";")?-1:full.length);
+    if(!/^&(?:#x[0-9a-f]+|#[0-9]+|[A-Za-z][A-Za-z0-9]+);$/i.test(full))return null;
+    var body=full.slice(1,-1);
     if(/^#x[0-9a-f]+$/i.test(body))return decodeNumeric(parseInt(body.slice(2),16),full);
     if(/^#[0-9]+$/.test(body))return decodeNumeric(parseInt(body.slice(1),10),full);
-    return namedDecodeMap[body]!==undefined?namedDecodeMap[body]:full;
+    return namedDecodeMap[body]!==undefined?namedDecodeMap[body]:null;
   }
   function decodeEntities(text){
-    return text.replace(/&(?:#x[0-9a-f]+|#[0-9]+|[A-Za-z][A-Za-z0-9]+);?/g,function(token){
-      return decodeEntityToken(token);
+    return text.replace(/&(?:#x[0-9a-f]+|#[0-9]+|[A-Za-z][A-Za-z0-9]+);/gi,function(token){
+      var decoded=decodeEntityToken(token);
+      return decoded===null?token:decoded;
     });
   }
 
