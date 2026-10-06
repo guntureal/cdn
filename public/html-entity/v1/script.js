@@ -57,6 +57,8 @@
     input.placeholder=encodeMode?"Masukkan teks yang ingin di-encode...":"Masukkan HTML entity yang ingin di-decode...";
     output.placeholder=encodeMode?"Hasil HTML entity akan muncul di sini...":"Hasil teks yang sudah di-decode akan muncul di sini...";
     formatRow.hidden=!encodeMode;
+    formatRow.setAttribute("aria-hidden",encodeMode?"false":"true");
+    format.disabled=!encodeMode;
     if(!preserveValues)output.value="";
     setStatus(encodeMode?"Siap meng-encode teks.":"Siap men-decode HTML entity.");
     count(input,inputCount); count(output,outputCount);
@@ -169,17 +171,24 @@
   }
 
   function isDark(){
-    var html=document.documentElement, body=document.body;
-    if(!body)return false;
-    return root.classList.contains("gw-dark")||
-      html.classList.contains("drK")||html.classList.contains("darkMode")||html.classList.contains("dark-mode")||html.classList.contains("dark")||
-      body.classList.contains("drK")||body.classList.contains("darkMode")||body.classList.contains("dark-mode")||body.classList.contains("dark")||
-      html.getAttribute("data-theme")==="dark"||body.getAttribute("data-theme")==="dark";
-  }
-  function syncDark(){root.classList.toggle("gw-dark",isDark());}
+    var html=document.documentElement;
+    var body=document.body;
+    if(!html||!body)return false;
 
-  input.addEventListener("input",function(){count(input,inputCount);});
-  output.addEventListener("input",function(){count(output,outputCount);});
+    // Plus UI uses drK. Other common theme markers are supported as fallback.
+    return html.classList.contains("drK")||body.classList.contains("drK")||
+      html.classList.contains("darkMode")||body.classList.contains("darkMode")||
+      html.classList.contains("dark-mode")||body.classList.contains("dark-mode")||
+      html.classList.contains("dark")||body.classList.contains("dark");
+  }
+
+  function syncDark(){
+    var dark=isDark();
+    root.classList.toggle("gw-dark",dark);
+    root.classList.toggle("gw-light",!dark);
+    root.setAttribute("data-gw-theme",dark?"dark":"light");
+  }
+
   tabs.forEach(function(tab){tab.addEventListener("click",function(){setMode(tab.getAttribute("data-mode"),false);});});
   processBtn.addEventListener("click",process);
   resetBtn.addEventListener("click",reset);
@@ -189,9 +198,10 @@
   input.addEventListener("keydown",function(event){if((event.ctrlKey||event.metaKey)&&event.key==="Enter"){event.preventDefault();process();}});
 
   if(window.MutationObserver){
-    new MutationObserver(syncDark).observe(document.documentElement,{attributes:true,attributeFilter:["class","data-theme","theme"]});
-    new MutationObserver(syncDark).observe(document.body,{attributes:true,attributeFilter:["class","data-theme","theme"]});
+    var themeObserver=new MutationObserver(function(){syncDark();});
+    themeObserver.observe(document.documentElement,{subtree:true,attributes:true,attributeFilter:["class","data-theme","theme"]});
   }
   syncDark();
   setMode("encode",false);
+  syncDark();
 })();
