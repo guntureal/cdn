@@ -57,11 +57,47 @@
     input.placeholder=encodeMode?"Masukkan teks yang ingin di-encode...":"Masukkan HTML entity yang ingin di-decode...";
     output.placeholder=encodeMode?"Hasil HTML entity akan muncul di sini...":"Hasil teks yang sudah di-decode akan muncul di sini...";
     formatRow.hidden=!encodeMode;
+    formatRow.classList.toggle("gw-format-hidden",!encodeMode);
     formatRow.setAttribute("aria-hidden",encodeMode?"false":"true");
     format.disabled=!encodeMode;
     if(!preserveValues)output.value="";
     setStatus(encodeMode?"Siap meng-encode teks.":"Siap men-decode HTML entity.");
     count(input,inputCount); count(output,outputCount);
+  }
+
+  function isWellFormedUnicode(text){
+    for(var i=0;i<text.length;i++){
+      var code=text.charCodeAt(i);
+      if(code>=0xD800&&code<=0xDBFF){
+        if(i+1>=text.length){return false;}
+        var next=text.charCodeAt(++i);
+        if(next<0xDC00||next>0xDFFF){return false;}
+      }else if(code>=0xDC00&&code<=0xDFFF){
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function decodeCandidate(token){
+    var decoded=decodeEntityToken(token);
+    return decoded!==token?decoded:null;
+  }
+
+  function validateDecodeInput(text){
+    if(!isWellFormedUnicode(text)){
+      return "Input mengandung karakter Unicode yang tidak valid.";
+    }
+    var candidates=text.match(/&(?:#x[0-9a-fA-F]+|#[0-9]+|[A-Za-z][A-Za-z0-9]+);?/g)||[];
+    if(!candidates.length){
+      return "Input Decode harus mengandung HTML entity yang valid, misalnya &amp;, &#38;, atau &#x26;.";
+    }
+    for(var i=0;i<candidates.length;i++){
+      if(decodeCandidate(candidates[i])===null){
+        return "Input mengandung HTML entity yang tidak dikenal atau format entity yang tidak valid: "+candidates[i];
+      }
+    }
+    return "";
   }
 
   function encodeEntities(text,kind){
@@ -99,7 +135,6 @@
   }
 
   function process(){
-    animateProcess();
     var value=input.value;
     if(!value){
       output.value="";
@@ -107,6 +142,27 @@
       setStatus("Masukkan teks terlebih dahulu.","error");
       return;
     }
+    if(!isWellFormedUnicode(value)){
+      output.value="";
+      count(output,outputCount);
+      setStatus("Input mengandung karakter Unicode yang tidak valid.","error");
+      return;
+    }
+    if(mode==="decode"){
+      var validationError=validateDecodeInput(value);
+      if(validationError){
+        output.value="";
+        count(output,outputCount);
+        setStatus(validationError,"error");
+        return;
+      }
+    }else if(["named","decimal","hex"].indexOf(format.value)===-1){
+      output.value="";
+      count(output,outputCount);
+      setStatus("Format entity tidak valid. Pilih Named, Decimal, atau Hexadecimal.","error");
+      return;
+    }
+    animateProcess();
     try{
       output.value=mode==="encode"?encodeEntities(value,format.value):decodeEntities(value);
       count(output,outputCount);
@@ -114,7 +170,7 @@
     }catch(error){
       output.value="";
       count(output,outputCount);
-      setStatus("Konversi gagal. Periksa input.","error");
+      setStatus("Konversi gagal. Periksa input dan format entity.","error");
     }
   }
 
@@ -173,19 +229,19 @@
   function isDark(){
     var html=document.documentElement;
     var body=document.body;
-    if(!html||!body)return false;
-
-    // Plus UI uses drK. Other common theme markers are supported as fallback.
-    return html.classList.contains("drK")||body.classList.contains("drK")||
-      html.classList.contains("darkMode")||body.classList.contains("darkMode")||
-      html.classList.contains("dark-mode")||body.classList.contains("dark-mode")||
-      html.classList.contains("dark")||body.classList.contains("dark");
+    if(!html&&!body)return false;
+    return !!((html&&html.classList.contains("drK"))||(body&&body.classList.contains("drK"))||
+      (html&&html.classList.contains("darkMode"))||(body&&body.classList.contains("darkMode"))||
+      (html&&html.classList.contains("dark-mode"))||(body&&body.classList.contains("dark-mode"))||
+      (html&&html.classList.contains("dark"))||(body&&body.classList.contains("dark"))||
+      (html&&html.getAttribute("data-theme")==="dark")||(body&&body.getAttribute("data-theme")==="dark")||
+      (html&&html.getAttribute("theme")==="dark")||(body&&body.getAttribute("theme")==="dark"));
   }
 
   function syncDark(){
     var dark=isDark();
-    root.classList.toggle("gw-dark",dark);
-    root.classList.toggle("gw-light",!dark);
+    root.classList.remove("gw-dark","gw-light");
+    root.classList.add(dark?"gw-dark":"gw-light");
     root.setAttribute("data-gw-theme",dark?"dark":"light");
   }
 
@@ -197,11 +253,18 @@
   downloadBtn.addEventListener("click",download);
   input.addEventListener("keydown",function(event){if((event.ctrlKey||event.metaKey)&&event.key==="Enter"){event.preventDefault();process();}});
 
-  if(window.MutationObserver){
-    var themeObserver=new MutationObserver(function(){syncDark();});
-    themeObserver.observe(document.documentElement,{subtree:true,attributes:true,attributeFilter:["class","data-theme","theme"]});
+  function watchTheme(){
+    syncDark();
+    if(!window.MutationObserver)return;
+    var observer=new MutationObserver(function(records){
+      for(var i=0;i<records.length;i++){
+        if(records[i].type==="attributes"){syncDark();break;}
+      }
+    });
+    if(document.documentElement)observer.observe(document.documentElement,{attributes:true,attributeFilter:["class","data-theme","theme"]});
+    if(document.body)observer.observe(document.body,{attributes:true,attributeFilter:["class","data-theme","theme"]});
   }
-  syncDark();
+
   setMode("encode",false);
-  syncDark();
+  watchTheme();
 })();
