@@ -8,10 +8,10 @@
 #fbdlApp1 button{font:inherit;color:inherit}
 #fbdlApp1 img{max-width:100%}
 #fbdlApp1 svg{display:block;flex:none}
-/* KUNCI IKON */
+/* KUNCI IKON: kalahkan aturan svg global milik template */
 #fbdlApp1 svg,#fbdlApp1 svg path,#fbdlApp1 svg circle,#fbdlApp1 svg rect{fill:none;stroke:currentColor}
 #fbdlApp1 .fbdl-ic{display:inline-flex;align-items:center;justify-content:center;color:inherit}
-/* Logo di atas, teks tengah */
+/* Kepala: logo di atas, teks tengah */
 #fbdlApp1 .fbdl-head{text-align:center;margin:4px 0 22px}
 #fbdlApp1 .fbdl-logo{width:64px;height:64px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;border-radius:20px;background:linear-gradient(135deg,#0066cc,#0f8fff);color:#fff;box-shadow:var(--sh)}
 #fbdlApp1 .fbdl-logo svg{width:32px;height:32px}
@@ -58,7 +58,8 @@
 #fbdlApp1 .fbdl-desc.open{display:block}
 #fbdlApp1 .fbdl-more{border:0;background:none;cursor:pointer;color:var(--p);font-size:13px;font-weight:800;padding:2px 0 0;margin-bottom:14px}
 #fbdlApp1 .fbdl-more:hover{text-decoration:underline}
-#fbdlApp1 .fbdl-video{width:100%;max-height:480px;border-radius:16px;background:#000;box-shadow:var(--sh);display:block}
+#fbdlApp1 .fbdl-video{width:100%;max-width:560px;max-height:70vh;margin:0 auto;border-radius:16px;background:#000;box-shadow:var(--sh);display:block;object-fit:contain}
+@media(max-width:600px){#fbdlApp1 .fbdl-video{max-width:100%;max-height:60vh;border-radius:12px}}
 #fbdlApp1 .fbdl-section{font-size:12.5px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--mu);margin:24px 0 12px}
 /* Opsi kualitas: kartu grid */
 #fbdlApp1 .fbdl-qualities{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
@@ -89,6 +90,19 @@
 #fbdlApp1 .fbdl-photo-btn{position:absolute;left:8px;right:8px;bottom:8px;display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;border-radius:10px;padding:10px;font-size:12.5px;font-weight:800;color:#0f1c33;background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);cursor:pointer}
 #fbdlApp1 .fbdl-photo-btn:hover{background:var(--p);color:#fff}
 #fbdlApp1 .fbdl-photo-btn svg{width:16px;height:16px}
+/* Tombol buka link share */
+#fbdlApp1 .fbdl-open{display:inline-flex;align-items:center;gap:8px;margin-top:12px;border:0;cursor:pointer;border-radius:12px;padding:12px 20px;font-size:14px;font-weight:800;color:#fff;background:linear-gradient(135deg,#0066cc,#0f8fff)}
+#fbdlApp1 .fbdl-open:hover{filter:brightness(1.08)}
+/* Kartu author/metadata */
+#fbdlApp1 .fbdl-author{display:flex;align-items:center;gap:12px;margin:0 0 14px}
+#fbdlApp1 .fbdl-avatar{width:44px;height:44px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--chip);color:var(--p)}
+#fbdlApp1.fbdl-dark .fbdl-avatar{color:#5eb2ff}
+#fbdlApp1 .fbdl-avatar svg{width:24px;height:24px}
+#fbdlApp1 .fbdl-author-info{display:flex;flex-direction:column;gap:3px;min-width:0}
+#fbdlApp1 .fbdl-author-info b{font-size:14.5px;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#fbdlApp1 .fbdl-stats{display:flex;align-items:center;gap:12px;font-size:12.5px;color:var(--mu);font-weight:600}
+#fbdlApp1 .fbdl-stats span{display:inline-flex;align-items:center;gap:5px}
+#fbdlApp1 .fbdl-stats svg{width:15px;height:15px}
 /* Titik loading animasi */
 #fbdlApp1 .fbdl-dots{display:inline-flex;gap:5px;align-items:center;padding:5px 0}
 #fbdlApp1 .fbdl-dots i{width:6px;height:6px;border-radius:50%;background:currentColor;animation:fbdlBlink 1.2s infinite}
