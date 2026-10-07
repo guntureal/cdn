@@ -126,30 +126,15 @@ statsEl.innerHTML=st;
 descEl.textContent=d.desc||"";
 descEl.style.display=(d.desc?"":"none");
 descEl.classList.remove("open");moreBtn.style.display="none";moreBtn.textContent="Lihat selengkapnya";
-qEl.innerHTML="";gridEl.innerHTML="";
-var im=d.images;
-if(im&&im.length&&!d.hd&&!d.sd){ // mode foto
-vBlock.style.display="none";iBlock.style.display="";imgs=im.slice();
-iCountEl.textContent="("+im.length+")";
-im.forEach(function(src,i){
-var li=document.createElement("li");li.className="fbdl-photo";
-var g=document.createElement("img");g.src=src;g.alt="Foto Facebook "+(i+1);g.loading="lazy";g.decoding="async";g.referrerPolicy="no-referrer";
-g.onerror=function(){li.style.display="none";};
-var t=document.createElement("button");t.type="button";t.className="fbdl-photo-btn";
-t.innerHTML='<span class="fbdl-ic">'+IC.download+'</span><span>Foto '+(i+1)+'</span>';
-t.onclick=function(){var label=t.querySelectorAll("span")[1],orig=label.innerHTML,idx=i;
-t.disabled=true;label.innerHTML=DOTS;
-dlSmart(src,"facebook_foto"+(idx+1)+".jpg",function(){return imgs[idx];}).then(function(){t.disabled=false;label.innerHTML=orig;});};
-li.appendChild(g);li.appendChild(t);gridEl.appendChild(li);});
-}else{ // mode video
-iBlock.style.display="none";vBlock.style.display="";
+qEl.innerHTML="";
+// mode video
+vBlock.style.display="";
 var best=d.hd||d.sd;
 if(best){vidEl.src=best;if(d.thumbnail)vidEl.poster=d.thumbnail;vidEl.style.display="";
 vidEl.onerror=function(){showErr("Video tidak bisa diputar langsung.<small>URL video mungkin kedaluwarsa - coba unduh via tombol di bawah, atau ulangi proses linknya.</small>");};}else{vidEl.removeAttribute("src");vidEl.style.display="none";}
 if(d.hd)qEl.appendChild(qCard(IC.film,"Video HD","Kualitas tertinggi","HD","hd",function(){return curData&&curData.hd;},"facebook_HD.mp4"));
 if(d.sd)qEl.appendChild(qCard(IC.play,"Video SD","Kualitas standar","SD","sd",function(){return curData&&curData.sd;},"facebook_SD.mp4"));
-if(!d.hd&&!d.sd&&!(d.images&&d.images.length)){showErr("Tidak ada file yang bisa diambil dari link ini.<small>Pastikan konten bersifat publik.</small>");return;}
-} // tutup mode video
+if(!d.hd&&!d.sd){showErr("Tidak ada file yang bisa diambil dari link ini.<small>Pastikan konten bersifat publik.</small>");return;}
 resEl.classList.add("show");
 syncMore();
 try{resEl.scrollIntoView({behavior:"smooth",block:"nearest"});}catch(e){}}
