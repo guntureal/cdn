@@ -148,7 +148,7 @@ if(best){vidEl.src=best;if(d.thumbnail)vidEl.poster=d.thumbnail;vidEl.style.disp
 vidEl.onerror=function(){showErr("Video tidak bisa diputar langsung.<small>URL video mungkin kedaluwarsa - coba unduh via tombol di bawah, atau ulangi proses linknya.</small>");};}else{vidEl.removeAttribute("src");vidEl.style.display="none";}
 if(d.hd)qEl.appendChild(qCard(IC.film,"Video HD","Kualitas tertinggi","HD","hd",function(){return curData&&curData.hd;},"facebook_HD.mp4"));
 if(d.sd)qEl.appendChild(qCard(IC.play,"Video SD","Kualitas standar","SD","sd",function(){return curData&&curData.sd;},"facebook_SD.mp4"));
-if(!d.hd&&!d.sd&&!(d.images&&d.images.length)){showErr("Tidak ada file video yang bisa diambil dari link ini.");return;}
+if(!d.hd&&!d.sd&&!(d.images&&d.images.length)){showErr("Tidak ada file yang bisa diambil dari link ini.<small>Pastikan konten bersifat publik.</small>");return;}
 } // tutup mode video
 resEl.classList.add("show");
 syncMore();
