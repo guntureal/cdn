@@ -85,6 +85,11 @@
 #fbdlApp1 .fbdl-note b{color:var(--tx)}
 /* Galeri foto */
 #fbdlApp1 .fbdl-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+#fbdlApp1 .fbdl-dots{display:inline-flex;gap:4px;align-items:center}
+#fbdlApp1 .fbdl-dots i{width:6px;height:6px;border-radius:50%;background:currentColor;animation:fbldot 1.2s infinite}
+#fbdlApp1 .fbdl-dots i:nth-child(2){animation-delay:.2s}
+#fbdlApp1 .fbdl-dots i:nth-child(3){animation-delay:.4s}
+@keyframes fbldot{0%,60%,100%{opacity:.3;transform:scale(.8)}30%{opacity:1;transform:scale(1)}}
 @media(prefers-reduced-motion:reduce){
 #fbdlApp1 .fbdl-result{animation:none}
 #fbdlApp1 .fbdl-spinner{animation-duration:1.6s}
