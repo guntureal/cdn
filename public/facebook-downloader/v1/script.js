@@ -133,7 +133,7 @@ vBlock.style.display="none";iBlock.style.display="";imgs=im.slice();
 iCountEl.textContent="("+im.length+")";
 im.forEach(function(src,i){
 var li=document.createElement("li");li.className="fbdl-photo";
-var g=document.createElement("img");g.src=src;g.alt="Foto Facebook "+(i+1);g.loading="lazy";g.decoding="async";
+var g=document.createElement("img");g.src=src;g.alt="Foto Facebook "+(i+1);g.loading="lazy";g.decoding="async";g.referrerPolicy="no-referrer";
 g.onerror=function(){li.style.display="none";};
 var t=document.createElement("button");t.type="button";t.className="fbdl-photo-btn";
 t.innerHTML='<span class="fbdl-ic">'+IC.download+'</span><span>Foto '+(i+1)+'</span>';
