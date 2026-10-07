@@ -85,36 +85,6 @@
 #fbdlApp1 .fbdl-note b{color:var(--tx)}
 /* Galeri foto */
 #fbdlApp1 .fbdl-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
-#fbdlApp1 .fbdl-photo{position:relative;border-radius:14px;overflow:hidden;border:2px solid var(--ln);background:var(--ibg)}
-#fbdlApp1 .fbdl-photo img{width:100%;height:200px;object-fit:cover;display:block}
-#fbdlApp1 .fbdl-photo-btn{position:absolute;left:8px;right:8px;bottom:8px;display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;border-radius:10px;padding:10px;font-size:12.5px;font-weight:800;color:#0f1c33;background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);cursor:pointer}
-#fbdlApp1 .fbdl-photo-btn:hover{background:var(--p);color:#fff}
-#fbdlApp1 .fbdl-photo-btn svg{width:16px;height:16px}
-/* Tombol buka link share */
-#fbdlApp1 .fbdl-open{display:inline-flex;align-items:center;gap:8px;margin-top:12px;border:0;cursor:pointer;border-radius:12px;padding:12px 20px;font-size:14px;font-weight:800;color:#fff;background:linear-gradient(135deg,#0066cc,#0f8fff)}
-#fbdlApp1 .fbdl-open:hover{filter:brightness(1.08)}
-/* Kartu author/metadata */
-#fbdlApp1 .fbdl-author{display:flex;align-items:center;gap:12px;margin:0 0 14px}
-#fbdlApp1 .fbdl-avatar{width:44px;height:44px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--chip);color:var(--p)}
-#fbdlApp1.fbdl-dark .fbdl-avatar{color:#5eb2ff}
-#fbdlApp1 .fbdl-avatar svg{width:24px;height:24px}
-#fbdlApp1 .fbdl-author-info{display:flex;flex-direction:column;gap:3px;min-width:0}
-#fbdlApp1 .fbdl-author-info b{font-size:14.5px;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#fbdlApp1 .fbdl-stats{display:flex;align-items:center;gap:12px;font-size:12.5px;color:var(--mu);font-weight:600}
-#fbdlApp1 .fbdl-stats span{display:inline-flex;align-items:center;gap:5px}
-#fbdlApp1 .fbdl-stats svg{width:15px;height:15px}
-/* Titik loading animasi */
-#fbdlApp1 .fbdl-dots{display:inline-flex;gap:5px;align-items:center;padding:5px 0}
-#fbdlApp1 .fbdl-dots i{width:6px;height:6px;border-radius:50%;background:currentColor;animation:fbdlBlink 1.2s infinite}
-#fbdlApp1 .fbdl-dots i:nth-child(2){animation-delay:.2s}
-#fbdlApp1 .fbdl-dots i:nth-child(3){animation-delay:.4s}
-@keyframes fbdlBlink{0%,60%,100%{opacity:.25;transform:scale(.75)}30%{opacity:1;transform:scale(1)}}
-/* Responsif */
-@media(max-width:600px){
-#fbdlApp1 .fbdl-form{flex-direction:column}
-#fbdlApp1 .fbdl-go{padding:15px;width:100%}
-#fbdlApp1 .fbdl-qualities{grid-template-columns:1fr}
-}
 @media(prefers-reduced-motion:reduce){
 #fbdlApp1 .fbdl-result{animation:none}
 #fbdlApp1 .fbdl-spinner{animation-duration:1.6s}
