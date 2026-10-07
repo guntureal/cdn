@@ -1,4 +1,5 @@
-// Facebook Downloader v1
+// Facebook Downloader v1 - gwntur.com | https://cdn.gwntur.com/facebook-downloader/v1/script.js
+// Butuh worker.js ter-deploy sebagai API. Lihat ../worker.js
 function fbdlInit(){
 "use strict";
 if(!document.getElementById("fbdlApp1"))return;
@@ -25,10 +26,9 @@ function $(id){return document.getElementById(id);}
 var app=$("fbdlApp1"),form=$("fbdlForm1"),urlIn=$("fbdlUrl1"),goBtn=$("fbdlGo1"),
 pasteBtn=$("fbdlPaste1"),loadEl=$("fbdlLoad1"),errEl=$("fbdlErr1"),errTx=$("fbdlErrTx1"),
 resEl=$("fbdlRes1"),titleEl=$("fbdlTitle1"),descEl=$("fbdlDesc1"),moreBtn=$("fbdlMore1"),
-vidEl=$("fbdlVid1"),qEl=$("fbdlQ1"),vBlock=$("fbdlVBlock1"),iBlock=$("fbdlIBlock1"),
-gridEl=$("fbdlGrid1"),iCountEl=$("fbdlICount1"),
+vidEl=$("fbdlVid1"),qEl=$("fbdlQ1"),vBlock=$("fbdlVBlock1"),
 authorEl=$("fbdlAuthor1"),authorName=$("fbdlAuthorName1"),statsEl=$("fbdlStats1");
-var curKey=null,curData=null,imgs=[],CACHE_TTL=3*60*1000;
+var curKey=null,curData=null,CACHE_TTL=3*60*1000;
 // Suntik ikon statis via JS (kebal sanitizer Blogger)
 (function(){var s=app.querySelectorAll("[data-ic]");for(var i=0;i<s.length;i++){var k=s[i].getAttribute("data-ic");if(IC[k])s[i].innerHTML=IC[k];}})();
 // Tema: baca variabel --bodyB milik template (nilai pasti ikut mode blog)
@@ -129,9 +129,16 @@ descEl.classList.remove("open");moreBtn.style.display="none";moreBtn.textContent
 qEl.innerHTML="";
 // mode video
 vBlock.style.display="";
+var oldWarn=vBlock.querySelector(".fbdl-vidwarn");if(oldWarn)oldWarn.remove();
 var best=d.hd||d.sd;
-if(best){vidEl.src=best;if(d.thumbnail)vidEl.poster=d.thumbnail;vidEl.style.display="";
-vidEl.onerror=function(){showErr("Video tidak bisa diputar langsung.<small>URL video mungkin kedaluwarsa - coba unduh via tombol di bawah, atau ulangi proses linknya.</small>");};}else{vidEl.removeAttribute("src");vidEl.style.display="none";}
+if(best){vidEl.src=best;
+if(d.thumbnail){vidEl.poster=d.thumbnail;}else{vidEl.removeAttribute("poster");}
+vidEl.style.display="";
+vidEl.onerror=function(){vidEl.onerror=null;vidEl.style.display="none";
+var n=document.createElement("p");n.className="fbdl-note fbdl-vidwarn";
+n.innerHTML="<b>Catatan:</b> Video tidak bisa diputar langsung di sini (URL pratinjau mungkin kedaluwarsa) - silakan unduh via tombol kualitas di bawah.";
+vBlock.insertBefore(n,vidEl.nextSibling);};}
+else{vidEl.removeAttribute("src");vidEl.style.display="none";}
 if(d.hd)qEl.appendChild(qCard(IC.film,"Video HD","Kualitas tertinggi","HD","hd",function(){return curData&&curData.hd;},"facebook_HD.mp4"));
 if(d.sd)qEl.appendChild(qCard(IC.play,"Video SD","Kualitas standar","SD","sd",function(){return curData&&curData.sd;},"facebook_SD.mp4"));
 if(!d.hd&&!d.sd){showErr("Tidak ada file yang bisa diambil dari link ini.<small>Pastikan konten bersifat publik.</small>");return;}

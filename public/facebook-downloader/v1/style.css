@@ -1,4 +1,5 @@
-/* Facebook Downloader v1 */
+/* Facebook Downloader v1 - gwntur.com | https://cdn.gwntur.com/facebook-downloader/v1/style.css */
+/* Palet + dark-mode */
 #fbdlApp1{--p:#0066cc;--tx:#0f1c33;--mu:#57617a;--ln:#d8dfea;--ibg:#eef1f7;--row:#f4f6fb;--chip:rgba(0,102,204,.1);--okbg:#e2f5e9;--oktx:#0c6e38;--erb:#fdeeee;--ert:#bd2233;--erl:#f0b9c0;--sh:0 10px 30px rgba(0,60,130,.12);max-width:700px;margin:0 auto;padding:0 4px 10px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--tx);line-height:1.5;color-scheme:light dark}
 #fbdlApp1.fbdl-dark{--tx:#edf1f8;--mu:#9aa6bf;--ln:#2b3550;--ibg:#1a2233;--row:#182032;--chip:rgba(0,102,204,.18);--okbg:rgba(25,170,85,.16);--oktx:#4ade80;--erb:rgba(220,45,65,.13);--ert:#ff8fa0;--erl:rgba(220,45,65,.42);--sh:0 10px 30px rgba(0,0,0,.4);color-scheme:dark}
 /* Reset lokal */
@@ -83,8 +84,8 @@
 
 #fbdlApp1 .fbdl-note{margin-top:20px;font-size:13px;color:var(--mu);background:var(--row);border:1px solid var(--ln);border-radius:12px;padding:13px 15px}
 #fbdlApp1 .fbdl-note b{color:var(--tx)}
-/* Galeri foto */
-#fbdlApp1 .fbdl-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+#fbdlApp1 .fbdl-open{display:inline-flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;border:0;cursor:pointer;border-radius:12px;padding:11px 18px;font-size:13.5px;font-weight:800;color:#fff;background:linear-gradient(135deg,#0066cc,#0f8fff);transition:filter .15s}
+#fbdlApp1 .fbdl-open:hover{filter:brightness(1.08)}
 #fbdlApp1 .fbdl-dots{display:inline-flex;gap:4px;align-items:center}
 #fbdlApp1 .fbdl-dots i{width:6px;height:6px;border-radius:50%;background:currentColor;animation:fbldot 1.2s infinite}
 #fbdlApp1 .fbdl-dots i:nth-child(2){animation-delay:.2s}
