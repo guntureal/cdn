@@ -2,19 +2,22 @@
 function fbdlInit(){
 "use strict";
 if(!document.getElementById("fbdlApp1"))return;
-// Ikon
-function ln(p){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>';}
+// Ikon garis 2px (fill none; warna dikunci via CSS agar kebal template)
+function ln(p){return '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>';}
 var IC={
 search:ln('<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>'),
-paste:ln('<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2-2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>'),
+paste:ln('<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M9 12h6M9 16h6"/>'),
 download:ln('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/>'),
 check:ln('<path d="M22 11.1V12a10 10 0 1 1-5.9-9.1"/><path d="M22 4L12 14l-3-3"/>'),
 hd:ln('<rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>'),
 alert:ln('<path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7 3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>'),
 film:ln('<rect x="2" y="4" width="20" height="16" rx="2"/><path d="M7 4v16M17 4v16M2 9h5M2 15h5M17 9h5M17 15h5"/>'),
 play:ln('<circle cx="12" cy="12" r="9"/><path d="M10 8l6 4-6 4V8z"/>'),
-clear:ln('<path d="M18 6L6 18M6 6l12 12"/>')};
-// GANTI dengan URL Cloudflare Worker
+clear:ln('<path d="M18 6L6 18M6 6l12 12"/>'),
+user:ln('<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>'),
+eye:ln('<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>'),
+heart:ln('<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/>')};
+// GANTI dengan URL Cloudflare Worker milikmu (deploy dari worker.js)
 var API="https://fbdl.gwntur.com/?url=";
 // Ambil link dari teks tempelan
 function pickUrl(t){var m=String(t||"").match(/https?:\/\/[^\s"'<>]+/i);return (m?m[0]:String(t||"").trim()).replace(/[.,;:!?)]+$/,"");}
@@ -23,7 +26,8 @@ var app=$("fbdlApp1"),form=$("fbdlForm1"),urlIn=$("fbdlUrl1"),goBtn=$("fbdlGo1")
 pasteBtn=$("fbdlPaste1"),loadEl=$("fbdlLoad1"),errEl=$("fbdlErr1"),errTx=$("fbdlErrTx1"),
 resEl=$("fbdlRes1"),titleEl=$("fbdlTitle1"),descEl=$("fbdlDesc1"),moreBtn=$("fbdlMore1"),
 vidEl=$("fbdlVid1"),qEl=$("fbdlQ1"),vBlock=$("fbdlVBlock1"),iBlock=$("fbdlIBlock1"),
-gridEl=$("fbdlGrid1"),iCountEl=$("fbdlICount1");
+gridEl=$("fbdlGrid1"),iCountEl=$("fbdlICount1"),
+authorEl=$("fbdlAuthor1"),authorName=$("fbdlAuthorName1"),statsEl=$("fbdlStats1");
 var curKey=null,curData=null,imgs=[],CACHE_TTL=3*60*1000;
 // Suntik ikon statis via JS (kebal sanitizer Blogger)
 (function(){var s=app.querySelectorAll("[data-ic]");for(var i=0;i<s.length;i++){var k=s[i].getAttribute("data-ic");if(IC[k])s[i].innerHTML=IC[k];}})();
@@ -83,9 +87,9 @@ function reqApi(u){return fetch(API+encodeURIComponent(u),{headers:{"Accept":"ap
 function parseRes(r){
 if(!r.ok){var e=new Error("http");e.status=r.status;throw e;}
 return r.json().then(function(j){
-if(!j||j.code!==0||!j.data){var e2=new Error("api");e2.apiMsg=(j&&j.msg)||"";throw e2;}
+if(!j||j.code!==0||!j.data){var e2=new Error("api");e2.apiMsg=(j&&j.msg)||"";e2.apiCode=j?j.code:0;throw e2;}
 return j.data;});}
-function fetchAPI(u){return reqApi(u).catch(function(e){return sleep(1800).then(function(){return reqApi(u);});});}
+function fetchAPI(u){return reqApi(u).catch(function(e){if(e&&e.apiCode)return Promise.reject(e);return sleep(1800).then(function(){return reqApi(u);});});}
 function getData(u){var hit=cGet(u);if(hit)return Promise.resolve(hit);
 return fetchAPI(u).then(function(d){cSet(u,d);return d;});}
 function errText(e){
@@ -109,6 +113,16 @@ function render(d){
 curData=d;
 titleEl.textContent=d.title||"Video Facebook";
 titleEl.style.display=(d.title?"":"none");
+// kartu author + statistik
+var hasAuthor=d.author||d.views||d.reactions;
+authorEl.style.display=hasAuthor?"":"none";
+if(hasAuthor){
+authorName.textContent=d.author||"Facebook";
+var st="";
+if(d.views)st+='<span><span class="fbdl-ic">'+IC.eye+'</span>'+esc(d.views)+' views</span>';
+if(d.reactions)st+='<span><span class="fbdl-ic">'+IC.heart+'</span>'+esc(d.reactions)+'</span>';
+statsEl.innerHTML=st;
+}
 descEl.textContent=d.desc||"";
 descEl.style.display=(d.desc?"":"none");
 descEl.classList.remove("open");moreBtn.style.display="none";moreBtn.textContent="Lihat selengkapnya";
@@ -130,7 +144,8 @@ li.appendChild(g);li.appendChild(t);gridEl.appendChild(li);});
 }else{ // mode video
 iBlock.style.display="none";vBlock.style.display="";
 var best=d.hd||d.sd;
-if(best){vidEl.src=best;if(d.thumbnail)vidEl.poster=d.thumbnail;vidEl.style.display="";}else{vidEl.removeAttribute("src");vidEl.style.display="none";}
+if(best){vidEl.src=best;if(d.thumbnail)vidEl.poster=d.thumbnail;vidEl.style.display="";
+vidEl.onerror=function(){showErr("Video tidak bisa diputar langsung.<small>URL video mungkin kedaluwarsa - coba unduh via tombol di bawah, atau ulangi proses linknya.</small>");};}else{vidEl.removeAttribute("src");vidEl.style.display="none";}
 if(d.hd)qEl.appendChild(qCard(IC.film,"Video HD","Kualitas tertinggi","HD","hd",function(){return curData&&curData.hd;},"facebook_HD.mp4"));
 if(d.sd)qEl.appendChild(qCard(IC.play,"Video SD","Kualitas standar","SD","sd",function(){return curData&&curData.sd;},"facebook_SD.mp4"));
 if(!d.hd&&!d.sd&&!(d.images&&d.images.length)){showErr("Tidak ada file video yang bisa diambil dari link ini.");return;}
@@ -152,8 +167,14 @@ if(!u){showErr("Tempel dulu link Facebook-nya.");return;}
 if(!okFb(u)){showErr("Link tidak terlihat seperti link Facebook.<small>Contoh: https://www.facebook.com/watch/?v=...</small>");return;}
 curKey=u;var goLabel=goBtn.querySelectorAll("span")[1],goOrig=goLabel.innerHTML;
 goBtn.disabled=true;goLabel.innerHTML=DOTS;loadEl.style.display="block";
-getData(u).then(render).catch(function(e){showErr(errText(e));})
+getData(u).then(render).catch(function(e){
+if(e&&e.apiCode===-4){showShareHelp(u);}else{showErr(errText(e));}})
 .then(function(){goBtn.disabled=false;goLabel.innerHTML=goOrig;loadEl.style.display="none";});});
+// Bantuan link share: buka link, salin URL asli, tempel di sini
+function showShareHelp(u){
+errTx.innerHTML='Link share Facebook (<b>/share/...</b>) tidak bisa diproses langsung oleh server.<small>Buka link di tab baru, salin URL video aslinya (contoh: <b>facebook.com/reel/123...</b>), lalu tempel di kolom atas.</small><button type="button" class="fbdl-open" id="fbdlOpen1">Buka link share</button>';
+errEl.classList.add("show");loadEl.style.display="none";resEl.classList.remove("show");
+var b=$("fbdlOpen1");if(b)b.onclick=function(){window.open(u,"_blank","noopener");};}
 // Tombol tempel berubah jadi hapus saat kolom terisi
 function syncPaste(){var has=urlIn.value.trim().length>0;
 pasteBtn.innerHTML=has?IC.clear:IC.paste;
@@ -162,9 +183,10 @@ pasteBtn.setAttribute("aria-label",pasteBtn.title);}
 urlIn.addEventListener("input",syncPaste);
 pasteBtn.onclick=function(){
 if(urlIn.value.trim()){urlIn.value="";syncPaste();urlIn.focus();return;}
+function manualPaste(){urlIn.focus();urlIn.select();showErr("Izin clipboard ditolak.<small>Tekan <b>Ctrl+V</b> (atau tahan-lalu-tempel di HP) untuk menempel link.</small>");}
 if(navigator.clipboard&&navigator.clipboard.readText){
-navigator.clipboard.readText().then(function(t){if(t){urlIn.value=pickUrl(t);syncPaste();urlIn.focus();}}).catch(function(){urlIn.focus();});
-}else{urlIn.focus();}};
+navigator.clipboard.readText().then(function(t){if(t&&t.trim()){urlIn.value=pickUrl(t);syncPaste();urlIn.focus();}else{manualPaste();}}).catch(function(){manualPaste();});
+}else{manualPaste();}};
 syncPaste();
 }
 if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",fbdlInit);}else{fbdlInit();}
