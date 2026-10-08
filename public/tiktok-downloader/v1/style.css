@@ -1,17 +1,14 @@
-/* TikTok Downloader v1 */
+/* TikTok Downloader v10 - gwntur.com | https://cdn.gwntur.com/tiktok-downloader/v1/style.css */
 #ttdlApp10{--p:#0066cc;--tx:#0f1c33;--mu:#57617a;--ln:#d8dfea;--ibg:#eef1f7;--row:#f4f6fb;--chip:rgba(0,102,204,.1);--okbg:#e2f5e9;--oktx:#0c6e38;--erb:#fdeeee;--ert:#bd2233;--erl:#f0b9c0;--sh:0 10px 30px rgba(0,60,130,.12);max-width:700px;margin:0 auto;padding:0 4px 10px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--tx);line-height:1.5;color-scheme:light dark}
 #ttdlApp10.ttdl-dark{--tx:#edf1f8;--mu:#9aa6bf;--ln:#2b3550;--ibg:#1a2233;--row:#182032;--chip:rgba(0,102,204,.18);--okbg:rgba(25,170,85,.16);--oktx:#4ade80;--erb:rgba(220,45,65,.13);--ert:#ff8fa0;--erl:rgba(220,45,65,.42);--sh:0 10px 30px rgba(0,0,0,.4);color-scheme:dark}
-/* Reset lokal */
 #ttdlApp10 *,#ttdlApp10 *::before,#ttdlApp10 *::after{box-sizing:border-box}
 #ttdlApp10 h2,#ttdlApp10 p,#ttdlApp10 ul{margin:0;padding:0}
 #ttdlApp10 ul{list-style:none}
 #ttdlApp10 button{font:inherit;color:inherit}
 #ttdlApp10 img{max-width:100%}
 #ttdlApp10 svg{display:block;flex:none}
-/* KUNCI IKON: kalahkan aturan svg global milik template */
 #ttdlApp10 svg,#ttdlApp10 svg path,#ttdlApp10 svg circle,#ttdlApp10 svg rect{fill:none;stroke:currentColor}
 #ttdlApp10 .ttdl-ic{display:inline-flex;align-items:center;justify-content:center;color:inherit}
-/* Kepala: logo di atas, teks tengah */
 #ttdlApp10 .ttdl-head{text-align:center;margin:4px 0 22px}
 #ttdlApp10 .ttdl-logo{width:64px;height:64px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;border-radius:20px;background:linear-gradient(135deg,#0066cc,#0f8fff);color:#fff;box-shadow:var(--sh)}
 #ttdlApp10 .ttdl-logo svg{width:32px;height:32px}
@@ -19,7 +16,6 @@
 #ttdlApp10 .ttdl-title span{color:var(--p)}
 #ttdlApp10 .ttdl-sub{font-size:14px;color:var(--mu);margin:8px auto 0;max-width:540px}
 #ttdlApp10 .ttdl-sub b{color:var(--tx)}
-/* Bar input */
 #ttdlApp10 .ttdl-form{display:flex;gap:10px;margin-bottom:14px}
 #ttdlApp10 .ttdl-field{flex:1;min-width:0;display:flex;align-items:center;gap:8px;background:var(--ibg);border:2px solid var(--ln);border-radius:16px;padding:0 6px 0 15px;transition:border-color .2s,box-shadow .2s}
 #ttdlApp10 .ttdl-field:focus-within{border-color:var(--p);box-shadow:0 0 0 4px rgba(0,102,204,.13)}
@@ -34,13 +30,11 @@
 #ttdlApp10 .ttdl-go:hover{transform:translateY(-1px);filter:brightness(1.07)}
 #ttdlApp10 .ttdl-go:disabled{opacity:.6;cursor:wait;transform:none}
 #ttdlApp10 .ttdl-go svg{width:19px;height:19px}
-/* Fitur */
 #ttdlApp10 .ttdl-feats{display:flex;justify-content:center;gap:10px 20px;flex-wrap:wrap;margin:0 2px}
 #ttdlApp10 .ttdl-feats li{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--mu)}
 #ttdlApp10 .ttdl-feats .ttdl-ic{width:32px;height:32px;border-radius:10px;background:var(--chip);color:var(--p)}
 #ttdlApp10.ttdl-dark .ttdl-feats .ttdl-ic{color:#5eb2ff}
 #ttdlApp10 .ttdl-feats svg{width:17px;height:17px}
-/* Loading & error */
 #ttdlApp10 .ttdl-loading{display:none;text-align:center;padding:40px 0 12px;color:var(--mu);font-size:14px;font-weight:600}
 #ttdlApp10 .ttdl-spinner{width:44px;height:44px;margin:0 auto 12px;border:4px solid var(--ln);border-top-color:var(--p);border-radius:50%;animation:ttspin .8s linear infinite}
 @keyframes ttspin{to{transform:rotate(360deg)}}
@@ -48,7 +42,6 @@
 #ttdlApp10 .ttdl-error.show{display:flex;gap:12px;align-items:flex-start}
 #ttdlApp10 .ttdl-error .ttdl-ic svg{width:24px;height:24px;flex:none}
 #ttdlApp10 .ttdl-error small{display:block;opacity:.8;margin-top:6px;font-size:12px}
-/* Hasil */
 #ttdlApp10 .ttdl-result{display:none;margin-top:24px;animation:ttfade .35s ease}
 #ttdlApp10 .ttdl-result.show{display:block}
 @keyframes ttfade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -59,13 +52,12 @@
 #ttdlApp10 .ttdl-stats b{color:var(--tx)}
 #ttdlApp10 .ttdl-stats span{display:inline-flex;align-items:center;gap:6px}
 #ttdlApp10 .ttdl-stats svg{width:15px;height:15px}
-#ttdlApp10 .ttdl-desc{font-size:14.5px;margin-bottom:6px;color:var(--tx);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-#ttdlApp10 .ttdl-desc.open{display:block}
+#ttdlApp10 .ttdl-desc{font-size:14.5px;margin-bottom:6px;color:var(--tx);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-line}
+#ttdlApp10 .ttdl-desc.open{display:block;-webkit-line-clamp:none}
 #ttdlApp10 .ttdl-more{border:0;background:none;cursor:pointer;color:var(--p);font-size:13px;font-weight:800;padding:2px 0 0;margin-bottom:14px}
 #ttdlApp10 .ttdl-more:hover{text-decoration:underline}
-#ttdlApp10 .ttdl-video{width:100%;max-height:480px;border-radius:16px;background:#000;box-shadow:var(--sh);display:block}
+#ttdlApp10 .ttdl-video{width:auto;max-width:560px;height:auto;max-height:70vh;margin:0 auto;border-radius:16px;background:#000;box-shadow:var(--sh);display:block;object-fit:contain}
 #ttdlApp10 .ttdl-section{font-size:12.5px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--mu);margin:24px 0 12px}
-/* Opsi kualitas: kartu grid */
 #ttdlApp10 .ttdl-qualities{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
 #ttdlApp10 .ttdl-quality{background:var(--row);border:2px solid var(--ln);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px;transition:border-color .18s,transform .12s}
 #ttdlApp10 .ttdl-quality:hover{border-color:var(--p);transform:translateY(-2px)}
@@ -86,7 +78,6 @@
 #ttdlApp10 .ttdl-quality-btn:hover{filter:brightness(1.08)}
 #ttdlApp10 .ttdl-quality-btn:disabled{opacity:.6;cursor:wait}
 #ttdlApp10 .ttdl-quality-btn svg{width:17px;height:17px}
-/* Galeri */
 #ttdlApp10 .ttdl-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
 #ttdlApp10 .ttdl-photo{position:relative;border-radius:14px;overflow:hidden;border:2px solid var(--ln);background:var(--ibg)}
 #ttdlApp10 .ttdl-photo img{width:100%;height:200px;object-fit:cover;display:block}
@@ -98,16 +89,15 @@
 #ttdlApp10 .ttdl-all svg{width:19px;height:19px}
 #ttdlApp10 .ttdl-note{margin-top:20px;font-size:13px;color:var(--mu);background:var(--row);border:1px solid var(--ln);border-radius:12px;padding:13px 15px}
 #ttdlApp10 .ttdl-note b{color:var(--tx)}
-/* Titik loading animasi */
 #ttdlApp10 .ttdl-dots{display:inline-flex;gap:5px;align-items:center;padding:5px 0}
 #ttdlApp10 .ttdl-dots i{width:6px;height:6px;border-radius:50%;background:currentColor;animation:ttdlBlink 1.2s infinite}
 #ttdlApp10 .ttdl-dots i:nth-child(2){animation-delay:.2s}
 #ttdlApp10 .ttdl-dots i:nth-child(3){animation-delay:.4s}
 @keyframes ttdlBlink{0%,60%,100%{opacity:.25;transform:scale(.75)}30%{opacity:1;transform:scale(1)}}
-/* Responsif */
 @media(max-width:600px){
 #ttdlApp10 .ttdl-form{flex-direction:column}
 #ttdlApp10 .ttdl-go{padding:15px;width:100%}
+#ttdlApp10 .ttdl-video{width:auto;height:auto;max-width:100%;max-height:60vh}
 #ttdlApp10 .ttdl-qualities{grid-template-columns:1fr}
 }
 @media(prefers-reduced-motion:reduce){
