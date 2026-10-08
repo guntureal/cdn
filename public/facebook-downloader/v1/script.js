@@ -156,7 +156,7 @@ ev.preventDefault();
 var u=pickUrl(urlIn.value);
 errEl.classList.remove("show");resEl.classList.remove("show");
 if(!u){showErr("Tempel dulu link Facebook-nya.");return;}
-if(!okFb(u)){showErr("Link tidak terlihat seperti link Facebook.<small>Contoh: https://www.facebook.com/watch/?v=...</small>");return;}
+if(!okFb(u)){showErr("Link yang dimasukkan bukan link Facebook yang valid.<small>Gunakan link dari facebook.com, fb.watch, atau fb.com &mdash; contoh: https://www.facebook.com/watch/?v=...</small>");return;}
 curKey=u;var goLabel=goBtn.querySelectorAll("span")[1],goOrig=goLabel.innerHTML;
 goBtn.disabled=true;goLabel.innerHTML=DOTS;loadEl.style.display="block";
 getData(u).then(render).catch(function(e){
