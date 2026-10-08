@@ -55,12 +55,12 @@
 @keyframes fbfade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 
 #fbdlApp1 .fbdl-result-title{font-size:17px;font-weight:800;color:var(--tx);margin-bottom:8px}
-#fbdlApp1 .fbdl-desc{font-size:14.5px;margin-bottom:6px;color:var(--tx);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+#fbdlApp1 .fbdl-desc{font-size:14.5px;margin-bottom:6px;color:var(--tx);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-line}
 #fbdlApp1 .fbdl-desc.open{display:block;-webkit-line-clamp:none}
 #fbdlApp1 .fbdl-more{border:0;background:none;cursor:pointer;color:var(--p);font-size:13px;font-weight:800;padding:2px 0 0;margin-bottom:14px}
 #fbdlApp1 .fbdl-more:hover{text-decoration:underline}
-#fbdlApp1 .fbdl-video{width:100%;max-width:560px;max-height:70vh;margin:0 auto;border-radius:16px;background:#000;box-shadow:var(--sh);display:block;object-fit:contain}
-@media(max-width:600px){#fbdlApp1 .fbdl-form{flex-direction:column}#fbdlApp1 .fbdl-go{width:100%;padding:14px 30px}#fbdlApp1 .fbdl-video{max-width:100%;max-height:60vh;border-radius:12px}}
+#fbdlApp1 .fbdl-video{width:auto;max-width:560px;height:auto;max-height:70vh;margin:0 auto;border-radius:16px;background:#000;box-shadow:var(--sh);display:block;object-fit:contain}
+@media(max-width:600px){#fbdlApp1 .fbdl-form{flex-direction:column}#fbdlApp1 .fbdl-go{width:100%;padding:14px 30px}#fbdlApp1 .fbdl-video{width:auto;height:auto;max-width:100%;max-height:60vh;border-radius:12px}}
 #fbdlApp1 .fbdl-section{font-size:12.5px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--mu);margin:24px 0 12px}
 /* Opsi kualitas: kartu grid */
 #fbdlApp1 .fbdl-qualities{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
