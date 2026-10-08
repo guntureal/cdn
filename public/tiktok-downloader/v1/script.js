@@ -25,7 +25,7 @@ pasteBtn=$("ttdlPaste10"),loadEl=$("ttdlLoad10"),errEl=$("ttdlErr10"),errTx=$("t
 resEl=$("ttdlRes10"),avEl=$("ttdlAv10"),unameEl=$("ttdlUname10"),ustatEl=$("ttdlUstat10"),
 descEl=$("ttdlDesc10"),vBlock=$("ttdlVBlock10"),iBlock=$("ttdlIBlock10"),vidEl=$("ttdlVid10"),
 qEl=$("ttdlQ10"),gridEl=$("ttdlGrid10"),iCountEl=$("ttdlICount10"),allBtn=$("ttdlAll10"),moreBtn=$("ttdlMore10");
-var API="https://www.tikwm.com/api/",imgs=[],curKey=null,curData=null,CACHE_TTL=3*60*1000;
+var API="https://ttdl.gwntur.workers.dev/?url=",API_DIRECT="https://www.tikwm.com/api/",imgs=[],curKey=null,curData=null,CACHE_TTL=3*60*1000;
 (function(){var s=app.querySelectorAll("[data-ic]");for(var i=0;i<s.length;i++){var k=s[i].getAttribute("data-ic");if(IC[k])s[i].innerHTML=IC[k];}})();
 function lumDark(v){v=String(v||"").trim().toLowerCase();if(!v)return null;
 if(v.indexOf("darkb")!==-1)return true;if(v.indexOf("lbodyb")!==-1)return false;
@@ -74,23 +74,30 @@ if(!curKey)throw 0;
 cDel(curKey);
 return getData(curKey).then(function(d){render(d);var u2=getUrl?getUrl():"";if(!u2||u2===url)throw 0;return dlBlob(u2,name);});
 }).catch(function(){window.open(url,"_blank","noopener");});}
-function reqGet(u){return fetch(API+"?url="+encodeURIComponent(u)+"&hd=1",{headers:{"Accept":"application/json"}}).then(parseRes);}
-function reqPost(u){return fetch(API,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:"url="+encodeURIComponent(u)+"&hd=1"}).then(parseRes);}
+function reqGet(u){return fetch(API_DIRECT+"?url="+encodeURIComponent(u)+"&hd=1",{headers:{"Accept":"application/json"}}).then(parseRes);}
+function reqPost(u){return fetch(API_DIRECT,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:"url="+encodeURIComponent(u)+"&hd=1"}).then(parseRes);}
 function parseRes(r){
 if(!r.ok){var e=new Error("http");e.status=r.status;throw e;}
 return r.json().then(function(j){
 if(!j||j.code!==0||!j.data){var e2=new Error("api");e2.apiMsg=(j&&j.msg)||"";throw e2;}
 return j.data;});
 }
-function fetchAPI(u){var t=[reqGet,reqPost,reqGet],i=0;
+function reqWorker(u){return fetch(API+encodeURIComponent(u),{headers:{"Accept":"application/json"}}).then(parseRes);}
+function reqDirect(u,n){var t=[reqGet,reqPost,reqGet].slice(0,n||3),i=0;
 function next(){return t[i](u).catch(function(e){if(e&&e.apiMsg)throw e;if(++i<t.length)return sleep(1600*i).then(next);throw e;});}
 return next();}
+function fetchAPI(u){
+return reqWorker(u).catch(function(wErr){
+if(wErr&&wErr.apiMsg&&wErr.apiMsg.indexOf("bukan link TikTok yang valid")!==-1)throw wErr;
+var single=!!(wErr&&wErr.apiMsg);
+return reqDirect(u,single?1:3).catch(function(e2){
+throw (wErr&&(wErr.apiMsg||wErr.status))?wErr:e2;});});}
 function getData(u){var hit=cGet(u);if(hit)return Promise.resolve(hit);
 return fetchAPI(u).then(function(d){cSet(u,d);return d;});}
 function errText(e){
 if(e&&e.status===403)return"Koneksi dibatasi server API (403). Tunggu 1-2 menit lalu coba lagi, atau gunakan jaringan lain.<small>Link yang sama tidak memanggil API ulang berkat cache 3 menit.</small>";
 if(e&&e.status===429)return"Terlalu banyak permintaan (429). Tunggu sebentar lalu coba lagi.";
-if(e&&e.apiMsg)return"API menolak: "+esc(e.apiMsg)+"<small>Pastikan link publik &amp; valid.</small>";
+if(e&&e.apiMsg)return esc(e.apiMsg);
 return"Gagal memproses link.<small>Kemungkinan: video privat/dihapus, link salah, atau server API sibuk - coba lagi beberapa saat.</small>";}
 var DOTS='<span class="ttdl-dots" aria-hidden="true"><i></i><i></i><i></i></span>';
 function qCard(icon,title,sub,tag,cls,getUrl,name){
