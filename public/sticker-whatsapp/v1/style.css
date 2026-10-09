@@ -2,8 +2,8 @@
 #stwaApp{max-width:640px;margin:0 auto;padding:10px 6px 26px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#1c2333;box-sizing:border-box}
 #stwaApp *{box-sizing:border-box}
 #stwaApp .stwa-head{text-align:center;margin:6px 0 22px}
-#stwaApp .stwa-logo{display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,#0066cc,#00a3ff);box-shadow:0 8px 22px rgba(0,102,204,.35);margin-bottom:12px}
-#stwaApp .stwa-logo svg{width:34px;height:34px;fill:#fff}
+#stwaApp .stwa-logo{display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,#0066cc,#00a3ff);box-shadow:0 8px 22px rgba(0,102,204,.35);margin-bottom:12px;color:#fff}
+#stwaApp .stwa-logo svg{width:34px;height:34px;fill:none}
 #stwaApp .stwa-title{font-size:26px;font-weight:800;margin:0 0 8px;letter-spacing:-.5px;color:#141a26}
 #stwaApp .stwa-title span{color:#0066cc}
 #stwaApp .stwa-sub{font-size:14px;color:#6b7280;margin:0 auto;max-width:460px;line-height:1.6}
@@ -53,6 +53,19 @@
 @keyframes stwaBlink{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
 #stwaApp .stwa-err{display:flex;gap:10px;align-items:flex-start;background:#fff1f2;border:1px solid #ffc9ce;color:#b4232f;padding:13px 15px;border-radius:13px;font-size:13.5px;margin:16px auto 0;max-width:480px;line-height:1.6}
 #stwaApp .stwa-err .stwa-ic{flex-shrink:0;margin-top:1px}
+#stwaApp .stwa-modal[hidden],#stwaApp .stwa-err[hidden],#stwaApp .stwa-status[hidden]{display:none!important}
+#stwaApp .stwa-guide{display:flex;gap:10px;align-items:flex-start;background:rgba(0,102,204,.07);border:1px solid rgba(0,102,204,.22);border-radius:12px;padding:11px 13px;margin:2px 0 12px;font-size:13.5px;line-height:1.55}
+#stwaApp .stwa-guide .stwa-ic{flex:0 0 auto;color:#0066cc;margin-top:1px}
+#stwaApp .stwa-guide p{margin:0}
+#stwaApp .stwa-link{background:none;border:0;padding:0;color:#0066cc;font-weight:700;font-size:13.5px;cursor:pointer;text-decoration:underline;font-family:inherit}
+#stwaApp .stwa-text{background:none;border:0;box-shadow:none;color:#0066cc;font-weight:600}
+#stwaApp .stwa-modal-sub{margin:0 0 12px;font-size:13.5px;opacity:.78}
+#stwaApp .stwa-path{margin-bottom:12px}
+#stwaApp .stwa-path-t{margin:0 0 8px;font-size:14px}
+#stwaApp .stwa-badge{display:inline-block;background:#0066cc;color:#fff;font-size:11px;font-weight:700;padding:2px 9px;border-radius:99px;margin-left:6px;vertical-align:1px}
+#stwaApp.stwa-dark .stwa-guide{background:rgba(0,163,255,.1);border-color:rgba(0,163,255,.3)}
+#stwaApp.stwa-dark .stwa-link,#stwaApp.stwa-dark .stwa-text{color:#4db2ff}
+#stwaApp.stwa-dark .stwa-badge{background:#00a3ff}
 /* --- modal panduan --- */
 #stwaApp .stwa-modal{position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,.55);display:flex;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(3px)}
 #stwaApp .stwa-modalbox{background:#fff;border-radius:20px;max-width:430px;width:100%;padding:26px 24px;box-shadow:0 24px 70px rgba(0,0,0,.28);max-height:88vh;overflow:auto}
