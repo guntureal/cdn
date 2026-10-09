@@ -9,12 +9,10 @@ var IC={
 sticker:ln('<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4.6"/><path d="M10.1 11.1h.01M13.9 11.1h.01M10.2 13.3c.5.8 1.1 1.1 1.8 1.1s1.3-.3 1.8-1.1"/>'),
 upload:ln('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/>'),
 wand:ln('<path d="M15 4V2M15 10V8M11.5 6.5h-2M20.5 6.5h-2M17.8 3.7l-1.4 1.4M17.8 9.3l-1.4-1.4M12.2 3.7l1.4 1.4M12.2 9.3l1.4-1.4"/><path d="M3 21L14 10"/>'),
-wapp:ln('<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>'),
 zoomin:ln('<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"/>'),
 zoomout:ln('<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M8 11h6"/>'),
 refresh:ln('<path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.5 9a9 9 0 0 1 14.9-3.4L23 10M1 14l4.6 4.4A9 9 0 0 0 20.5 15"/>'),
 alert:ln('<path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>'),
-check:ln('<path d="M20 6L9 17l-5-5"/>'),
 share:ln('<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.7l6.8-4.4M8.6 13.3l6.8 4.4"/>'),
 download:ln('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/>'),
 info:ln('<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>')};
@@ -55,11 +53,22 @@ function note(t){showStatus(t);if(noteT)clearTimeout(noteT);noteT=setTimeout(hid
 function goStep(n){step1.hidden=n!==1;step2.hidden=n!==2;step3.hidden=n!==3;hideErr();hideStatus();}
 function fmtSize(b){return b>=1024?(b/1024).toFixed(b>=102400?0:1).replace(".",",")+" KB":b+" B";}
 function baseScale(){return Math.max(SIZE/S.iw,SIZE/S.ih);}
-function clampPan(){
-var b=baseScale()*S.zoom,dw=S.iw*b,dh=S.ih*b;
-var mx=Math.max(0,(dw-SIZE)/2),my=Math.max(0,(dh-SIZE)/2);
-S.ox=Math.min(mx,Math.max(-mx,S.ox));
-S.oy=Math.min(my,Math.max(-my,S.oy));}
+function refineMask(src){
+// Perhalus hasil segmentasi: dilatasi ringan (~2px) agar tepi orang tidak terpotong,
+// lalu feather agar transisi ke transparan rapi tanpa sisa kasar.
+var w=src.width,h=src.height;
+if(!w||!h)return src;
+var d=Math.max(1,Math.round(w/240));
+var c=document.createElement("canvas");c.width=w;c.height=h;
+var x=c.getContext("2d");if(!x)return src;
+x.globalCompositeOperation="lighter";
+x.drawImage(src,0,0);
+x.drawImage(src,d,0);x.drawImage(src,-d,0);x.drawImage(src,0,d);x.drawImage(src,0,-d);
+var f=document.createElement("canvas");f.width=w;f.height=h;
+var fx=f.getContext("2d");if(!fx)return c;
+try{fx.filter="blur("+Math.max(1,Math.round(w/300))+"px)";}catch(e){}
+fx.drawImage(c,0,0);
+return f;}
 function cutCanvas(){
 if(S._cut&&S._cutFor===S.mask)return S._cut;
 var c=document.createElement("canvas");c.width=S.iw;c.height=S.ih;
@@ -158,7 +167,7 @@ S.maskBusy=true;showStatus("Menghapus background");
 runSeg().then(function(src){
 S.maskBusy=false;
 if(!src){cutFail();return;}
-var m=maskToAlpha(src);
+var m=maskToAlpha(refineMask(src));
 if(!m){cutFail();return;}
 S.mask=m;S._cut=null;hideStatus();drawEd();
 }).catch(function(){S.maskBusy=false;cutFail();});}
@@ -218,10 +227,10 @@ if(e&&e.name==="AbortError")return;
 downloadBlob();openModal();});
 return;}
 downloadBlob();openModal();});
-dlBtn.addEventListener("click",function(){
+dlBtn&&dlBtn.addEventListener("click",function(){
 if(!S.blob)return;
 downloadBlob();openModal();});
-guideOpen.addEventListener("click",openModal);
+guideOpen&&guideOpen.addEventListener("click",openModal);
 function resetAll(){
 S.img=null;S.mask=null;S._cut=null;S._cutFor=null;S.blob=null;S.maskBusy=false;
 S.zoom=1;S.ox=0;S.oy=0;
@@ -245,7 +254,7 @@ var cd=e.clipboardData;if(!cd||!cd.files||!cd.files.length)return;
 if(step1.hidden)return;
 acceptFile(cd.files[0]);});
 zoomIn.addEventListener("input",function(){
-S.zoom=(+zoomIn.value)/100;clampPan();drawEd();});
+S.zoom=(+zoomIn.value)/100;drawEd();});
 cutTg.addEventListener("change",function(){
 S.cutout=!!cutTg.checked;
 if(S.cutout&&!S.mask)bgRemove();else drawEd();});
@@ -260,14 +269,14 @@ var r=edCanvas.getBoundingClientRect();
 var k=SIZE/(r.width||SIZE);
 S.ox=drag.ox+(e.clientX-drag.x)*k;
 S.oy=drag.oy+(e.clientY-drag.y)*k;
-clampPan();drawEd();});
+drawEd();});
 ["pointerup","pointercancel"].forEach(function(ev){edCanvas.addEventListener(ev,function(){drag=null;});});
 edCanvas.addEventListener("wheel",function(e){
 if(!S.img)return;
 e.preventDefault();
 var v=+zoomIn.value+(e.deltaY<0?10:-10);
-v=Math.min(300,Math.max(100,v));
-zoomIn.value=v;S.zoom=v/100;clampPan();drawEd();},{passive:false});
+v=Math.min(300,Math.max(25,v));
+zoomIn.value=v;S.zoom=v/100;drawEd();},{passive:false});
 goStep(1);
 }
 if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",stwaInit);}else{stwaInit();}
