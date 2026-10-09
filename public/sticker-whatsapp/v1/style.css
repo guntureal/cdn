@@ -3,7 +3,7 @@
 #stwaApp *{box-sizing:border-box}
 #stwaApp .stwa-head{text-align:center;margin:6px 0 22px}
 #stwaApp .stwa-logo{display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,#0066cc,#00a3ff);box-shadow:0 8px 22px rgba(0,102,204,.35);margin-bottom:12px;color:#fff}
-#stwaApp .stwa-logo .stwa-ic svg{width:44px;height:44px;fill:none}
+#stwaApp .stwa-logo .stwa-ic svg{width:32px;height:32px;fill:none}
 #stwaApp .stwa-title{font-size:26px;font-weight:800;margin:0 0 8px;letter-spacing:-.5px;color:#141a26}
 #stwaApp .stwa-title span{color:#0066cc}
 #stwaApp .stwa-sub{font-size:14px;color:#6b7280;margin:0 auto;max-width:460px;line-height:1.6}
@@ -94,26 +94,9 @@
 #stwaApp .stwa-title{font-size:23px}
 #stwaApp .stwa-drop{min-height:190px}
 }
-/* Stiker WA v9: dokumentasi custom di bawah tool */
-.stwa-doc{max-width:680px;margin:36px auto 0;padding:0 6px;color:#1c2333}
-.stwa-doc h2{font-size:22px;margin:0 0 8px;color:#0066cc}
-.stwa-doc-lead{margin:0 0 20px;line-height:1.65}
-.stwa-doc-steps{list-style:none;margin:0;padding:0}
-.stwa-doc-steps>li{display:flex;gap:14px;margin:0 0 26px;padding:0}
-.stwa-doc-num{flex:none;width:34px;height:34px;border-radius:50%;background:#0066cc;color:#fff;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;margin-top:2px}
-.stwa-doc-body{flex:1;min-width:0}
-.stwa-doc-body h3{margin:0 0 6px;font-size:17px}
-.stwa-doc-body p{margin:0 0 10px;line-height:1.65}
-.stwa-doc-body figure{margin:0;max-width:280px}
-.stwa-doc-body img{width:100%;height:auto;border-radius:12px;border:1px solid rgba(0,0,0,.12);box-shadow:0 4px 14px rgba(0,0,0,.10);display:block}
-.stwa-doc-body figcaption{font-size:13px;color:#5b6472;text-align:center;margin-top:6px}
-.stwa-doc-tips{background:rgba(0,102,204,.07);border:1px solid rgba(0,102,204,.22);border-radius:12px;padding:16px 18px;margin:0 0 14px}
+/* Stiker WA v10: tips custom */
+.stwa-doc-tips{background:rgba(0,102,204,.07);border:1px solid rgba(0,102,204,.22);border-radius:12px;padding:16px 18px;margin:0 0 14px;max-width:680px}
 .stwa-doc-tips h3{margin:0 0 8px;font-size:16px;color:#0066cc}
 .stwa-doc-tips ul{margin:0;padding-left:20px}
 .stwa-doc-tips li{margin:0 0 6px;line-height:1.6}
-.stwa-doc-src{font-size:12px;color:#8a93a3;margin:0}
-#stwaApp.stwa-dark~.stwa-doc{color:#e8eaf0}
-#stwaApp.stwa-dark~.stwa-doc .stwa-doc-body figcaption{color:#9aa3b5}
-#stwaApp.stwa-dark~.stwa-doc .stwa-doc-tips{background:rgba(0,102,204,.14);border-color:rgba(0,102,204,.35)}
-#stwaApp.stwa-dark~.stwa-doc .stwa-doc-src{color:#7d8698}
-#stwaApp.stwa-dark~.stwa-doc .stwa-doc-body img{border-color:rgba(255,255,255,.14)}
+#stwaApp.stwa-dark~.stwa-doc-tips{background:rgba(0,102,204,.14);border-color:rgba(0,102,204,.35)}
