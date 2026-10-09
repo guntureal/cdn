@@ -14,13 +14,16 @@ zoomin:ln('<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M11 8v6M8 11h6
 zoomout:ln('<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M8 11h6"/>'),
 refresh:ln('<path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.5 9a9 9 0 0 1 14.9-3.4L23 10M1 14l4.6 4.4A9 9 0 0 0 20.5 15"/>'),
 alert:ln('<path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>'),
-check:ln('<path d="M20 6L9 17l-5-5"/>')};
+check:ln('<path d="M20 6L9 17l-5-5"/>'),
+share:ln('<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.7l6.8-4.4M8.6 13.3l6.8 4.4"/>'),
+download:ln('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/>'),
+info:ln('<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>')};
 (function(){var s=app.querySelectorAll("[data-ic]");for(var i=0;i<s.length;i++){var k=s[i].getAttribute("data-ic");if(IC[k])s[i].innerHTML=IC[k];}})();
 function $(id){return document.getElementById(id);}
 var step1=$("stwaStep1"),step2=$("stwaStep2"),step3=$("stwaStep3"),
 drop=$("stwaDrop"),fileIn=$("stwaFile"),edCanvas=$("stwaEd"),zoomIn=$("stwaZoom"),
 cutTg=$("stwaCutout"),makeBtn=$("stwaMake"),backBtn=$("stwaBack"),
-resCanvas=$("stwaRes"),metaEl=$("stwaMeta"),saveBtn=$("stwaSave"),againBtn=$("stwaAgain"),
+resCanvas=$("stwaRes"),metaEl=$("stwaMeta"),saveBtn=$("stwaSave"),dlBtn=$("stwaDl"),againBtn=$("stwaAgain"),guideOpen=$("stwaGuideOpen"),
 statusEl=$("stwaStatus"),errEl=$("stwaErr"),errTx=$("stwaErrTx"),
 modal=$("stwaModal"),modalOk=$("stwaModalOk");
 var DOTS='<span class="stwa-dots" aria-hidden="true"><i></i><i></i><i></i></span>';
@@ -209,12 +212,16 @@ var file=null;
 try{file=new File([S.blob],"stiker-whatsapp.webp",{type:"image/webp"});}catch(e){file=null;}
 if(file&&navigator.canShare&&navigator.canShare({files:[file]})){
 navigator.share({files:[file],title:"Stiker WhatsApp"}).then(function(){
-note("Stiker dikirim ke WhatsApp. Di chat, tekan lama stiker lalu pilih Tambahkan ke Favorit.");
+openModal(); // pandu: pilih Sticker Maker di lembar berbagi
 },function(e){
 if(e&&e.name==="AbortError")return;
 downloadBlob();openModal();});
 return;}
 downloadBlob();openModal();});
+dlBtn.addEventListener("click",function(){
+if(!S.blob)return;
+downloadBlob();openModal();});
+guideOpen.addEventListener("click",openModal);
 function resetAll(){
 S.img=null;S.mask=null;S._cut=null;S._cutFor=null;S.blob=null;S.maskBusy=false;
 S.zoom=1;S.ox=0;S.oy=0;
