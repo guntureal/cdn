@@ -36,17 +36,26 @@ function lumDark(v){v=String(v||"").trim().toLowerCase();if(!v)return null;
 if(v.indexOf("darkb")!==-1)return true;if(v.indexOf("lbodyb")!==-1)return false;
 var r,g,b,m;
 if((m=v.match(/^#([0-9a-f]{6})$/))){r=parseInt(m[1].substr(0,2),16);g=parseInt(m[1].substr(2,2),16);b=parseInt(m[1].substr(4,2),16);}
+else if((m=v.match(/^#([0-9a-f]{3})$/))){r=parseInt(m[1][0]+m[1][0],16);g=parseInt(m[1][1]+m[1][1],16);b=parseInt(m[1][2]+m[1][2],16);}
 else if((m=v.match(/^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/))){r=+m[1];g=+m[2];b=+m[3];}
 else return null;
 return(0.299*r+0.587*g+0.114*b)/255<0.5;}
 function syncTheme(){
 var dark=null;
 try{dark=lumDark(getComputedStyle(app).getPropertyValue("--bodyB"));}catch(e){dark=null;}
+if(dark===null){try{dark=lumDark(getComputedStyle(document.documentElement).getPropertyValue("--bodyB"));}catch(e){}}
 if(dark===null){var c=document.getElementById("forMode");
 if(c)dark=!!c.checked;
 else{try{dark=matchMedia("(prefers-color-scheme: dark)").matches;}catch(e2){dark=false;}}}
 app.classList.toggle("stwa-dark",!!dark);}
 syncTheme();
+// Sinkron otomatis mengikuti toggle tema template Plus UI (ganti class drkB di <html>/<body>)
+try{
+var _mo=new MutationObserver(function(){syncTheme();});
+_mo.observe(document.documentElement,{attributes:true,attributeFilter:["class","style"]});
+if(document.body)_mo.observe(document.body,{attributes:true,attributeFilter:["class","style"]});
+}catch(e){}
+setTimeout(syncTheme,1200); // jaring pengaman: template kadang terapkan tema tersimpan agak telat
 try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",syncTheme);}catch(e){}
 function showErr(t){errTx.textContent=t;errEl.hidden=false;}
 function hideErr(){errEl.hidden=true;}
