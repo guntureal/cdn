@@ -6,7 +6,7 @@ if(!app||app.dataset.stwaInit)return;
 app.dataset.stwaInit="1";
 function ln(p){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>';}
 var IC={
-sticker:ln('<path d="M6.5 3.5h11a3 3 0 0 1 3 3v11a3 3 0 0 1-3 3h-11a3 3 0 0 1-3-3v-11a3 3 0 0 1 3-3z"/><path d="M21 12.5V17a3 3 0 0 1-3 3h-4.5l7.5-7.5z" fill="#fff" stroke="#fff"/>'),
+sticker:ln('<path d="M6.5 3.5h11a3 3 0 0 1 3 3v11a3 3 0 0 1-3 3h-11a3 3 0 0 1-3-3v-11a3 3 0 0 1 3-3z" fill="#fff" stroke="#fff"/><circle cx="9.5" cy="9.5" r="1.6" stroke="#0066cc" fill="none"/><path d="M5.5 16l3.5-3.5 2.5 2.5 3-3 3.5 3.5" stroke="#0066cc" fill="none"/><path d="M21 12.5V17a3 3 0 0 1-3 3h-4.5l7.5-7.5z" fill="#0066cc" stroke="#0066cc"/>'),
 upload:ln('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/>'),
 wand:ln('<path d="M5 19L14.5 9.5"/><path d="M17.5 3.5l.9 2.3 2.3.9-2.3.9-.9 2.3-.9-2.3-2.3-.9 2.3-.9z"/><path d="M20 13.5l.6 1.5 1.5.6-1.5.6-.6 1.5-.6-1.5-1.5-.6 1.5-.6z"/>'),
 zoomin:ln('<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"/>'),
