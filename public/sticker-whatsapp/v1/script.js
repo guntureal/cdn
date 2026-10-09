@@ -6,14 +6,13 @@ if(!app||app.dataset.stwaInit)return;
 app.dataset.stwaInit="1";
 function ln(p){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>';}
 var IC={
-sticker:ln('<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4.6"/><path d="M10.1 11.1h.01M13.9 11.1h.01M10.2 13.3c.5.8 1.1 1.1 1.8 1.1s1.3-.3 1.8-1.1"/>'),
+sticker:ln('<path d="M7 3.5h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4v-10a4 4 0 0 1 4-4z"/><path d="M14.5 21l6.5-6.5V18a3 3 0 0 1-3 3h-3.5z"/><path d="M9 12.5l2.5-2.5 2 2 2.5-2.5"/>'),
 upload:ln('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/>'),
 wand:ln('<path d="M15 4V2M15 10V8M11.5 6.5h-2M20.5 6.5h-2M17.8 3.7l-1.4 1.4M17.8 9.3l-1.4-1.4M12.2 3.7l1.4 1.4M12.2 9.3l1.4-1.4"/><path d="M3 21L14 10"/>'),
 zoomin:ln('<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"/>'),
 zoomout:ln('<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M8 11h6"/>'),
 refresh:ln('<path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.5 9a9 9 0 0 1 14.9-3.4L23 10M1 14l4.6 4.4A9 9 0 0 0 20.5 15"/>'),
 alert:ln('<path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>'),
-share:ln('<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.7l6.8-4.4M8.6 13.3l6.8 4.4"/>'),
 download:ln('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/>'),
 info:ln('<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>')};
 (function(){var s=app.querySelectorAll("[data-ic]");for(var i=0;i<s.length;i++){var k=s[i].getAttribute("data-ic");if(IC[k])s[i].innerHTML=IC[k];}})();
@@ -27,7 +26,12 @@ modal=$("stwaModal"),modalOk=$("stwaModalOk");
 var DOTS='<span class="stwa-dots" aria-hidden="true"><i></i><i></i><i></i></span>';
 var SIZE=512,MAXB=100*1024,SEG_URL="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation@0.1.1675465747/selfie_segmentation.js";
 var WEBP_OK=(function(){try{var c=document.createElement("canvas");return c.toDataURL("image/webp").indexOf("data:image/webp")===0;}catch(e){return false;}})();
-var S={img:null,iw:0,ih:0,zoom:1,ox:0,oy:0,cutout:true,mask:null,maskBusy:false,blob:null,_cut:null,_cutFor:null};
+var S={img:null,iw:0,ih:0,zoom:1,ox:0,oy:0,cutout:true,mask:null,maskBusy:false,blob:null,_cut:null,_cutFor:null,fname:"stiker-whatsapp.webp",iname:""};
+var FTYPE="WebP";
+function baseName(fn){
+var b=String(fn||"").split(/[\\/]/).pop().replace(/\.[a-z0-9]+$/i,"").trim().toLowerCase();
+b=b.replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,40);
+return b||"whatsapp";}
 function lumDark(v){v=String(v||"").trim().toLowerCase();if(!v)return null;
 if(v.indexOf("darkb")!==-1)return true;if(v.indexOf("lbodyb")!==-1)return false;
 var r,g,b,m;
@@ -104,6 +108,7 @@ showStatus("Memuat foto");
 loadImage(file).then(function(im){
 if(!im.naturalWidth||!im.complete){throw new Error("load");}
 S.img=im;S.iw=im.naturalWidth;S.ih=im.naturalHeight;
+S.iname=file.name||"";S.fname="stiker-"+baseName(file.name)+".webp";
 S.zoom=1;S.ox=0;S.oy=0;S.mask=null;S._cut=null;S._cutFor=null;S.blob=null;S.maskBusy=false;
 zoomIn.value=100;
 hideStatus();goStep(2);drawEd();
@@ -188,7 +193,10 @@ canvas.toBlob(function(bl){
 if(!bl||bl.size<=MAXB||q<=0.35){res(bl);return;}
 q-=0.12;step();
 },"image/webp",q);})();});}
-function openModal(){modal.hidden=false;}
+function openModal(){
+var els=modal.querySelectorAll(".stwa-fname");
+for(var i=0;i<els.length;i++)els[i].textContent=S.fname;
+modal.hidden=false;}
 function closeModal(){modal.hidden=true;}
 makeBtn.addEventListener("click",function(){
 if(!S.img||S.maskBusy)return;
@@ -204,32 +212,23 @@ if(!bl){showErr("Gagal membuat file stiker. Coba foto lain.");return;}
 S.blob=bl;
 var rx=resCanvas.getContext("2d");
 if(rx){rx.clearRect(0,0,SIZE,SIZE);rx.drawImage(fc,0,0);}
-metaEl.innerHTML="Ukuran <b>512 &times; 512 px</b> &middot; WebP &middot; <b>"+fmtSize(bl.size)+"</b> (maks 100 KB)";
+metaEl.innerHTML="Ukuran <b>512 &times; 512 px</b> &middot; "+FTYPE+" &middot; <b>"+fmtSize(bl.size)+"</b> (maks 100 KB)";
 goStep(3);
 try{step3.scrollIntoView({behavior:"smooth",block:"start"});}catch(e){}
 });},60);});
 function downloadBlob(){
 var a=document.createElement("a");
 a.href=URL.createObjectURL(S.blob);
-a.download="stiker-whatsapp.webp";
+a.download=S.fname;
 document.body.appendChild(a);
 a.click();
 setTimeout(function(){try{URL.revokeObjectURL(a.href);}catch(e){}a.remove();},4000);}
 saveBtn.addEventListener("click",function(){
 if(!S.blob)return;
-var file=null;
-try{file=new File([S.blob],"stiker-whatsapp.webp",{type:"image/webp"});}catch(e){file=null;}
-if(file&&navigator.canShare&&navigator.canShare({files:[file]})){
-navigator.share({files:[file],title:"Stiker WhatsApp"}).then(function(){
-openModal(); // pandu: pilih Sticker Maker di lembar berbagi
-},function(e){
-if(e&&e.name==="AbortError")return;
-downloadBlob();openModal();});
-return;}
-downloadBlob();openModal();});
-dlBtn&&dlBtn.addEventListener("click",function(){
-if(!S.blob)return;
-downloadBlob();openModal();});
+downloadBlob();
+openModal();});
+// v3: tombol "Unduh File" digabung ke "Simpan ke WhatsApp" — buang bila HTML masih versi lama
+if(dlBtn&&dlBtn.parentNode)dlBtn.parentNode.removeChild(dlBtn);
 guideOpen&&guideOpen.addEventListener("click",openModal);
 function resetAll(){
 S.img=null;S.mask=null;S._cut=null;S._cutFor=null;S.blob=null;S.maskBusy=false;
