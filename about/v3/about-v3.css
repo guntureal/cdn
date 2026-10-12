@@ -14,7 +14,6 @@
   --fb-blue:#1877f2;
   --fb-blue-dark:#166fe5;
   --fb-blue-soft:#e7f3ff;
-  --fb-purple:#7b5cff;
   --fb-soft:#f2f3f5;
   --fb-green:#31a24c;
   --fb-shadow:0 1px 2px rgba(0,0,0,.08);
@@ -52,7 +51,6 @@
   --fb-blue:#4599ff;
   --fb-blue-dark:#3b8ef0;
   --fb-blue-soft:rgba(69,153,255,.16);
-  --fb-purple:#9a7bff;
   --fb-soft:#3a3b3c;
   --fb-green:#45bd62;
   --fb-shadow:0 1px 2px rgba(0,0,0,.4);
@@ -477,7 +475,7 @@
   transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;
   will-change:transform;
 }
-/* Aksen gradient di atas kartu */
+/* Aksen biru solid di atas kartu */
 #gw-fb-profile .gw-fb-project-card::before{
   content:"";
   position:absolute;
@@ -485,8 +483,8 @@
   left:0;
   right:0;
   height:3px;
-  background:linear-gradient(90deg,var(--fb-blue),var(--fb-purple));
-  opacity:.85;
+  background:var(--fb-blue);
+  opacity:.9;
 }
 /* Efek shine (kilau berjalan) saat hover */
 #gw-fb-profile .gw-fb-project-card::after{
@@ -518,20 +516,21 @@
   margin:0 0 12px;
   padding:0;
   border-radius:12px;
-  background:linear-gradient(135deg,var(--fb-blue),var(--fb-purple));
-  color:#fff;
-  box-shadow:0 4px 12px rgba(24,119,242,.35);
-  transition:transform .28s cubic-bezier(.34,1.56,.64,1),box-shadow .28s ease;
+  background:var(--fb-blue-soft);
+  color:var(--fb-blue);
+  box-shadow:none;
+  transition:transform .28s cubic-bezier(.34,1.56,.64,1),background .28s ease,color .28s ease;
 }
 #gw-fb-profile .gw-fb-project-card:hover .gw-fb-project-icon{
   transform:scale(1.14) rotate(-8deg);
-  box-shadow:0 6px 18px rgba(24,119,242,.5);
+  background:var(--fb-blue);
+  color:#fff;
 }
 #gw-fb-profile .gw-fb-project-icon svg{
   width:24px;
   height:24px;
   stroke-width:1.9;
-  color:#fff;
+  color:inherit;
 }
 #gw-fb-profile .gw-fb-project-card h3{
   margin:0 0 6px;
