@@ -759,7 +759,7 @@
   }
   /* Header */
   #gw-fb-profile .gw-fb-head{
-    padding:0 14px 14px;
+    padding:0 20px 20px;
   }
   #gw-fb-profile .gw-fb-head .gw-fb-identity .gw-fb-name-row h1.gw-fb-name{
     font-size:22px;
@@ -770,12 +770,12 @@
   }
   #gw-fb-profile .gw-fb-bio{
     font-size:14px;
-    margin-bottom:8px;
+    margin-bottom:12px;
   }
   #gw-fb-profile .gw-fb-meta{
     font-size:13px;
-    gap:6px 12px;
-    margin-bottom:12px;
+    gap:8px 16px;
+    margin-bottom:16px;
   }
   #gw-fb-profile .gw-fb-meta svg{
     width:14px;
@@ -783,26 +783,27 @@
   }
   /* Tombol aksi */
   #gw-fb-profile .gw-fb-actions{
-    gap:8px;
-    margin-bottom:12px;
+    gap:12px;
+    margin-bottom:20px;
   }
   #gw-fb-profile .gw-fb-btn{
     font-size:14px;
-    padding:9px 18px;
+    padding:10px 20px;
   }
   #gw-fb-profile .gw-fb-btn svg{
     width:15px;
     height:15px;
   }
-  /* Tab minimalis mobile */
+  /* Tab minimalis mobile — batas kiri-kanan lebih luas */
   #gw-fb-profile .gw-fb-nav{
-    gap:6px;
+    gap:8px;
     max-width:100%;
-    padding:0 4px;
+    padding:0 20px;
+    margin:0 auto;
   }
   #gw-fb-profile .gw-fb-tab{
     font-size:13.5px;
-    padding:12px 8px 14px;
+    padding:14px 8px 16px;
     gap:6px;
     min-width:0;
     flex:1 1 0;
@@ -814,38 +815,38 @@
   }
   /* Detail & panel */
   #gw-fb-profile .gw-fb-detail{
-    padding:16px;
-    margin:12px auto;
+    padding:20px;
+    margin:16px auto;
   }
   #gw-fb-profile .gw-fb-detail h2{
     font-size:18px;
-    margin-bottom:10px;
+    margin-bottom:12px;
   }
   #gw-fb-profile .gw-fb-detail > p{
     font-size:13px;
-    margin-bottom:10px;
+    margin-bottom:12px;
   }
   #gw-fb-profile .gw-fb-tags{
-    gap:6px;
-    margin-top:10px;
+    gap:8px;
+    margin-top:14px;
   }
   #gw-fb-profile .gw-fb-tag{
     font-size:12px;
-    padding:6px 12px;
+    padding:7px 14px;
   }
   /* Project cards mobile */
   #gw-fb-profile .gw-fb-projects{
     grid-template-columns:minmax(0,1fr);
-    gap:10px;
-    margin-top:12px;
+    gap:16px;
+    margin-top:16px;
   }
   #gw-fb-profile .gw-fb-project-card{
-    padding:16px;
+    padding:18px;
   }
   #gw-fb-profile .gw-fb-project-icon{
     width:36px;
     height:36px;
-    margin-bottom:10px;
+    margin-bottom:12px;
     border-radius:10px;
   }
   #gw-fb-profile .gw-fb-project-icon svg{
@@ -854,6 +855,7 @@
   }
   #gw-fb-profile .gw-fb-project-card h3{
     font-size:15px;
+    margin-bottom:8px;
   }
   #gw-fb-profile .gw-fb-project-card p{
     font-size:13px;
@@ -861,20 +863,20 @@
   /* Galeri mobile */
   #gw-fb-profile .gw-fb-media-grid{
     grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:8px;
+    gap:12px;
   }
   #gw-fb-profile .gw-fb-media-head{
-    margin-bottom:10px;
+    margin-bottom:14px;
   }
   /* Sosial mobile */
   #gw-fb-profile .gw-fb-socials{
     grid-template-columns:minmax(0,1fr);
-    gap:8px;
-    margin-top:12px;
+    gap:12px;
+    margin-top:16px;
   }
   #gw-fb-profile .gw-fb-social{
-    padding:12px;
-    gap:10px;
+    padding:14px;
+    gap:12px;
   }
   #gw-fb-profile .gw-fb-social-icon{
     width:36px;
