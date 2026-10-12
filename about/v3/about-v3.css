@@ -406,10 +406,10 @@
   max-width:900px;
   margin:18px auto;
   padding:22px;
-  background:var(--fb-card);
-  border:1px solid var(--fb-border);
-  border-radius:12px;
-  box-shadow:var(--fb-shadow);
+  background:transparent;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
 }
 #gw-fb-profile .gw-fb-detail h2{
   margin:0 0 12px;
@@ -455,57 +455,20 @@
   box-shadow:var(--fb-shadow);
 }
 
-/* ===== 12. Project cards — modern & interaktif ===== */
+/* ===== 12. Project cards — bersih & menarik ===== */
 #gw-fb-profile .gw-fb-projects{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
   gap:14px;
   margin:16px 0 0;
   padding:0;
-  perspective:900px;
 }
 #gw-fb-profile .gw-fb-project-card{
-  position:relative;
-  overflow:hidden;
   margin:0;
   padding:20px;
   border:1px solid var(--fb-border);
   border-radius:12px;
   background:var(--fb-card);
-  transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;
-  will-change:transform;
-}
-/* Aksen biru solid di atas kartu */
-#gw-fb-profile .gw-fb-project-card::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  height:3px;
-  background:var(--fb-blue);
-  opacity:.9;
-}
-/* Efek shine (kilau berjalan) saat hover */
-#gw-fb-profile .gw-fb-project-card::after{
-  content:"";
-  position:absolute;
-  top:0;
-  left:-80%;
-  width:55%;
-  height:100%;
-  background:linear-gradient(105deg,transparent,rgba(255,255,255,.28),transparent);
-  transform:skewX(-18deg);
-  transition:left .6s ease;
-  pointer-events:none;
-}
-#gw-fb-profile .gw-fb-project-card:hover{
-  transform:perspective(900px) rotateX(2deg) rotateY(-2deg) translateY(-5px);
-  box-shadow:var(--fb-glow);
-  border-color:var(--fb-blue);
-}
-#gw-fb-profile .gw-fb-project-card:hover::after{
-  left:130%;
 }
 #gw-fb-profile .gw-fb-project-icon{
   display:inline-flex;
@@ -518,13 +481,6 @@
   border-radius:12px;
   background:var(--fb-blue-soft);
   color:var(--fb-blue);
-  box-shadow:none;
-  transition:transform .28s cubic-bezier(.34,1.56,.64,1),background .28s ease,color .28s ease;
-}
-#gw-fb-profile .gw-fb-project-card:hover .gw-fb-project-icon{
-  transform:scale(1.14) rotate(-8deg);
-  background:var(--fb-blue);
-  color:#fff;
 }
 #gw-fb-profile .gw-fb-project-icon svg{
   width:24px;
@@ -830,18 +786,20 @@
   }
   /* Tab minimalis mobile */
   #gw-fb-profile .gw-fb-nav{
-    gap:2px;
+    gap:6px;
     max-width:100%;
+    padding:0 4px;
   }
   #gw-fb-profile .gw-fb-tab{
-    font-size:12px;
-    padding:8px 4px 10px;
-    gap:4px;
+    font-size:13.5px;
+    padding:12px 8px 14px;
+    gap:6px;
     min-width:0;
+    flex:1 1 0;
   }
   #gw-fb-profile .gw-fb-tab svg{
-    width:14px;
-    height:14px;
+    width:16px;
+    height:16px;
     flex-shrink:0;
   }
   /* Detail & panel */
