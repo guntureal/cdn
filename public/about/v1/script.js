@@ -49,6 +49,10 @@
     try{
       ind.style.left = (btn.offsetLeft) + "px";
       ind.style.width = (btn.offsetWidth) + "px";
+      // Scroll tab aktif ke tengah pada mobile (nav scrollable)
+      if(btn.scrollIntoView){
+        btn.scrollIntoView({block:"nearest", inline:"center", behavior:"smooth"});
+      }
     }catch(e){}
   }
 
