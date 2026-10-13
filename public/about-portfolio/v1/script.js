@@ -1,8 +1,9 @@
 // About Portfolio v1 - Fullscreen Interactive
 (function(){
 "use strict";
-var root=document.getElementById("gw1");
+var root=document.getElementById("gw1")||document.getElementById("gw18");
 if(!root)return;
+var P=root.id;
 var reduceMotion=false;
 try{reduceMotion=matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){}
 /* theme */
@@ -17,7 +18,7 @@ function syncTheme(){
 var dark=null;
 try{dark=lumDark(getComputedStyle(root).getPropertyValue("--bodyB"));}catch(e){dark=null;}
 if(dark===null){try{dark=matchMedia("(prefers-color-scheme: dark)").matches;}catch(e){dark=false;}}
-root.classList.toggle("gw1-dark",!!dark);}
+root.classList.toggle(P+"-dark",!!dark);}
 syncTheme();
 try{
 var mo=new MutationObserver(syncTheme);
@@ -27,7 +28,7 @@ if(document.body)mo.observe(document.body,{attributes:true,attributeFilter:["cla
 setTimeout(syncTheme,800);
 /* typing */
 var roles=["Web Developer","SEO Specialist","Content Strategist","UI/UX Designer"];
-var typeEl=document.getElementById("gw1Type");
+var typeEl=document.getElementById(P+"Type");
 if(typeEl&&!reduceMotion){
 var ri=0,ci=0,del=false;
 (function tick(){
@@ -39,7 +40,7 @@ setTimeout(tick,del?36:72);
 })();
 }else if(typeEl){typeEl.textContent=roles[0];}
 /* reveal (enter + exit) */
-var rvs=root.querySelectorAll(".gw1-rv");
+var rvs=root.querySelectorAll("."+P+"-rv");
 if("IntersectionObserver"in window){
 var io=new IntersectionObserver(function(es){
 es.forEach(function(e){
@@ -50,14 +51,14 @@ rvs.forEach(function(el,i){el.style.transitionDelay=Math.min((i%5)*60,240)+"ms";
 }else{rvs.forEach(function(el){el.classList.add("in");});}
 /* magnetic buttons */
 if(!reduceMotion&&matchMedia("(pointer:fine)").matches){
-root.querySelectorAll(".gw1-mag").forEach(function(btn){
+root.querySelectorAll("."+P+"-mag").forEach(function(btn){
 btn.addEventListener("mousemove",function(e){
 var r=btn.getBoundingClientRect();
 var x=e.clientX-r.left-r.width/2,y=e.clientY-r.top-r.height/2;
 btn.style.transform="translate("+(x*0.14).toFixed(1)+"px,"+(y*0.2).toFixed(1)+"px)";});
 btn.addEventListener("mouseleave",function(){btn.style.transform="";});});
 /* card tilt */
-root.querySelectorAll(".gw1-card").forEach(function(card){
+root.querySelectorAll("."+P+"-card").forEach(function(card){
 card.addEventListener("mousemove",function(e){
 var r=card.getBoundingClientRect();
 var x=(e.clientX-r.left)/r.width-0.5,y=(e.clientY-r.top)/r.height-0.5;
@@ -73,25 +74,25 @@ if("IntersectionObserver"in window){
 var io2=new IntersectionObserver(function(es){
 es.forEach(function(e){if(e.isIntersecting){animateBars(e.target);io2.unobserve(e.target);}});},
 {threshold:.25,root:root});
-var sk=root.querySelector("#gw1Skills");if(sk)io2.observe(sk);
-}else{var sk0=root.querySelector("#gw1Skills");if(sk0)animateBars(sk0);}
+var sk=root.querySelector("#"+P+"Skills");if(sk)io2.observe(sk);
+}else{var sk0=root.querySelector("#"+P+"Skills");if(sk0)animateBars(sk0);}
 /* filter */
-var fbtns=root.querySelectorAll(".gw1-filter button");
+var fbtns=root.querySelectorAll("."+P+"-filter button");
 fbtns.forEach(function(b){
 b.addEventListener("click",function(){
 fbtns.forEach(function(x){x.classList.remove("on");});b.classList.add("on");
 var f=b.getAttribute("data-f");
-root.querySelectorAll(".gw1-card").forEach(function(c){
+root.querySelectorAll("."+P+"-card").forEach(function(c){
 var show=f==="all"||c.getAttribute("data-c")===f||(f==="all"&&c.getAttribute("data-c")==="all");
 c.classList.toggle("hide",!show);});});});
 /* footer back to top */
 function goTop(){root.scrollTo({top:0,behavior:reduceMotion?"auto":"smooth"});}
-var t2=document.getElementById("gw1TopBtn");
+var t2=document.getElementById(P+"TopBtn");
 if(t2)t2.addEventListener("click",function(e){e.preventDefault();goTop();});
 /* smooth anchors */
 root.addEventListener("click",function(e){
 var a=e.target.closest('a[href^="#"]');
-if(!a||a.id==="gw1TopBtn")return;
+if(!a||a.id===P+"TopBtn")return;
 var t=root.querySelector(a.getAttribute("href"));
 if(t){e.preventDefault();
 var y=t.getBoundingClientRect().top-root.getBoundingClientRect().top+root.scrollTop-20;
