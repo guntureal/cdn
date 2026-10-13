@@ -142,7 +142,7 @@
   width:100%;
   margin:0;
   padding:0 22px 18px;
-  background:var(--fb-card);
+  background:transparent;
   border-bottom:1px solid var(--fb-border);
   text-align:center;
 }
@@ -313,8 +313,8 @@
   display:flex;
   align-items:stretch;
   justify-content:center;
-  gap:4px;
-  max-width:560px;
+  gap:12px;
+  max-width:680px;
   margin:0 auto;
   padding:0 0 2px;
   background:transparent;
@@ -343,9 +343,9 @@
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  gap:7px;
+  gap:8px;
   margin:0;
-  padding:11px 10px 13px;
+  padding:12px 20px 14px;
   border:0;
   border-radius:0;
   cursor:pointer;
@@ -478,7 +478,7 @@
   padding:20px;
   border:1px solid var(--fb-border);
   border-radius:12px;
-  background:var(--fb-card);
+  background:transparent;
 }
 #gw-fb-profile .gw-fb-project-icon{
   display:inline-flex;
@@ -607,7 +607,7 @@
   padding:14px 16px;
   border:1px solid var(--fb-border);
   border-radius:12px;
-  background:var(--fb-card);
+  background:transparent;
   text-decoration:none;
   color:var(--fb-text);
   transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
@@ -796,14 +796,14 @@
   }
   /* Tab minimalis mobile — batas kiri-kanan lebih luas */
   #gw-fb-profile .gw-fb-nav{
-    gap:8px;
+    gap:10px;
     max-width:100%;
-    padding:0 20px;
+    padding:0 16px;
     margin:0 auto;
   }
   #gw-fb-profile .gw-fb-tab{
     font-size:13.5px;
-    padding:14px 8px 16px;
+    padding:14px 16px 16px;
     gap:6px;
     min-width:0;
     flex:1 1 0;
