@@ -1,0 +1,902 @@
+/* ==========================================================================
+   About gwntur.com — v3 (external CDN)
+   Facebook-style profile: centered header, underline tabs, modern cards.
+   Loaded via: https://cdn.jsdelivr.net/gh/guntureal/cdn@main/about/v3/about-v3.css
+   ========================================================================== */
+
+/* ===== 1. Root & CSS variables ===== */
+#gw-fb-profile{
+  --fb-bg:#f0f2f5;
+  --fb-card:#ffffff;
+  --fb-border:#dfe3e8;
+  --fb-text:#1c1e21;
+  --fb-muted:#65676b;
+  --fb-blue:#1877f2;
+  --fb-blue-dark:#166fe5;
+  --fb-blue-soft:#e7f3ff;
+  --fb-soft:#f2f3f5;
+  --fb-green:#31a24c;
+  --fb-shadow:0 1px 2px rgba(0,0,0,.08);
+  --fb-shadow-lg:0 8px 24px rgba(24,119,242,.18);
+  --fb-glow:0 12px 32px rgba(24,119,242,.28);
+  display:block;
+  width:100%;
+  max-width:1100px;
+  min-width:0;
+  height:auto;
+  min-height:0;
+  margin:0 auto;
+  padding:0;
+  float:none;
+  clear:none;
+  position:relative;
+  box-sizing:border-box;
+  color:var(--fb-text);
+  font-size:14px;
+  font-weight:400;
+  line-height:1.45;
+  text-align:left;
+  isolation:auto;
+  contain:none;
+  overflow:visible;
+}
+
+/* ===== 2. Dark mode (sync via .gw-dark dari JS) ===== */
+#gw-fb-profile.gw-dark{
+  --fb-bg:#18191a;
+  --fb-card:#242526;
+  --fb-border:#3e4042;
+  --fb-text:#e4e6eb;
+  --fb-muted:#b0b3b8;
+  --fb-blue:#4599ff;
+  --fb-blue-dark:#3b8ef0;
+  --fb-blue-soft:rgba(69,153,255,.16);
+  --fb-soft:#3a3b3c;
+  --fb-green:#45bd62;
+  --fb-shadow:0 1px 2px rgba(0,0,0,.4);
+  --fb-shadow-lg:0 8px 24px rgba(0,0,0,.45);
+  --fb-glow:0 12px 32px rgba(69,153,255,.30);
+}
+
+/* ===== 3. Reset scoping ===== */
+#gw-fb-profile *,
+#gw-fb-profile *::before,
+#gw-fb-profile *::after{
+  box-sizing:border-box;
+}
+#gw-fb-profile .gw-fb-page{
+  display:block;
+  width:100%;
+  max-width:none;
+  margin:0;
+  padding:0;
+  background:transparent;
+  color:var(--fb-text);
+  overflow:visible;
+}
+#gw-fb-profile a,
+#gw-fb-profile button{
+  font-family:inherit;
+  text-transform:none;
+  letter-spacing:normal;
+  float:none;
+}
+#gw-fb-profile img{
+  border:0;
+  vertical-align:middle;
+}
+
+/* Defensive: pastikan SVG stroke-icon selalu terlihat walau atribut
+   HTML-nya belum lengkap (atribut eksplisit tetap wajib di HTML). */
+#gw-fb-profile svg{
+  fill:none;
+  stroke:currentColor;
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+/* Verified badge: paksa kembali ke warna aslinya (timpa defensive rule + CSS template) */
+#gw-fb-profile .gw-fb-verified svg{
+  fill:#1877F2 !important;
+  stroke:none !important;
+  stroke-width:0 !important;
+}
+#gw-fb-profile .gw-fb-verified svg polygon{
+  fill:#1877F2 !important;
+  stroke:none !important;
+}
+#gw-fb-profile .gw-fb-verified svg path{
+  fill:none !important;
+  stroke:#fff !important;
+  stroke-width:2.05 !important;
+  stroke-linecap:round !important;
+  stroke-linejoin:round;
+}
+
+/* ===== 4. Sampul / cover ===== */
+#gw-fb-profile .gw-fb-cover{
+  position:relative;
+  z-index:1;
+  width:100%;
+  height:280px;
+  margin:0;
+  padding:0;
+  overflow:hidden;
+  border-radius:0 0 10px 10px;
+  background:linear-gradient(135deg,#dfe9f5,#b9c9dc 55%,#e8edf3);
+}
+#gw-fb-profile .gw-fb-cover img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  margin:0;
+  padding:0;
+}
+
+/* ===== 5. Header tengah presisi ===== */
+#gw-fb-profile .gw-fb-head{
+  position:relative;
+  z-index:2;
+  display:block;
+  width:100%;
+  margin:0;
+  padding:0 22px 18px;
+  background:transparent;
+  border-bottom:1px solid var(--fb-border);
+  text-align:center;
+}
+#gw-fb-profile .gw-fb-identity{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  width:100%;
+  margin:0;
+  padding:0;
+  text-align:center;
+}
+#gw-fb-profile .gw-fb-avatar-wrap{
+  position:relative;
+  z-index:4;
+  width:168px;
+  height:168px;
+  margin:-84px auto 14px;
+  padding:0;
+}
+#gw-fb-profile .gw-fb-avatar{
+  width:168px;
+  height:168px;
+  margin:0;
+  padding:0;
+  overflow:hidden;
+  border:5px solid var(--fb-card);
+  border-radius:50%;
+  background:#dfe9f5;
+  box-shadow:0 2px 8px rgba(0,0,0,.22);
+}
+#gw-fb-profile .gw-fb-avatar img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+}
+#gw-fb-profile .gw-fb-online{
+  position:absolute;
+  right:12px;
+  bottom:12px;
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  background:var(--fb-green);
+  border:4px solid var(--fb-card);
+}
+
+/* ===== 6. Nama + verified — selector SANGAT spesifik vs CSS template ===== */
+#gw-fb-profile .gw-fb-head .gw-fb-identity .gw-fb-name-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  margin:0 0 12px;
+  padding:0;
+}
+#gw-fb-profile .gw-fb-head .gw-fb-identity .gw-fb-name-row h1.gw-fb-name{
+  margin:0 !important;
+  padding:0 !important;
+  font-size:30px;
+  font-weight:700;
+  line-height:1.2;
+  letter-spacing:normal;
+  text-transform:none;
+  border:0;
+  background:none;
+  color:var(--fb-text);
+}
+#gw-fb-profile .gw-fb-verified{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:26px;
+  height:26px;
+  flex:0 0 auto;
+}
+#gw-fb-profile .gw-fb-verified svg{
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+/* ===== 7. Bio / deskripsi — TIDAK bold ===== */
+#gw-fb-profile .gw-fb-bio{
+  margin:0 0 10px;
+  padding:0;
+  font-size:15px;
+  font-weight:400;
+  line-height:1.5;
+  color:var(--fb-text);
+}
+
+/* ===== 8. Meta info ===== */
+#gw-fb-profile .gw-fb-meta{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;
+  gap:8px 18px;
+  margin:0 0 16px;
+  padding:0;
+  color:var(--fb-muted);
+  font-size:14px;
+  font-weight:400;
+}
+#gw-fb-profile .gw-fb-meta span{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+#gw-fb-profile .gw-fb-meta svg{
+  width:16px;
+  height:16px;
+  stroke-width:1.8;
+  flex:0 0 auto;
+}
+
+/* ===== 9. Tombol aksi ===== */
+#gw-fb-profile .gw-fb-actions{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  margin:0 0 18px;
+  padding:0;
+}
+#gw-fb-profile .gw-fb-btn{
+  position:relative;
+  overflow:hidden;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin:0;
+  padding:10px 22px;
+  border:0;
+  border-radius:8px;
+  cursor:pointer;
+  background:var(--fb-soft);
+  color:var(--fb-text);
+  font-size:15px;
+  font-weight:700;
+  line-height:1;
+  text-decoration:none;
+  transition:transform .18s ease,box-shadow .18s ease,background .18s ease;
+}
+#gw-fb-profile .gw-fb-btn svg{
+  width:17px;
+  height:17px;
+}
+#gw-fb-profile .gw-fb-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:var(--fb-shadow);
+}
+#gw-fb-profile .gw-fb-btn-primary{
+  background:var(--fb-blue);
+  color:#fff;
+}
+#gw-fb-profile .gw-fb-btn-primary:hover{
+  background:var(--fb-blue-dark);
+  box-shadow:var(--fb-shadow-lg);
+}
+
+/* ===== 10. Tab menu — TANPA background card, indikator GARIS BAWAH ===== */
+#gw-fb-profile .gw-fb-nav{
+  position:relative;
+  display:flex;
+  align-items:stretch;
+  justify-content:center;
+  gap:8px;
+  max-width:600px;
+  margin:0 auto;
+  padding:0 0 2px;
+  background:transparent;
+  border-radius:0;
+  border-bottom:1px solid var(--fb-border);
+}
+/* Indikator: garis bawah 3px animasi (bukan pill) */
+#gw-fb-profile .gw-fb-tab-ind{
+  position:absolute;
+  bottom:-1px;
+  left:0;
+  width:0;
+  height:3px;
+  border-radius:3px;
+  background:var(--fb-blue);
+  box-shadow:none;
+  transition:left .3s cubic-bezier(.4,0,.2,1),width .3s cubic-bezier(.4,0,.2,1);
+  pointer-events:none;
+}
+#gw-fb-profile .gw-fb-tab{
+  position:relative;
+  overflow:hidden;
+  white-space:nowrap;
+  z-index:1;
+  flex:1 1 0;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin:0;
+  padding:10px 16px 12px;
+  border:0;
+  border-radius:0;
+  cursor:pointer;
+  background:transparent;
+  color:var(--fb-muted);
+  font-size:14px;
+  font-weight:700;
+  line-height:1;
+  transition:color .2s ease,transform .18s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+#gw-fb-profile .gw-fb-tab svg{
+  width:16px;
+  height:16px;
+  flex:0 0 auto;
+  transition:transform .2s ease;
+}
+#gw-fb-profile .gw-fb-tab:hover{
+  background:transparent;
+  color:var(--fb-blue);
+  transform:translateY(-1px);
+}
+#gw-fb-profile .gw-fb-tab:hover svg{
+  transform:scale(1.15);
+}
+#gw-fb-profile .gw-fb-tab.gw-active{
+  color:var(--fb-blue);
+}
+#gw-fb-profile .gw-fb-tab.gw-active svg{
+  transform:scale(1.12);
+}
+
+/* Ripple */
+#gw-fb-profile .gw-ripple{
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+  background:currentColor;
+  opacity:.22;
+  transform:scale(0);
+  animation:gw-ripple .55s ease-out forwards;
+}
+@keyframes gw-ripple{
+  to{transform:scale(2.6);opacity:0}
+}
+
+/* ===== 11. Panel konten ===== */
+#gw-fb-profile .gw-fb-panel{
+  display:none;
+}
+#gw-fb-profile .gw-fb-panel.gw-show{
+  display:block;
+  animation:gw-panel-in .38s cubic-bezier(.25,.8,.35,1);
+}
+@keyframes gw-panel-in{
+  from{opacity:0;transform:translateY(14px)}
+  to{opacity:1;transform:none}
+}
+#gw-fb-profile .gw-fb-main{
+  display:block;
+  width:100%;
+  margin:0;
+  padding:0;
+}
+#gw-fb-profile .gw-fb-detail{
+  display:block;
+  width:100%;
+  max-width:900px;
+  margin:18px auto;
+  padding:22px;
+  background:transparent;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
+}
+#gw-fb-profile .gw-fb-detail h2{
+  margin:0 0 12px;
+  padding:0;
+  font-size:20px;
+  font-weight:800;
+  line-height:1.3;
+  color:var(--fb-text);
+}
+#gw-fb-profile .gw-fb-detail > p{
+  margin:0 0 12px;
+  padding:0;
+  color:var(--fb-muted);
+  font-size:14px;
+  font-weight:400;
+  line-height:1.6;
+}
+#gw-fb-profile .gw-fb-detail > p:last-child{
+  margin-bottom:0;
+}
+
+/* Tags */
+#gw-fb-profile .gw-fb-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:14px 0 0;
+  padding:0;
+}
+#gw-fb-profile .gw-fb-tag{
+  display:inline-block;
+  margin:0;
+  padding:7px 14px;
+  border-radius:20px;
+  background:var(--fb-blue-soft);
+  color:var(--fb-blue);
+  font-size:13px;
+  font-weight:700;
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+#gw-fb-profile .gw-fb-tag:hover{
+  transform:translateY(-2px);
+  box-shadow:var(--fb-shadow);
+}
+
+/* ===== 12. Project cards — bersih & menarik ===== */
+#gw-fb-profile .gw-fb-projects{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+  margin:16px 0 0;
+  padding:0;
+}
+#gw-fb-profile .gw-fb-project-card{
+  margin:0;
+  padding:20px;
+  border:1px solid var(--fb-border);
+  border-radius:12px;
+  background:transparent;
+}
+#gw-fb-profile .gw-fb-project-icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:44px;
+  height:44px;
+  margin:0 0 12px;
+  padding:0;
+  border-radius:12px;
+  background:var(--fb-blue-soft);
+  color:var(--fb-blue);
+}
+#gw-fb-profile .gw-fb-project-icon svg{
+  width:24px;
+  height:24px;
+  stroke-width:1.9;
+  color:inherit;
+}
+#gw-fb-profile .gw-fb-project-card h3{
+  margin:0 0 6px;
+  padding:0;
+  font-size:16px;
+  font-weight:700;
+  line-height:1.35;
+  color:var(--fb-text);
+}
+#gw-fb-profile .gw-fb-project-card p{
+  margin:0;
+  padding:0;
+  font-size:14px;
+  font-weight:400;
+  line-height:1.55;
+  color:var(--fb-muted);
+}
+
+/* ===== 13. Galeri foto ===== */
+#gw-fb-profile .gw-fb-media-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin:0 0 14px;
+  padding:0;
+}
+#gw-fb-profile .gw-fb-media-head h2{
+  margin:0;
+}
+#gw-fb-profile .gw-fb-see{
+  margin:0;
+  padding:6px 14px;
+  border-radius:16px;
+  background:var(--fb-soft);
+  color:var(--fb-muted);
+  font-size:13px;
+  font-weight:700;
+}
+#gw-fb-profile .gw-fb-media-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+  margin:0;
+  padding:0;
+}
+#gw-fb-profile .gw-fb-media{
+  position:relative;
+  margin:0;
+  padding:0;
+  border-radius:10px;
+  overflow:hidden;
+  aspect-ratio:1/1;
+  background:var(--fb-soft);
+  cursor:pointer;
+  transition:transform .25s ease,box-shadow .25s ease;
+}
+#gw-fb-profile .gw-fb-media:hover{
+  transform:translateY(-4px) scale(1.015);
+  box-shadow:var(--fb-shadow-lg);
+}
+#gw-fb-profile .gw-fb-media img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  margin:0;
+  padding:0;
+  transition:transform .4s cubic-bezier(.25,.8,.35,1);
+}
+#gw-fb-profile .gw-fb-media:hover img{
+  transform:scale(1.12);
+}
+#gw-fb-profile .gw-fb-media figcaption{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  margin:0;
+  padding:26px 12px 10px;
+  font-size:13px;
+  font-weight:600;
+  color:#fff;
+  background:linear-gradient(to top,rgba(0,0,0,.72),transparent);
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity .28s ease,transform .28s ease;
+  pointer-events:none;
+}
+#gw-fb-profile .gw-fb-media:hover figcaption{
+  opacity:1;
+  transform:none;
+}
+
+/* ===== 14. Kartu sosial ===== */
+#gw-fb-profile .gw-fb-socials{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+  margin:16px 0 0;
+  padding:0;
+}
+#gw-fb-profile .gw-fb-social{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:0;
+  padding:14px 16px;
+  border:1px solid var(--fb-border);
+  border-radius:12px;
+  background:transparent;
+  text-decoration:none;
+  color:var(--fb-text);
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+}
+#gw-fb-profile .gw-fb-social:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--fb-shadow-lg);
+  border-color:var(--fb-blue);
+}
+#gw-fb-profile .gw-fb-social-icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:42px;
+  height:42px;
+  flex:0 0 auto;
+  border-radius:50%;
+  background:var(--fb-soft);
+  overflow:hidden;
+  transition:transform .2s ease;
+}
+#gw-fb-profile .gw-fb-social:hover .gw-fb-social-icon{
+  transform:scale(1.12);
+}
+#gw-fb-profile .gw-fb-social-icon img{
+  width:24px;
+  height:24px;
+  display:block;
+}
+#gw-fb-profile .gw-fb-social strong{
+  display:block;
+  font-size:15px;
+  font-weight:700;
+  color:var(--fb-text);
+}
+#gw-fb-profile .gw-fb-social small{
+  display:block;
+  font-size:13px;
+  font-weight:400;
+  color:var(--fb-muted);
+}
+
+/* ===== 15. Lightbox bulletproof (ID: gwAboutLb) ===== */
+#gwAboutLb{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  background:rgba(0,0,0,.88);
+  opacity:0;
+  transition:opacity .25s ease;
+}
+#gwAboutLb.gw-lb-open{
+  display:flex;
+  opacity:1;
+}
+#gwAboutLb.gw-lb-closing{
+  opacity:0;
+}
+#gwAboutLb.gw-lb-closing .gw-lb-inner{
+  transform:scale(.96);
+}
+#gwAboutLb .gw-lb-inner{
+  position:relative;
+  max-width:900px;
+  width:100%;
+  margin:0;
+  padding:0;
+  transform:scale(.96);
+  transition:transform .25s ease;
+}
+#gwAboutLb.gw-lb-open .gw-lb-inner{
+  transform:scale(1);
+}
+#gwAboutLb .gw-lb-img{
+  display:block;
+  width:100%;
+  max-height:80vh;
+  object-fit:contain;
+  margin:0 auto;
+  border-radius:8px;
+  background:#000;
+}
+#gwAboutLb .gw-lb-cap{
+  margin:12px 0 0;
+  padding:0;
+  text-align:center;
+  color:#fff;
+  font-size:14px;
+  font-weight:600;
+}
+#gwAboutLb .gw-lb-close{
+  position:absolute;
+  top:-16px;
+  right:-16px;
+  width:44px;
+  height:44px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border:0;
+  border-radius:50%;
+  background:#fff;
+  color:#1c1e21;
+  cursor:pointer;
+  box-shadow:0 2px 12px rgba(0,0,0,.4);
+  transition:transform .18s ease,background .18s ease;
+  z-index:2;
+}
+#gwAboutLb .gw-lb-close:hover{
+  transform:scale(1.12);
+  background:var(--fb-blue);
+  color:#fff;
+}
+#gwAboutLb .gw-lb-close svg{
+  width:20px;
+  height:20px;
+  stroke-width:2.4;
+}
+
+/* ===== 16. Responsive mobile — SEMUA diperkecil proporsional ===== */
+@media (max-width:640px){
+  #gw-fb-profile{
+    font-size:13px;
+  }
+  /* Cover & avatar lebih kecil */
+  #gw-fb-profile .gw-fb-cover{
+    height:160px;
+  }
+  #gw-fb-profile .gw-fb-avatar-wrap{
+    width:120px;
+    height:120px;
+    margin:-60px auto 10px;
+  }
+  #gw-fb-profile .gw-fb-avatar{
+    width:120px;
+    height:120px;
+    border-width:4px;
+  }
+  #gw-fb-profile .gw-fb-online{
+    right:8px;
+    bottom:8px;
+    width:24px;
+    height:24px;
+    border-width:3px;
+  }
+  /* Header */
+  #gw-fb-profile .gw-fb-head{
+    padding:0 20px 20px;
+  }
+  #gw-fb-profile .gw-fb-head .gw-fb-identity .gw-fb-name-row h1.gw-fb-name{
+    font-size:22px;
+  }
+  #gw-fb-profile .gw-fb-verified{
+    width:22px;
+    height:22px;
+  }
+  #gw-fb-profile .gw-fb-bio{
+    font-size:14px;
+    margin-bottom:12px;
+  }
+  #gw-fb-profile .gw-fb-meta{
+    font-size:13px;
+    gap:8px 16px;
+    margin-bottom:16px;
+  }
+  #gw-fb-profile .gw-fb-meta svg{
+    width:14px;
+    height:14px;
+  }
+  /* Tombol aksi */
+  #gw-fb-profile .gw-fb-actions{
+    gap:12px;
+    margin-bottom:20px;
+  }
+  #gw-fb-profile .gw-fb-btn{
+    font-size:14px;
+    padding:10px 20px;
+  }
+  #gw-fb-profile .gw-fb-btn svg{
+    width:15px;
+    height:15px;
+  }
+  /* Tab minimalis mobile — batas kiri-kanan lebih luas */
+  #gw-fb-profile .gw-fb-nav{
+    gap:4px;
+    max-width:100%;
+    padding:0 12px;
+    margin:0 auto;
+  }
+  #gw-fb-profile .gw-fb-tab{
+    font-size:13px;
+    padding:12px 10px 14px;
+    gap:6px;
+    min-width:0;
+    flex:1 1 0;
+  }
+  #gw-fb-profile .gw-fb-tab svg{
+    width:16px;
+    height:16px;
+    flex-shrink:0;
+  }
+  /* Detail & panel */
+  #gw-fb-profile .gw-fb-detail{
+    padding:20px;
+    margin:16px auto;
+  }
+  #gw-fb-profile .gw-fb-detail h2{
+    font-size:18px;
+    margin-bottom:12px;
+  }
+  #gw-fb-profile .gw-fb-detail > p{
+    font-size:13px;
+    margin-bottom:12px;
+  }
+  #gw-fb-profile .gw-fb-tags{
+    gap:8px;
+    margin-top:14px;
+  }
+  #gw-fb-profile .gw-fb-tag{
+    font-size:12px;
+    padding:7px 14px;
+  }
+  /* Project cards mobile */
+  #gw-fb-profile .gw-fb-projects{
+    grid-template-columns:minmax(0,1fr);
+    gap:16px;
+    margin-top:16px;
+  }
+  #gw-fb-profile .gw-fb-project-card{
+    padding:18px;
+  }
+  #gw-fb-profile .gw-fb-project-icon{
+    width:36px;
+    height:36px;
+    margin-bottom:12px;
+    border-radius:10px;
+  }
+  #gw-fb-profile .gw-fb-project-icon svg{
+    width:20px;
+    height:20px;
+  }
+  #gw-fb-profile .gw-fb-project-card h3{
+    font-size:15px;
+    margin-bottom:8px;
+  }
+  #gw-fb-profile .gw-fb-project-card p{
+    font-size:13px;
+  }
+  /* Galeri mobile */
+  #gw-fb-profile .gw-fb-media-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+  }
+  #gw-fb-profile .gw-fb-media-head{
+    margin-bottom:14px;
+  }
+  /* Sosial mobile */
+  #gw-fb-profile .gw-fb-socials{
+    grid-template-columns:minmax(0,1fr);
+    gap:12px;
+    margin-top:16px;
+  }
+  #gw-fb-profile .gw-fb-social{
+    padding:14px;
+    gap:12px;
+  }
+  #gw-fb-profile .gw-fb-social-icon{
+    width:36px;
+    height:36px;
+  }
+  #gw-fb-profile .gw-fb-social strong{
+    font-size:14px;
+  }
+  #gw-fb-profile .gw-fb-social small{
+    font-size:12px;
+  }
+  /* Lightbox mobile */
+  #gwAboutLb{
+    padding:12px;
+  }
+  #gwAboutLb .gw-lb-close{
+    top:-10px;
+    right:-6px;
+    width:40px;
+    height:40px;
+  }
+}
+/* deploy 1791860717 */
