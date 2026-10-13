@@ -14,7 +14,7 @@
 @media(prefers-reduced-motion:reduce){#gw1 .gw1-rv,#gw1 .gw1-rv-l,#gw1 .gw1-rv-r,#gw1 .gw1-rv-z{opacity:1;transform:none;transition:none}}
 /* hero */
 #gw1 .gw1-hero{position:relative;background:linear-gradient(180deg,var(--blue-soft),var(--bg) 70%);padding:48px 0 56px;overflow:hidden}
-#gw1 .gw1-hero .gw1-kicker{margin-bottom:10px}
+#gw1 .gw1-hero .gw1-kicker{margin-bottom:2px}
 #gw1 .gw1-fav{position:absolute;pointer-events:none;user-select:none;opacity:0;filter:saturate(1.25);z-index:1;--fav-o:.2;animation:gw1Rise 17s linear infinite;will-change:transform}
 #gw1 .gw1-fav-a{width:150px;top:7%;right:6%}
 #gw1 .gw1-fav-b{width:92px;bottom:11%;left:4%;animation-duration:21s;animation-delay:-7s}
@@ -168,7 +168,7 @@
 @media(prefers-reduced-motion:reduce){#gw18 .gw18-rv,#gw18 .gw18-rv-l,#gw18 .gw18-rv-r,#gw18 .gw18-rv-z{opacity:1;transform:none;transition:none}}
 /* hero */
 #gw18 .gw18-hero{position:relative;background:linear-gradient(180deg,var(--blue-soft),var(--bg) 70%);padding:48px 0 56px;overflow:hidden}
-#gw18 .gw18-hero .gw18-kicker{margin-bottom:10px}
+#gw18 .gw18-hero .gw18-kicker{margin-bottom:2px}
 #gw18 .gw18-fav{position:absolute;pointer-events:none;user-select:none;opacity:0;filter:saturate(1.25);z-index:1;--fav-o:.2;animation:gw18Rise 17s linear infinite;will-change:transform}
 #gw18 .gw18-fav-a{width:150px;top:7%;right:6%}
 #gw18 .gw18-fav-b{width:92px;bottom:11%;left:4%;animation-duration:21s;animation-delay:-7s}
