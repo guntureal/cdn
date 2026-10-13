@@ -35,8 +35,8 @@
 }
 #gw1 .gw1-hero-in{display:grid;grid-template-columns:1.12fr .88fr;gap:48px;align-items:center;position:relative;z-index:2}
 #gw1 .gw1-kicker{font-size:13px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--blue);margin:0 0 10px}
-#gw1 h1.gw1-h1{margin:0;font-size:clamp(40px,11vw,84px);line-height:1.02;letter-spacing:-2px;font-weight:800}
-#gw1 h1.gw1-h1::after{content:"";display:block;width:88px;height:6px;border-radius:3px;background:var(--blue);margin-top:16px}
+#gw1 h1.gw1-h1,#gw1 h2.gw1-h1{margin:0;font-size:clamp(40px,11vw,84px);line-height:1.02;letter-spacing:-2px;font-weight:800}
+#gw1 h1.gw1-h1::after,#gw1 h2.gw1-h1::after{content:"";display:block;width:88px;height:6px;border-radius:3px;background:var(--blue);margin-top:16px}
 #gw1 .gw1-roles{margin:14px 0 0;font-size:clamp(17px,2.4vw,22px);font-weight:700;color:var(--blue);min-height:1.7em}
 #gw1 .gw1-caret{display:inline-block;width:3px;height:1.05em;background:var(--blue);margin-left:2px;vertical-align:-2px;animation:gw1Blink 1s steps(1) infinite}
 @keyframes gw1Blink{50%{opacity:0}}
@@ -189,8 +189,8 @@
 }
 #gw18 .gw18-hero-in{display:grid;grid-template-columns:1.12fr .88fr;gap:48px;align-items:center;position:relative;z-index:2}
 #gw18 .gw18-kicker{font-size:13px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--blue);margin:0 0 10px}
-#gw18 h1.gw18-h1{margin:0;font-size:clamp(40px,11vw,84px);line-height:1.02;letter-spacing:-2px;font-weight:800}
-#gw18 h1.gw18-h1::after{content:"";display:block;width:88px;height:6px;border-radius:3px;background:var(--blue);margin-top:16px}
+#gw18 h1.gw18-h1,#gw18 h2.gw18-h1{margin:0;font-size:clamp(40px,11vw,84px);line-height:1.02;letter-spacing:-2px;font-weight:800}
+#gw18 h1.gw18-h1::after,#gw18 h2.gw18-h1::after{content:"";display:block;width:88px;height:6px;border-radius:3px;background:var(--blue);margin-top:16px}
 #gw18 .gw18-roles{margin:14px 0 0;font-size:clamp(17px,2.4vw,22px);font-weight:700;color:var(--blue);min-height:1.7em}
 #gw18 .gw18-caret{display:inline-block;width:3px;height:1.05em;background:var(--blue);margin-left:2px;vertical-align:-2px;animation:gw18Blink 1s steps(1) infinite}
 @keyframes gw18Blink{50%{opacity:0}}
