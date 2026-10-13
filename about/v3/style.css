@@ -70,7 +70,7 @@
   max-width:none;
   margin:0;
   padding:0;
-  background:var(--fb-bg);
+  background:transparent;
   color:var(--fb-text);
   overflow:visible;
 }
@@ -95,21 +95,21 @@
   stroke-linecap:round;
   stroke-linejoin:round;
 }
-/* Verified badge: paksa kembali ke warna aslinya (timpa defensive rule di atas) */
+/* Verified badge: paksa kembali ke warna aslinya (timpa defensive rule + CSS template) */
 #gw-fb-profile .gw-fb-verified svg{
-  fill:#1877F2;
-  stroke:none;
-  stroke-width:0;
+  fill:#1877F2 !important;
+  stroke:none !important;
+  stroke-width:0 !important;
 }
 #gw-fb-profile .gw-fb-verified svg polygon{
-  fill:#1877F2;
-  stroke:none;
+  fill:#1877F2 !important;
+  stroke:none !important;
 }
 #gw-fb-profile .gw-fb-verified svg path{
-  fill:none;
-  stroke:#fff;
-  stroke-width:2.05;
-  stroke-linecap:round;
+  fill:none !important;
+  stroke:#fff !important;
+  stroke-width:2.05 !important;
+  stroke-linecap:round !important;
   stroke-linejoin:round;
 }
 
@@ -196,8 +196,8 @@
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:8px;
-  margin:0 0 4px;
+  gap:6px;
+  margin:0 0 12px;
   padding:0;
 }
 #gw-fb-profile .gw-fb-head .gw-fb-identity .gw-fb-name-row h1.gw-fb-name{
@@ -313,8 +313,8 @@
   display:flex;
   align-items:stretch;
   justify-content:center;
-  gap:12px;
-  max-width:680px;
+  gap:8px;
+  max-width:600px;
   margin:0 auto;
   padding:0 0 2px;
   background:transparent;
@@ -345,7 +345,7 @@
   justify-content:center;
   gap:8px;
   margin:0;
-  padding:12px 20px 14px;
+  padding:10px 16px 12px;
   border:0;
   border-radius:0;
   cursor:pointer;
@@ -796,14 +796,14 @@
   }
   /* Tab minimalis mobile — batas kiri-kanan lebih luas */
   #gw-fb-profile .gw-fb-nav{
-    gap:10px;
+    gap:4px;
     max-width:100%;
-    padding:0 16px;
+    padding:0 12px;
     margin:0 auto;
   }
   #gw-fb-profile .gw-fb-tab{
-    font-size:13.5px;
-    padding:14px 16px 16px;
+    font-size:13px;
+    padding:12px 10px 14px;
     gap:6px;
     min-width:0;
     flex:1 1 0;
@@ -899,3 +899,4 @@
     height:40px;
   }
 }
+/* deploy 1791860717 */
