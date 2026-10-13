@@ -759,7 +759,7 @@
   }
   /* Header */
   #gw-fb-profile .gw-fb-head{
-    padding:0 24px 24px;
+    padding:0 28px 28px;
   }
   #gw-fb-profile .gw-fb-head .gw-fb-identity .gw-fb-name-row h1.gw-fb-name{
     font-size:22px;
@@ -823,7 +823,7 @@
   }
   /* Detail & panel */
   #gw-fb-profile .gw-fb-detail{
-    padding:24px;
+    padding:28px;
     margin:16px auto;
     max-width:100%;
   }
@@ -872,7 +872,8 @@
   /* Galeri mobile — thumbnail lebih besar */
   #gw-fb-profile .gw-fb-media-grid{
     grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:8px;
+    gap:6px;
+    margin:0 -12px;
   }
   #gw-fb-profile .gw-fb-media-head{
     margin-bottom:14px;
