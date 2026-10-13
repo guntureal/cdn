@@ -794,11 +794,11 @@
     width:15px;
     height:15px;
   }
-  /* Tab minimalis mobile — batas kiri-kanan lebih luas */
+  /* Tab minimalis mobile */
   #gw-fb-profile .gw-fb-nav{
     gap:4px;
     max-width:100%;
-    padding:0 12px;
+    padding:0 4px;
     margin:0 auto;
     overflow-x:auto;
     -webkit-overflow-scrolling:touch;
@@ -868,10 +868,10 @@
   #gw-fb-profile .gw-fb-project-card p{
     font-size:13px;
   }
-  /* Galeri mobile */
+  /* Galeri mobile — thumbnail lebih besar */
   #gw-fb-profile .gw-fb-media-grid{
     grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:12px;
+    gap:8px;
   }
   #gw-fb-profile .gw-fb-media-head{
     margin-bottom:14px;
