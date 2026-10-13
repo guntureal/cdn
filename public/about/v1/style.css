@@ -759,7 +759,7 @@
   }
   /* Header */
   #gw-fb-profile .gw-fb-head{
-    padding:0 20px 20px;
+    padding:0 24px 24px;
   }
   #gw-fb-profile .gw-fb-head .gw-fb-identity .gw-fb-name-row h1.gw-fb-name{
     font-size:22px;
@@ -823,8 +823,9 @@
   }
   /* Detail & panel */
   #gw-fb-profile .gw-fb-detail{
-    padding:20px;
+    padding:24px;
     margin:16px auto;
+    max-width:100%;
   }
   #gw-fb-profile .gw-fb-detail h2{
     font-size:18px;
