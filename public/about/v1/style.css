@@ -800,13 +800,21 @@
     max-width:100%;
     padding:0 12px;
     margin:0 auto;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    justify-content:flex-start;
+  }
+  #gw-fb-profile .gw-fb-nav::-webkit-scrollbar{
+    display:none;
   }
   #gw-fb-profile .gw-fb-tab{
     font-size:13px;
-    padding:12px 10px 14px;
+    padding:12px 14px 14px;
     gap:6px;
     min-width:0;
-    flex:1 1 0;
+    flex:0 0 auto;
+    white-space:nowrap;
   }
   #gw-fb-profile .gw-fb-tab svg{
     width:16px;
