@@ -83,15 +83,14 @@ if(!j||j.code!==0||!j.data){var e2=new Error("api");e2.apiMsg=(j&&j.msg)||"";thr
 return j.data;});
 }
 function reqWorker(u){return fetch(API+encodeURIComponent(u),{headers:{"Accept":"application/json"}}).then(parseRes);}
-function reqDirect(u,n){var t=[reqGet,reqPost,reqGet].slice(0,n||3),i=0;
-function next(){return t[i](u).catch(function(e){if(e&&e.apiMsg)throw e;if(++i<t.length)return sleep(1600*i).then(next);throw e;});}
+function isRetryable(e){if(!e)return false;if(e.status===429||e.status===403)return true;return /limit|too many|rate|batas|dibatasi|sibuk|busy|timeout|network|gagal menghubungi/i.test(e.apiMsg||"");}
+function reqDirect(u){var t=[reqGet,reqPost,reqGet],i=0;
+function next(){return t[i](u).catch(function(e){if(isRetryable(e)&&++i<t.length)return sleep(1600*i).then(next);throw e;});}
 return next();}
 function fetchAPI(u){
+return reqDirect(u).catch(function(dErr){
 return reqWorker(u).catch(function(wErr){
-if(wErr&&wErr.apiMsg&&wErr.apiMsg.indexOf("bukan link TikTok yang valid")!==-1)throw wErr;
-var single=!!(wErr&&wErr.apiMsg);
-return reqDirect(u,single?1:3).catch(function(e2){
-throw (wErr&&(wErr.apiMsg||wErr.status))?wErr:e2;});});}
+throw (dErr&&(dErr.apiMsg||dErr.status))?dErr:wErr;});});}
 function getData(u){var hit=cGet(u);if(hit)return Promise.resolve(hit);
 return fetchAPI(u).then(function(d){cSet(u,d);return d;});}
 function errText(e){
