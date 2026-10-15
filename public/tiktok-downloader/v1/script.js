@@ -25,7 +25,7 @@ pasteBtn=$("ttdlPaste10"),loadEl=$("ttdlLoad10"),errEl=$("ttdlErr10"),errTx=$("t
 resEl=$("ttdlRes10"),avEl=$("ttdlAv10"),unameEl=$("ttdlUname10"),ustatEl=$("ttdlUstat10"),
 descEl=$("ttdlDesc10"),vBlock=$("ttdlVBlock10"),iBlock=$("ttdlIBlock10"),vidEl=$("ttdlVid10"),
 qEl=$("ttdlQ10"),gridEl=$("ttdlGrid10"),iCountEl=$("ttdlICount10"),allBtn=$("ttdlAll10"),moreBtn=$("ttdlMore10");
-var API="https://ttdl.gwntur.workers.dev/?url=",API_DIRECT="https://www.tikwm.com/api/",imgs=[],curKey=null,curData=null,CACHE_TTL=3*60*1000;
+var API="https://ttdl-resolver.vercel.app/api/tiktok?url=",API_DIRECT="https://www.tikwm.com/api/",imgs=[],curKey=null,curData=null,CACHE_TTL=3*60*1000;
 (function(){var s=app.querySelectorAll("[data-ic]");for(var i=0;i<s.length;i++){var k=s[i].getAttribute("data-ic");if(IC[k])s[i].innerHTML=IC[k];}})();
 function lumDark(v){v=String(v||"").trim().toLowerCase();if(!v)return null;
 if(v.indexOf("darkb")!==-1)return true;if(v.indexOf("lbodyb")!==-1)return false;
@@ -82,15 +82,16 @@ return r.json().then(function(j){
 if(!j||j.code!==0||!j.data){var e2=new Error("api");e2.apiMsg=(j&&j.msg)||"";throw e2;}
 return j.data;});
 }
-function reqWorker(u){return fetch(API+encodeURIComponent(u),{headers:{"Accept":"application/json"}}).then(parseRes);}
+function reqProxy(u){return fetch(API+encodeURIComponent(u),{headers:{"Accept":"application/json"}}).then(parseRes);}
 function isRetryable(e){if(!e)return false;if(e.status===429||e.status===403)return true;return /limit|too many|rate|batas|dibatasi|sibuk|busy|timeout|network|gagal menghubungi/i.test(e.apiMsg||"");}
 function reqDirect(u){var t=[reqGet,reqPost,reqGet],i=0;
 function next(){return t[i](u).catch(function(e){if(isRetryable(e)&&++i<t.length)return sleep(1600*i).then(next);throw e;});}
 return next();}
 function fetchAPI(u){
-return reqDirect(u).catch(function(dErr){
-return reqWorker(u).catch(function(wErr){
-throw (dErr&&(dErr.apiMsg||dErr.status))?dErr:wErr;});});}
+return reqProxy(u).catch(function(pErr){
+if(pErr&&pErr.apiMsg&&pErr.apiMsg.indexOf("bukan link TikTok yang valid")!==-1)throw pErr;
+return reqDirect(u).catch(function(e2){
+throw (pErr&&(pErr.apiMsg||pErr.status))?pErr:e2;});});}
 function getData(u){var hit=cGet(u);if(hit)return Promise.resolve(hit);
 return fetchAPI(u).then(function(d){cSet(u,d);return d;});}
 function errText(e){
